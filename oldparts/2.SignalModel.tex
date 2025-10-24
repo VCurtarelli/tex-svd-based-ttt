@@ -1,0 +1,81 @@
+\section{Signal model}
+\label{sec:signal_model}
+
+We consider a generic sensor array $S$ comprised of $M$ omnidirectional sensors within an echoic environment, populated by desired and contaminating sources. We assume this environment to be stationary both statistically and spatially, for ease of notation.
+
+In the time domain, the observed signal in the $m-th$ sensor is $y_m(t)$, and it is modeled as
+\begin{equation}
+	\label{eq:sec2:definition_observed-signal_time-domain}
+	y_m(t) = s_m(t) + n_m(t) + \sum_{i=1}^{I} w_{m,i}(t) + v_m(t)
+\end{equation}
+where $s_m(t)$ is the reverberant desired signal on the $m$-th sensor, $n_m(t)$ is the main undesired signal, $w_{m,i}(t)$ are other contaminating sources, and $v_m(t)$ is uncorrelated Gaussian noise.
+
+Transforming all signals into the time-frequency domain, and decomposing the reverberant desired and main undesired signals into a sum of planar waves \cite{moore_compact_2022}, we have
+\begin{equation}
+	\hat{y}_m[l,k] = \sum_{j_x=1}^{J_x} x_{m,j_x}[l,k] + \sum_{j_p=1}^{J_p} \upsilon_{m,j_p}[l,k] + \sum_{i=1}^{I} w_{m,i}[l,k] + v_m[l,k]
+\end{equation}
+where $\hat{y}_m[l,k]$ is the approximate model of $y_m[l,k]$, under our assumptions.
+
+Taking that each of the decomposed signals $s_m(t)$ and $u_m(t)$ is dominated by a single plane-wave \cite{yilmaz_blind_2004} (with index $j_x = j_p = 1$, which will be omitted), and assuming this to be the direct-path wave between the source and the $m$-th sensor, we write the observed signal as
+\begin{equations}
+	\dot{y}_m[l,k]
+	& = d_{m}[k] x_{1}[l,k] + b_{m}[k] p_{1}[l,k] + \sum_{j_x=2}^{J_x} x_{m,j_x}[l,k] \\
+	& + \sum_{j_p=2}^{J_p} p_{m,j_p}[l,k] + \sum_{i=1}^{I} w_{m,i}[l,k] + v_m[l,k]
+\end{equations}
+
+We call $x_1[l,k]$ the desired signal, $p_1[l,k]$ the interfering signal, $v_m[l,k]$ is the white noise, and the remaining ones the contaminating signals.
+
+$d_m[k]$ is the relative frequency response between the reference (assumed $m=1$) and the $m$-th sensor's desired signal, given by
+\begin{equation}
+	\label{eq:sec2:definition_steering-vector_dmk}
+	d_m[k] = e^{-\j 2\pi \frac{k f_0}{K\cdot c} r_m \cos(\theta_d - \psi_m) \cos(\phi_d - \lambda_m)}
+\end{equation}
+where: $f_0$ is the sampling frequency, $K$ is the number of frequency bins, $c$ is the wave speed, $(r_m,~\psi_m,~\lambda_m)$ are the spherical coordinates of the $m$-th sensor (distance, azimuth, elevation) assuming the reference sensor as the origin, and $(\theta_d,~\phi_d)$ is the interfering signal's angular direction. $b_m[k]$ is defined similarly to \cref{eq:sec2:definition_steering-vector_dmk}, with $\Theta = (\theta_b,~\phi_b)$ as its DoA.
+
+By assuming that the contaminating signals $w_{m,i}[l,k]$ + non-direct path components of $x_{m,j_x}[l,k]$ and $p_{m,j_p}[l,k]$ can be approximated as a diffuse isotropic signal $\gamma_m[l,k]$ (as explained in \cite{moore_compact_2022}), we have
+\begin{equation}
+	\hat{y}_m[l,k] = d_m[k] x_1[l,k] + b_m[k] p_1[l,k] + \gamma_m[l,k] + v_m[l,k]
+\end{equation}
+
+We define $\bvy[h][l,k] = \tr{\left[\,\hat{y}_1[l,k],~\cdots,~\hat{y}_M[l,k]\,\right]}$ as the vectorization of the modeled observed signals, and $\bvd[k]$, $\bvb[k]$, $\bvga{}[l,k]$ and $\bvv[l,k]$ are defined similarly. Our sensor-stacked observed signal can also be written as
+\begin{equation}
+	\bvy[h][l,k] = \bvd[k] x_1[l,k] + \bvb[k] p_1[l,k] + \bvga{}[l,k] + \bvv{}[l,k]
+\end{equation}
+
+\subsection{Covariance matrix estimation}
+We write the observed signal's correlation matrix as $\Corr{\bvy}[k]$, and it is given by (omitting the time-frequency indices for clarity)
+\begin{equation}
+	\Corr{\bvy} = \expec{\bvy \he{\bvy}}
+\end{equation}
+where $\he{\{\cdot\}}$ represents the conjugate-transpose operation. We also define $\Corr*{\bvy}[k]$ as the covariance matrix of the modeled observed signal $\bvy[h][l,k]$,
+\begin{equations}
+	\Corr*{\bvy}
+	& = \bvd \he{\bvd} \var{x_1} + \bvb \he{\bvb} \var{p_1} + \Corr{\bvga} \var{\gamma_1} + \Corr{\bvv} \var{v_1} + \epsilon\Id \\
+	& = \Corr{\bvx} \var{x_1} + \Corr{\bvp} \var{p_1} + \Corr{\bvga} \var{\gamma_1} + \Corr{\bvv} \var{v_1} + \epsilon\Id
+\end{equations}
+where $\var{x_1}[k]$ is the variance of $x_1[l,k]$ and $\Corr{\bvx}[l] = (\bvd \he{\bvd})[l]$ is its pseudo-normalized correlation matrix; and similarly for $\var{p_1}[k]$, $\var{\gamma_1}[k]$ and $\var{v_1}[k]$, as well as
+$\Corr{\bvp}[l,k] = (\bvb \he{\bvb})[l,k]$, $\Corr{\bvga}[l,k]$ and $\Corr{\bvv}[l,k]$. $\epsilon$ is a normalization factor, to ensure a minimal white noise presence on the modeled matrix. $\Corr{\bvp}[k]$ is implicitly a function of $\Theta$.
+
+Now, some assumptions are taken:
+\begin{enumerate}
+	\item $\bvd{}[l,k]$ is known;
+	\item $\bvv{}[l,k]$ is a spatially uncorrelated white noise, such that $\Corr{\bvv}[l,k] = \Id$;
+	\item $\bvga{}[l,k]$ is a spherically isotropic noise, and thus $\Corr{\bvga}[l,k]$ is known \cite{epain_spherical_2016};
+	\item The DoA $\Theta$, which dictates $\bvb{}[l,k]$, is constant across the frequency spectrum;
+\end{enumerate}
+
+Although we take all (except $\Corr{\bvp}[k]$) correlation matrices to be known, the variances for all signals are not. Therefore, we have 4K+2 unknown in our problem: for each frequency, the variances for all signals at the reference sensor, $\var{x_1}$, $\var{u_1}$, $\var{\gamma_1}$ and $\var{v_1}$; and the DoA $\Theta$ which dictates the steering vector for the undesired signal.
+
+%It is interesting to take into consideration some properties of the modeled correlation matrices:
+%\begin{itemize}
+%	\item The diagonal entries of $\Corr{\bvx}$, $\Corr{\bvu}$, $\Corr{\bvga}$ and $\Corr{\bvv}$ are unitary
+%	\item For all entries, $\Corr{\bvv} = \Id$ and $\Corr{\bvga}$ are purely real matrices
+%\end{itemize}
+
+Given the values for the variances, as well as $\Theta$, the noise covariance matrix $\Corr{\bveta}[k]$ can be estimated, this being given by
+\begin{equation}
+	\label{eq:def_NCM_Corr-bveta}
+	\Corr*{\bveta} = \Corr{\bvp} \var{p_1} + \Corr{\bvga} \var{\gamma_1} + \Corr{\bvv} \var{v_1} + \epsilon \Id
+\end{equation}
+
+Note that $\Corr*{\bveta}$ is frequency-dependent, this being omitted in \cref{eq:def_NCM_Corr-bveta} for space.

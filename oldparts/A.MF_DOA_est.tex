@@ -1,0 +1,30 @@
+\section{Multi-frequency DoA estimation}
+
+Looking at the derivations from \cref{sec:signal_model}, specifically at the cost function in \cref{eq:sec2:cost_function} is a function the frequency bin $k$ (although this was omitted for commodity). Therefore, the solutions $\bvsi\opt$ (from \cref{eq:sec2:solution_unconstrained-minim_bvsi}) and $\Theta\opt$ (from the iterative minimization of the cost function w.r.t. to the angles, using \cref{eq:sec2:pdv_lagrangian_theta,eq:sec2:pdv_lagrangian_phi}) are also frequency-dependent. 
+
+As an alternative, we propose a cross-frequency cost-function $\cost{\bvSi,\Theta}$, this being given by
+\begin{equation}
+	\cost{\bvSi,\Theta} = \sum_{k} J\pts{\Corr*{\bvy}(\bvSi[k], \Theta)}
+\end{equation}
+with $\bvSi$ corresponding to the variances for all frequencies, and $\Theta$ being frequency-independent, now being $shared$ across all bins.
+
+Since $J\pts{\Corr*{\bvy}}$ for each frequency bin is independent from another bin, and and also the minimization on the variances of $J\pts{\Corr*{\bvy}}$ can be done independent of the direction (that is, for any direction a solution that nulls the gradient or lies on the constraint border can be achieved), the solution of this cost function w.r.t. the variances can be achieved in an identical way as was done before, with the procedure as specified in \cref{subsec:minim_variances}.
+
+The only difference between this method and the previous one is on the directional minimization. Namely, the derivatives of $\cost{\bvSi,\Theta}$ w.r.t. $\theta_b$ and $\phi_b$ are almost identical to those in \cref{eq:sec2:pdv_lagrangian_theta,eq:sec2:pdv_lagrangian_phi,eqs:sec2:parameters_pdv_lagrangian_dirs}, here being
+\begin{equation}
+	\label{eq:secA:pdv_lagrangian_theta}
+	\pdv{\cost}{\theta_b} = \sum_{\bvj} f_1(\theta_b,\phi_b,\bvj) G(\theta_b,\phi_b,\bvj)
+\end{equation}
+\begin{equation}
+	\label{eq:secA:pdv_lagrangian_phi}
+	\pdv{\cost}{\phi_b}   = \sum_{\bvj} f_2(\theta_b,\phi_b,\bvj) G(\theta_b,\phi_b,\bvj)
+\end{equation}
+in which
+\begin{subgather}{eqs:sec2:parameters_pdv_lagrangian_dirs}
+	\alpha = \frac{4\pi f\var{u_1}[k]}{c} \\
+	f_1(\theta_b,\phi_b,\bvj) = \sin\pts{\theta_b - \psi_{\bvj}} \cos\pts{\phi_b - \lambda_{\bvj}} \\
+	f_2(\theta_b,\phi_b,\bvj) = \cos\pts{\theta_b - \psi_{\bvj}} \sin\pts{\phi_b - \lambda_{\bvj}} \\
+	G(\theta_b,\phi_b,\bvj) = -r_{\bvj} \sum_{k} \alpha[k] \imag{ \pts{\hat{R}_{\bvy;\bvj}[k] - R_{\bvy;\bvj}[k]}^* R_{\bvu;\bvj}(\theta_b,\phi_b)[k] }
+\end{subgather}
+
+This approach presents a few advantages when compared to the previous one: firstly, it has fewer unknowns, having $4K + 2$ variables instead of $6K$ (with $K$ being the number of frequency bins); secondly, it is much faster, since now the iterative process only has to operate over $2$ variables instead of $2K$ of them as previously, and the other $K$ unknowns can be obtained each iteration via solving a constrained linear system; thirdly, it brings a greater consistency across frequency in terms of DoA estimation, since the optimal direction $\Theta\opt$ should be consistent across the spectrum, and while this was achieved previously as a phasor average, here it is inherent to the method.

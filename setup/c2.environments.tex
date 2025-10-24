@@ -1,0 +1,96 @@
+%% Require:
+% xparse
+
+\NewDocumentEnvironment{subalign}{g}{%
+	\subequations%
+		\IfValueT{#1}{\label{#1}}%
+		\allowdisplaybreaks%
+		\align%
+	}{%
+		\endalign%
+	\endsubequations%
+}%
+\NewDocumentEnvironment{subgather}{g}{%
+	\subequations%
+		\IfValueT{#1}{\label{#1}}%
+		\allowdisplaybreaks%
+		\gather%
+	}{%
+		\endgather%
+	\endsubequations%
+}%
+\NewDocumentEnvironment{equations}{g}{%
+	\equation%
+		\IfValueT{#1}{\label{#1}}%
+		\allowdisplaybreaks%
+		\aligned%
+	}{%
+		\endaligned%
+	\endequation%
+}
+
+\NewDocumentEnvironment{proposition}{m}{%
+	\noindent\textbf{Proposition:} {\itshape #1}
+	
+	\noindent\textbf{Proof:}\itshape
+}{
+
+	\noindent\bsquare
+}
+
+\NewDocumentEnvironment{example}{}{%
+	\noindent\textbf{Example:}
+}{
+
+	\noindent\bsquare
+}
+
+\newcounter{smethod}
+\setcounter{smethod}{0}
+\newcounter{method}
+\setcounter{method}{0}
+\NewDocumentEnvironment{method}{s}{%
+    \IfBooleanT{#1}{\stepcounter{method}}%
+    \stepcounter{smethod}%
+	{\noindent\textbf{Method \Alph{method}.\arabic{smethod}:}}
+ 
+}{
+    \vspace{-1em}\newline%
+	\noindent\bsquare%
+ 
+}
+
+\newtheoremstyle{break}% name
+{9pt}%      Space above, empty = `usual value'
+{9pt}%      Space below
+{}% Body font
+{}%         Indent amount (empty = no indent, \parindent = para indent)
+{\bfseries}% Thm head font
+{.}%        Punctuation after thm head
+{ }% Space after thm head: \newline = linebreak
+{}%         Thm head spec
+\theoremstyle{break}
+
+\newtheorem{thm}{Theorem}
+%\crefformat{thm}{Theorem~#2#1#3}
+%\crefrangeformat{thm}{Theorems~#3#1#4 to~#5#2#6}
+\crefname{thm}{Theorem}{Theorems}
+
+\def\square{
+	\tikzsetnextfilename{square}\tikz\fill[scale=0.25](0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;}
+\newcommand{\tmark}{%
+	{{\unskip\nobreak\vadjust{\nobreak}\hskip0pt\penalty50 \space
+			\vadjust{}\nobreak\hfil\square%
+			\clubpenalty=0 \widowpenalty=0 \brokenpenalty=0
+			\parfillskip=0pt \finalhyphendemerits=0 \par
+			\penalty 10000 \parskip=0pt\noindent}}\ignorespaces} 
+
+\NewDocumentEnvironment{theorem}{m O{}}{
+	\begin{thm}{\itshape #1}#2
+		
+		\begin{tcolorbox}[blanker,before skip=6pt,width=0.95\linewidth,enlarge left by=0.05\linewidth,breakable,parbox=false]%
+		}{
+			\newline\tmark
+		\end{tcolorbox}
+	\end{thm}
+}

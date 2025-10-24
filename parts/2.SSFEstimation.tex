@@ -1,0 +1,69 @@
+\section{SSF Estimation and the TTT technique}
+\label{sec:ssf_estimation}
+As previously explained, the TTT uses the delay -- travel-time -- between the wave's generation at a source and its arrival at a receptor to estimate the path traveled, and therefore the wave's speed along the route taken.
+
+Given a ray that follows a path $\bvr[v]$, and a sound speed field $c(\bvp)$ as a function of space ($\bvp=[x,y,z]$); then the travel time along the curve $\bvr[v]$ is
+\begin{equation}
+	t_{\bvr[v]} = \int_{\bvr[v]} \frac{1}{c(\bvp)} \dd \bvp
+\end{equation}
+
+This is known as the forward map: given an SSF $c(\bvp)$ and a path through this SSF, estimate the travel time. The inverse problem's objective is to obtain the SSF (and a path, if ray bending is considered), given a set of travel times between different sources and receivers -- therefore different paths -- within this environment.
+
+Under the TTT technique, the approach most commonly found in the literature is to discretize the environment in cells, assuming each cell has a constant speed, and estimating this discrete SSF using the measurements. We assume that the space is divided into an $\sz{N_{\z}}{N_{\x}}$ grid of cells (vertical $\times$ horizontal), with a total of $N = N_{\x} \cdot N_{\z}$ cells; and a total of $M$ rays are produced, between any number of sources and receivers, and travel through this modeled environment.
+
+Mathematically, this discretization and ray pathing can be written as
+\begin{equation}
+	t_{m} \approx \sum_{n} r_{m;n} s_n
+	\label{eq:sec2:tm_sum-form}
+\end{equation}
+where $r_{m;n}$ is the length of the $m$-th ray within the $n$-th cell, $s_n$ is the $n$-th cell's slowness, and $t_m$ is the $m$-th ray's travel time. In vector form, we rewrite \cref{eq:sec2:tm_sum-form} as
+\begin{equation}
+	t_m(\bvs) = \bvr[T]{m}(\bvs) \bvs
+\end{equation}
+in which $\bvr{m}(\bvs) \in \re^{\sz{N}{1}}$ corresponds to the lengths in each cell of the $m$-th ray (this being usually a sparse vector), and $\bvs \in \re^{\sz{N}{1}}$ represents the modeled slowness in each cell. We explicit the dependency of $\bvr{m}(\bvs)$ on $\bvs$ since the ray bending effects on the $m$-th ray's path will depend on the slowness field, following Fermat's principle and Snell's law.
+
+We now let $\bvt(\bvs) \in \re^{\sz{M}{1}}$ as a vector of travel-times for the current model, for all $M$ considered rays; and $\bvR(\bvs) \in \re^{\sz{M}{N}}$ is a vertical stacking of all $\bvr[T]{m}(\bvs)$. With this, we achieve that
+\begin{equation}
+	\bvt(\bvs) = \bvR(\bvs) \bvs
+	\label{eq:sec2:bvt_product-form}
+\end{equation}
+
+\subsection{SSF estimation}
+\label{subsec:sec2:ssf_estimation}
+
+Given a vector of observed traveled times $\bvt{\obs}$, the SSF estimation is given by minimizing the error between the modeled (\cref{eq:sec2:bvt_product-form}) and the observed travel times, this being translated to
+\begin{equation}
+	\opt{\bvs} = \argmin_{\bvs} E(\bvs) = \norm{\bvR(\bvs) \bvs - \bvt{\obs}}^2
+\end{equation}
+
+Note that this problem is non-linear: the solution to the ray paths $\bvR(\bvs)$ depends on the slowness field $\bvs$, and in turn the optimal $\bvs$ depends on the achieved ray path solution $\bvR(\bvs)$. Given this, the most common approach is to iteratively solve this problem. That is, given the $i$-th iteration solution $\bvs{i}$ and its respective $\bvR(\bvs{i})$ (which will now be called $\bvR{i}$ for simplicity), we have that
+\begin{equation}
+	\bvs{i+1} = \argmin_{\bvs} \norm{\bvR{i} \bvs - \bvt{\obs}}^2
+	\label{eq:sec2:bvs_i+1_basic-form}
+\end{equation}
+and the $(i+1)$-th iteration of $\bvR$ is obtained by solving the Eikonal equation, given the slowness field $\bvs{i+1}$.
+
+One extra component that is usually added is a regularization step, turning \cref{eq:sec2:bvs_i+1_basic-form} into
+\begin{equation}
+	\bvs{i+1} = \argmin_{\bvs} E'(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2 + \alpha^2 \norm{\bvD \bvs}^2
+	\label{eq:sec2:bvs_i+1_regularized-form}
+\end{equation}
+in which $\bvD \in \re^{\sz{N}{N}}$ is a regularizing matrix, and $\alpha$ a regularization parameter. The proper choice of $\bvD$ ensures a well-posed problem, improving some quality or metric in the obtained solution $\bvs{i+1}$ at the cost of some error in the modeled travel times. 
+
+The solution to the minimization problem is given by an inverse map function $\bvG{i} \in \re^{\sz{N}{M}}$, resulting in
+\begin{equation}
+	\bvs{i+1} = \bvG{i} \bvt{\obs}
+\end{equation}
+
+In order to achieve $\bvs{i+1}$, the gradient of $E'(\bvs)$ is taken,
+\begin{equation}
+	\nabla E'(\bvs) = 2\bvR[T]{i} \pts{\bvR{i} \bvs - \bvt{\obs}} + 2\alpha^2 \bvD[T] \bvD \bvs
+\end{equation}
+which, when set to $\bv0$, leads to
+\begin{equation}
+	\bvG{i} = \inv*{\bvR[T]{i} \bvR{i} + \alpha^2 \bvD[T] \bvD} \bvR[T]{i}
+\end{equation}
+
+This requires the inversibility of $\bvR[T]{i} \bvR{i} + \alpha^2 \bvD[T] \bvD$. Given the construction of the problem, either $\bvR{i}$ has to be full-rank with $M \geq N$, or $\bvD$ has to be full-rank, for this inverse to be possible. When these conditions aren't met, non-inverting schemes have to be used, such as the popularly employed conjugate gradient method \cite{ali_opensource_2019,hormati_robust_2010,zhang_nonlinear_1998,tang_travel_2024}.
+
+As explained, the regularizing matrix $\bvD$ (and $\alpha$) have to be appropriately chosen to improve some desired metric. For example, choosing $\bvD = \bvI{N}$ (the $\sz{N}{N}$ identity) results in the minimization weighting in the mean-squared value of the slowness vector \cite{phillips_traveltime_1991}; this is equivalent to considering the presence of white noise in the measurements, and trading model accurateness for noise rejection \cite{beamforming-maxwng}. Alternatively, $\bvD$ can be chosen to (discretely) approximate the Laplacian of the underlying continous slowness field \cite{ali_opensource_2019,zhang_nonlinear_1998}, resulting in a minimization that penalizes the Laplacian of the achieved slowness field; that is, minimizes the SSF's curvature, searching for a smoother field.

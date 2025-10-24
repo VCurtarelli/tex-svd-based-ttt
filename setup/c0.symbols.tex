@@ -1,0 +1,253 @@
+%% Requires:
+% xparse
+
+%% Sensor array symbols
+\MakeSymbol{\x}{\symsfup{x}}
+\MakeSymbol{\y}{\symsfup{y}}
+\MakeSymbol{\z}{\symsfup{z}}
+\MakeSymbol{\w}{\omega}
+\MakeSymbol{\an}{\symup{an}}
+\MakeSymbol{\t}{\theta}
+\MakeSymbol{\td}{\theta_{\mrm{d}}}
+\MakeSymbol{\tB}{\theta_{\mrm{B}}}
+\MakeSymbol{\Nu}{\mathcal{V}}
+\MakeSymbol{\rn}{\symup{rn}}
+\MakeSymbol{\+}{{}^{+}}
+\MakeSymbol{\-}{{}^{-}}
+\MakeSymbol{\Agemo}{\text{\rotatebox[origin=c]{180}{\ensuremath{\Omega}}}}
+\NewDocumentCommand{\srf}{m}{%
+	\xi_{#1}
+}
+\MakeSymbol{\tD}{\tilde{D}}
+\MakeSymbol{\dsrf}{\text{DSRF}}
+\MakeSymbol{\uprf}{\text{UPRF}}
+\MakeSymbol{\nsrf}{\srf{\eta}}
+\MakeSymbol{\gsnr}{\text{gSNR}}
+\MakeSymbol{\gsir}{\text{gSIR}}
+\MakeSymbol{\df}{\text{DF}}
+\MakeSymbol{\wng}{\text{WNG}}
+\DeclareMathOperator{\obs}{o}
+\makeatletter
+% BEGIN_FOLD
+\NewDocumentCommand{\@OneIdx}{m m O{;} m}{% Name | Optional | Name
+    #1_{\IfValueT{#2}{#2#3} {#4}}
+}
+\NewDocumentCommand{\@TwoIdx}{s m m m m}{
+    #2_{\IfValueT{#3}{#3;}(#4\IfValueT{#3}{_{#3}}\IfBooleanT{#1}{'},#5\IfValueT{#3}{_{#3}}\IfBooleanT{#1}{'})}
+}
+\NewDocumentCommand{\@FourIdx}{m m m m m m}{
+    #1_{\IfValueT{#2}{#2;}(#3\IfValueT{#2}{_{#2}},#4\IfValueT{#2}{_{#2}});(#5\IfValueT{#2}{_{#2}},#6\IfValueT{#2}{_{#2}})}
+}
+
+\NewDocumentCommand{\dx}{g}{
+    \@OneIdx{\delta}{#1}{\x}
+}
+\NewDocumentCommand{\dy}{g}{
+    \@OneIdx{\delta}{#1}{\y}
+}
+\NewDocumentCommand{\Mx}{g}{
+    \@OneIdx{M}{#1}[,]{\x}
+}
+\NewDocumentCommand{\My}{g}{
+    \@OneIdx{M}{#1}[,]{\y}
+}
+
+\DeclareDocumentCommand{\P}{g O{m}}{
+    \@OneIdx{P}{#1}{#2}
+}
+\DeclareDocumentCommand{\S}{g O{m}}{
+    \@OneIdx{S}{#1}{#2}
+}
+\DeclareDocumentCommand{\R}{g O{m}}{
+    \@OneIdx{r}{#1}{#2}
+} 
+\DeclareDocumentCommand{\p}{g O{m}}{
+    \@OneIdx{\psi}{#1}{#2}
+}
+\DeclareDocumentCommand{\D}{g O{m}}{
+    \@OneIdx{D}{#1}{#2}
+}
+\DeclareDocumentCommand{\T}{g O{m}}{
+    \@OneIdx{T}{#1}{#2}
+}
+\LetLtxMacro{\d}{\udot}
+\DeclareDocumentCommand{\d}{g O{m}}{
+    \@OneIdx{d}{#1}{#2}
+}
+% END_FOLD
+\makeatother
+
+%% Bold symbols
+% BEGIN_FOLD
+\makeatletter
+\DeclareDocumentCommand{\bv}{m O{n} g}{
+	\@my{#2}{\symbfup{#1}}\IfValueT{#3}{_{#3}}
+}
+\DeclareDocumentCommand{\BV}{m g}{
+    \symbfsfup{#1}\IfValueT{#2}{_{#2}}
+}
+\DeclareDocumentCommand{\newbv}{s o m}{
+    \IfBooleanTF{#1}{
+        \IfValueTF{#2}{
+            \@namedef{bv#2}{\BV{#3}}
+        }{
+            \@namedef{bv#3}{\BV{#3}}
+        }
+    }{
+        \IfValueTF{#2}{
+            \@namedef{bv#2}{\bv{#3}}
+        }{
+            \@namedef{bv#3}{\bv{#3}}
+        }
+    }
+}
+\@namedef{:}{\scalebox{1.01}{\textbf{:}}}
+\makeatother
+% END_FOLD
+
+\newbv{a}
+\newbv{b}
+\newbv{c}
+\newbv{d}
+\newbv{e}
+\newbv{f}
+\newbv{g}
+\newbv{h}
+\newbv{i}
+\newbv{j}
+\newbv{k}
+\newbv{l}
+\newbv{m}
+\newbv{n}
+\newbv{o}
+\newbv{p}
+\newbv{q}
+\newbv{r}
+\newbv{s}
+\newbv{t}
+\newbv{u}
+\newbv{v}
+\newbv{w}
+\newbv{x}
+\newbv{y}
+\newbv{z}
+
+\newbv{A}
+\newbv{B}
+\newbv{C}
+\newbv{D}
+\newbv{E}
+\newbv{F}
+\newbv{G}
+\newbv{H}
+\newbv{I}
+\newbv{J}
+\newbv{K}
+\newbv{L}
+\newbv{M}
+\newbv{N}
+\newbv{O}
+\newbv{P}
+\newbv{Q}
+\newbv{R}
+\newbv{S}
+\newbv{T}
+\newbv{U}
+\newbv{V}
+\newbv{W}
+\newbv{X}
+\newbv{Y}
+\newbv{Z}
+
+\let\Id\bvI
+
+\newbv[Si]{\Sigma}
+\newbv[mu]{\upmu}
+
+%\newbv{f}
+%\newbv{g}
+%\newbv{a}
+%\newbv{b}
+%\newbv{c}
+%\newbv{d}
+%\newbv{e}
+%\newbv{f}
+%\newbv{g}
+%
+%\newbv{y}
+%\newbv{x}
+%\newbv{u}
+%\newbv{p}
+%\newbv{v}
+%\newbv[ga]{\upgamma}
+%\newbv[eta]{\upeta}
+%\newbv[ze]{\upzeta}
+%\newbv[mu]{\upmu}
+%\newbv[si]{\upsigma}
+%\newbv[vs]{\upvarsigma}
+%\newbv{a}
+%\newbv{b}
+%\newbv{t}
+%\newbv{z}
+%\newbv{j}
+%\newbv{w}
+%\newbv{q}
+%\newbv{p}
+%\newbv{A}
+%
+%\newbv[Ga]{\Gamma}
+%\let\Gzp\bvGa
+%\newbv[Xi]{\Xi}
+%
+%\newbv{h}
+%\newbv{C}
+%\newbv{i}
+%\newbv{d}
+%\newbv{D}
+%\newbv{T}
+%\newbv[La]{\Lambda}
+%\newbv{g}
+%\newbv[up]{\upsilon}
+%\newbv{Q}
+%\newbv[Si]{\Sigma}
+%\newbv[ep]{\epsilon}
+%\newbv{f}
+%\newbv{P}
+%\newbv{n}
+
+\def\lag{\mathcal{L}}
+\def\sigs{\mathcal{S}}
+% \def\bvL{*************}
+%% Mathematical symbols
+\NewDocumentCommand{\std}{s m}{%
+    \IfBooleanTF{#1}{\hat{\sigma}}{\sigma}_{#2}%
+}
+\NewDocumentCommand{\var}{s m}{%
+	\IfBooleanTF{#1}{\std*{#2}}{\std{#2}}^2%
+}
+\NewDocumentCommand{\Corr}{s m}{%
+    \IfBooleanTF{#1}{\hat{\bv{R}}}{\bv{R}}_{#2}%
+}
+
+\NewDocumentCommand{\corr}{s m}{%
+	\IfBooleanTF{#1}{\hat{\bv{r}}}{\bv{r}}_{#2}%
+}
+
+\NewDocumentCommand{\mvdr}{}{%
+	\symup{MVDR}%
+}
+\NewDocumentCommand{\lcmv}{}{%
+	\symup{LCMV}%
+}
+\NewDocumentCommand{\lcmp}{}{%
+\symup{LCMP}%
+}
+\NewDocumentCommand{\rcmg}{}{%
+	\symup{RCMG}%
+}
+\NewDocumentCommand{\music}{}{%
+	\symup{MUSIC}%
+}
+\NewDocumentCommand{\wmusic}{}{%
+	\symup{wMUSIC}%
+}

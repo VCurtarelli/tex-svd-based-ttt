@@ -1,0 +1,154 @@
+\tikzexternaldisable
+%\begin{figure}[H]
+%	\begin{tikzpicture}
+	%		\begin{boxplot}{%
+			%			\addplot[forget plot, styleA, smooth] table  {input/data/pdf_gsnr_lcmv_ncm.csv};		
+			%			\addplot[forget plot, styleB, smooth] table  {input/data/pdf_gsnr_mvdr_ncm.csv};		
+			%			\addplot[forget plot, styleC, smooth] table  {input/data/pdf_gsnr_lcmp_msc.csv};		
+			%			\addplot[forget plot, styleE, smooth] table  {input/data/pdf_gsnr_lcmp_wmsc.csv};		
+			%			%
+			%			\addplot[forget plot, styleA, smooth] table  {input/data/pdf_gsir_lcmv_ncm.csv};		
+			%			\addplot[forget plot, styleB, smooth] table  {input/data/pdf_gsir_mvdr_ncm.csv};		
+			%			\addplot[forget plot, styleC, smooth] table  {input/data/pdf_gsir_lcmp_msc.csv};		
+			%			\addplot[forget plot, styleE, smooth] table  {input/data/pdf_gsir_lcmp_wmsc.csv};		
+			%			%
+			%			\addplot[forget plot, styleA, smooth] table  {input/data/pdf_uprf_lcmv_ncm.csv};		
+			%			\addplot[forget plot, styleB, smooth] table  {input/data/pdf_uprf_mvdr_ncm.csv};		
+			%			\addplot[forget plot, styleC, smooth] table  {input/data/pdf_uprf_lcmp_msc.csv};		
+			%			\addplot[forget plot, styleE, smooth] table  {input/data/pdf_uprf_lcmp_wmsc.csv};		
+			%			%
+			%			\addplot[forget plot, styleA, smooth] table  {input/data/pdf_dsrf_lcmv_ncm.csv};		
+			%			\addplot[forget plot, styleB, smooth] table  {input/data/pdf_dsrf_mvdr_ncm.csv};		
+			%			\addplot[forget plot, styleC, smooth] table  {input/data/pdf_dsrf_lcmp_msc.csv};		
+			%			\addplot[forget plot, styleE, smooth] table  {input/data/pdf_dsrf_lcmp_wmsc.csv};		
+			%			%
+			%			\addplot[forget plot, styleA, smooth] table  {input/data/pdf_df_lcmv_ncm.csv};		
+			%			\addplot[forget plot, styleB, smooth] table  {input/data/pdf_df_mvdr_ncm.csv};		
+			%			\addplot[forget plot, styleC, smooth] table  {input/data/pdf_df_lcmp_msc.csv};		
+			%			\addplot[forget plot, styleE, smooth] table  {input/data/pdf_df_lcmp_wmsc.csv};		
+			%			%
+			%			\addplot[forget plot, styleA, smooth] table  {input/data/pdf_wng_lcmv_ncm.csv};		
+			%			\addplot[forget plot, styleB, smooth] table  {input/data/pdf_wng_mvdr_ncm.csv};		
+			%			\addplot[forget plot, styleC, smooth] table  {input/data/pdf_wng_lcmp_msc.csv};		
+			%			\addplot[forget plot, styleE, smooth] table  {input/data/pdf_wng_lcmp_wmsc.csv};		
+			%			%
+			%		\end{boxplot}
+		%	\end{tikzpicture}
+	%\end{figure}
+	\cleardoublepage
+	\input{input/figures/boxplot_filtering_metrics.tex}
+	
+	\begin{figure}[t]
+		\centering
+		\hspace*{-1em}
+		\tikzsetnextfilename{sec4-boxplot_filtering_metrics}
+		\begin{tikzpicture}
+			\begin{boxplot}[
+				height=1.3\linewidth,
+				width=0.8\linewidth,
+				scale only axis,
+				ymin = 0, ymax = 35,
+				ytick = {2.5, 8.5, 14.5, 20.5, 26.5, 32.5},
+				yticklabels = {WNG,DF,DSRF,UPRF,gSIR,gSNR},
+				ytick style = {draw=none},
+				yticklabel style={
+					rotate=90,
+					anchor=south,
+					align=center,
+					text width=5em
+				},
+				%
+				axis x line*=top,
+				xtick pos=top,
+				xlabel={Output value ($\dB$)},
+				xmin=-16, xmax=38,
+				xtick={-12, 0, ..., 36},
+				%
+				boxplot/draw direction = x,
+				%
+				legend to name = {BoxPlotGainsnr},
+				legend style={
+					legend columns=2,
+					/tikz/every even column/.append style={column sep=1em}
+				},
+				legend cell align={left},
+				%
+				xmajorgrids,
+				grid style={line width=.1pt, draw=gray!15},
+				]
+				%			\addplot[forget plot, thin, dash pattern = {on 4pt off 2pt}] coordinates{(0,0) (0,35)};
+				%
+				%
+				\addplot[forget plot, styleA, smooth] table  {input/data/pdf_gsnr_lcmv_ncm.csv};		
+				\addplot[forget plot, styleB, smooth] table  {input/data/pdf_gsnr_mvdr_ncm.csv};		
+				\addplot[forget plot, styleC, smooth] table  {input/data/pdf_gsnr_lcmp_msc.csv};		
+				\addplot[forget plot, styleE, smooth] table  {input/data/pdf_gsnr_lcmp_wmsc.csv};		
+				%
+				\addplot[forget plot, styleA, smooth] table  {input/data/pdf_gsir_lcmv_ncm.csv};		
+				\addplot[forget plot, styleB, smooth] table  {input/data/pdf_gsir_mvdr_ncm.csv};		
+				\addplot[forget plot, styleC, smooth] table  {input/data/pdf_gsir_lcmp_msc.csv};		
+				\addplot[forget plot, styleE, smooth] table  {input/data/pdf_gsir_lcmp_wmsc.csv};		
+				%
+				\addplot[forget plot, styleA, smooth] table  {input/data/pdf_uprf_lcmv_ncm.csv};		
+				\addplot[forget plot, styleB, smooth] table  {input/data/pdf_uprf_mvdr_ncm.csv};		
+				\addplot[forget plot, styleC, smooth] table  {input/data/pdf_uprf_lcmp_msc.csv};		
+				\addplot[forget plot, styleE, smooth] table  {input/data/pdf_uprf_lcmp_wmsc.csv};		
+				
+				\addplot[styleA] coordinates{(0, -1)};
+				\addplot[styleB] coordinates{(0, -1)};
+				\addplot[styleC] coordinates{(0, -1)};
+				\addplot[styleE] coordinates{(0, -1)};
+				\addlegendentry{LCMV - NCM};
+				\addlegendentry{MVDR - NCM};
+				\addlegendentry{LCMP - MSC};
+				\addlegendentry{LCMP - wMSC};
+			\end{boxplot}
+			%
+			\begin{boxplot}[
+				height=1.3\linewidth,
+				width=0.8\linewidth,
+				scale only axis,
+				ymin = 0, ymax = 35,
+				y tick style={draw=none},
+				yticklabels={,,},
+				%
+				xtick pos=bottom,
+				axis x line*=bottom,
+				xlabel={Output value ($\dB$)},
+				xmin=-8, xmax=19,
+				xtick={-6, 0, ..., 18},
+				%
+				boxplot/draw direction = x,
+				%
+				grid style={draw=none},
+				]
+				\addplot[forget plot, thin, dash pattern = {on 4pt off 2pt}] coordinates{(0,0) (0,17.5-0.1)};
+				\addplot[forget plot, thin, dash pattern = {on 4pt off 2pt}] coordinates{(0,35) (0,17.5+0.1)};
+				
+				\addplot[forget plot, very thin] coordinates{(-8,17.5+0.1) (19,17.5+0.1)};
+				\addplot[forget plot, very thin] coordinates{(-8,17.5-0.1) (19,17.5-0.1)};
+				%
+				%			
+				\addplot[forget plot, styleA, smooth] table  {input/data/pdf_dsrf_lcmv_ncm.csv};		
+				\addplot[forget plot, styleB, smooth] table  {input/data/pdf_dsrf_mvdr_ncm.csv};		
+				\addplot[forget plot, styleC, smooth] table  {input/data/pdf_dsrf_lcmp_msc.csv};		
+				\addplot[forget plot, styleE, smooth] table  {input/data/pdf_dsrf_lcmp_wmsc.csv};		
+				%
+				\addplot[forget plot, styleA, smooth] table  {input/data/pdf_df_lcmv_ncm.csv};		
+				\addplot[forget plot, styleB, smooth] table  {input/data/pdf_df_mvdr_ncm.csv};		
+				\addplot[forget plot, styleC, smooth] table  {input/data/pdf_df_lcmp_msc.csv};		
+				\addplot[forget plot, styleE, smooth] table  {input/data/pdf_df_lcmp_wmsc.csv};		
+				%
+				\addplot[forget plot, styleA, smooth] table  {input/data/pdf_wng_lcmv_ncm.csv};		
+				\addplot[forget plot, styleB, smooth] table  {input/data/pdf_wng_mvdr_ncm.csv};		
+				\addplot[forget plot, styleC, smooth] table  {input/data/pdf_wng_lcmp_msc.csv};		
+				\addplot[forget plot, styleE, smooth] table  {input/data/pdf_wng_lcmp_wmsc.csv};		
+			\end{boxplot}
+		\end{tikzpicture}
+		\vspace*{1em}
+		\tikzsetnextfilename{sec4-boxplot_filtering_metrics_legend}
+		\ppref{BoxPlotGainsnr}
+		\caption{gSNR, gSIR, and UPRF, (top $\x$-axis), DSRF, DF, and WNG (bottom $\x$-axis), for each beamformer.}
+		\label{fig:sec4:boxplot_bf_metrics}
+	\end{figure}%
+	\tikzexternalenable

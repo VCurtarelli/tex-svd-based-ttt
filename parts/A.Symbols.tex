@@ -1,0 +1,29 @@
+\subsection{List of symbols}
+\label{app:appA:list_of_symbols}
+Due to the nature of our work being heavily mathematical, we here present a comprehensible list of the most relevant symbols and variables used throughout the paper.
+
+We again note that non-bold variables are scalars, bold lowercase variables are vectors, and bold uppercase variables are matrices. The placeholder variables $z$ and $\bvz$ can represent either of the previously presented signals.
+
+\begin{tabular}{l l}
+	$\bvx[l,k]$ & Desired signal vector \\
+	$\bvp[l,k]$ & Undesired directional vector \\
+	$\bvga[l,k]$ & Isotropic noise vector \\
+	$\bvv[l,k]$ & White noise vector \\
+	$\bvy[l,k]$ & Observed signal vector \\
+	$\bveta[l,k]$ & Global noise vector \\
+	$z_m[l,k]$ & Token signal $z$ at $m$-th sensor\\
+	$\bvz[l,k]$ & Token signal $z$ vector \\
+	$\Corr{\bvz}[k]$ & Correlation matrix for $\bvz$\\
+	$\Corr*{\bvy}[k]$ & Observed signal estimate CM\\
+	$\var{z}[k]$ & Variance of the signal $z$ \\
+	$\theta_b$ & Undesired source's azimuth \\
+	$\phi_b$ & Undesired source's elevation \\
+	$\Theta = (\theta_b,\phi_b)$ & Undesired source's DoA \\
+	$\bvsi[k]$ & Variance vector \\
+	$\bvSi$ & Cross-frequency variance matrix \\
+	$\cost{\bvSi,\Theta}$ & Global cost function for optimization \\
+	$\bvze[k]$ & Lagrange multiplier	\\
+	$\bvh[k]$ & Beamformer vector \\
+	$\epsilon$ & Regularization factor \\
+	$C[k]$ & Constraint matrix for LCMV beamformer
+\end{tabular}

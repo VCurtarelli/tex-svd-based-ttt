@@ -1,0 +1,35 @@
+\usepackage{ifluatex}
+\usepackage{ifpdf}
+
+\ifluatex
+	\usepackage{fontspec}
+	\usepackage{anyfontsize}
+	\usepackage{amsmath, amsfonts, amsthm}
+	\let\amvec\vec
+	\usepackage{unicode-math}
+	\let\umvec\vec
+	\input{setup/a0.fonts.tex}
+\else
+\ifpdf
+	\usepackage[utf8]{inputenc}
+	\usepackage{fontenc}
+	\usepackage{anyfontsize}
+	\usepackage{amsmath, amsfonts, amsthm}
+	\usepackage{upgreek}
+	\NewDocumentCommand{\symbfup}{m}{%
+		\boldsymbol{\mathrm{#1}}%
+	}
+	\NewDocumentCommand{\symbfsfup}{m}{%
+		{\bfseries\sffamily #1}%
+	}
+	\NewDocumentCommand{\symsfup}{m}{%
+		{\textsf{#1}}%
+	}
+	\NewDocumentCommand{\symbb}{m}{%
+		\mathbb{#1}%
+	}
+	\NewDocumentCommand{\symup}{m}{%
+		\text{#1}%
+	}
+\fi
+\fi

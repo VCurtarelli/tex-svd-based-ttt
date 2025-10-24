@@ -1,0 +1,4 @@
+v1.0.251024
+	Started writing paper.
+	Up to Section 3, writing Section 3.E.
+	Missing Section 4, Section 5, Abstract, Title, and Keywords.

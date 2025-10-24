@@ -1,0 +1,63 @@
+%Idea: \textit{Source-tracking region-of-interest beamforming with noise covariance matrix estimation}
+%
+%Why:
+%\begin{itemize}
+%	\item The algorithm uses iterative method for undesired signal DoA estimation - We can incorporate a few iterations on each processing step/window, leading to a source-tracking algorithm; also, using the previous window's result as the new window's initial guess for the direction would lead to a better result for a continuously moving source
+%	\item Since the DoA estimation can lead to some angular error, ROI beamforming could be useful to ensure the undesired direction is nulled
+%\end{itemize}
+%
+%Advantages over base-model from \cite{moore_compact_2022}:
+%\begin{itemize}
+%	\item Deeper mathematical exploration
+%	\begin{itemize}
+%		\item More precise and thorough mathematical workings
+%		\item Direct method for variance estimation instead of iterative method
+%		\item Iterative method for angle estimation instead of exhaustive search over all possible angles, leading to more accurate results
+%	\end{itemize}
+%	\item (Probably) Faster estimation process
+%	\item Proposed cross-frequency DoA estimation, to be used with ROI LCMV beamforming
+%	\item More direct iterative method allows for source-tracking beamformer
+%\end{itemize}
+%\section{Signal model}
+%
+%Let the signal observed at a sensor, $y_m[l,k]$, be given by
+%\begin{equation}
+%	y_m[l,k] = \sum_{j=1}^{J} x_{m,j}[l,k] + \sum_{k=1}^{K} u_{m,k}[l,k] + v_m[l,k]
+%\end{equation}
+%in which all signals are far-field. $x_{m,j}[l,k]$ is the planar wave decomposition (PWD) of the reverberant desired signal, the sum of $u_{m,k}[l,k]$ the PWD of the reverberant noise signal, and $v_m[l,k]$ is sensor noise. We let
+%\begin{equations}
+%	\sum_{j=1}^{J} x_{m,j}[l,k]
+%	& = x_{m,1}[l,k] + \sum_{j=2}^{J} x_{m,j}[l,k] \\
+%	& = x_m[l,k] + \gamma_x[l,k]
+%\end{equations}
+%where $x_m[l,k]$ is the desired signal's direct-path component, and $\gamma_{x,m}[l,k]$ are the reverberations, both being uncorrelated. Furthermore, assuming that $x_m[l,k]$ is a far-field signal, then
+%\begin{equation}
+%	x_m[l,k] = a_m[l,k] x_1[l,k]
+%\end{equation}
+%where $a_m[l,k]$ is the desired signal's RTF between the reference ($m = 1$) and $m$-th sensors. Considering the assumption that $x_m[l,k]$ is a far-field planar wave, $a_m[l,k]$ is a delay between the two sensors, given by
+%\begin{equation}
+%	a_m[l,k] = e^{-\j 2\pi \frac{k f_0}{K\cdot c} r_m \cos(\theta - \theta_m) \cos(\phi - \phi_m)}
+%\end{equation}
+%in which $f_0$ is the sampling frequency, $K$ is the number of frequency bins, $c$ is the wave speed, ($r_m,~\theta_m,~\phi_m)$ is the spherical distance between the reference and the $m$-th sensors (distance, azimuth, elevation), and ($\theta,~\phi)$ is the incoming wave's angular direction.
+%
+%Through the same logic we achieve $u_m[l,k]$ with RTF $b_m[l,k]$. Therefore,
+%\begin{equations}
+%	y_m[l,k]
+%	& = x_m[l,k] + u_m[l,k] + \gamma_m[l,k] + v_m[l,k] \\
+%	& = a_m[l,k] x_1[l,k] + b_m[l,k] u_1[l,k] + \gamma_m[l,k] + v_m[l,k]
+%\end{equations}
+%where $\gamma_m[l,k] = \gamma_{x,m}[l,k] + \gamma_{u,m}[l,k]$ contains only reverberations. Stacking these signals for all $M$ sensors,
+%\begin{equation}
+%	\bvy[l,k] = \bva[l,k] x_1[l,k] + \bvb[l,k] u_1[l,k] + \bvga[l,k] + \bvv[l,k]
+%\end{equation}
+%
+%%therefore,
+%%\begin{equation}
+%%	\el{\corr{\bvy}}[i+Mj] =
+%%	\begin{cases}
+%%		\var*{x} + \var*{u} + \var*{\gamma} + \var*{v} \,, & i = j \\
+%%		\real{\el{\bva}[i] \el{\bva}[j]} \var*{x} + \real{\el{\bvb[h]}[i] \el{\bvb[h]}[j]} \var*{u} + \el{\Gzp'}[i][j] \var*{\gamma} \,, & i < j \\
+%%		\imag{\el{\bva}[i] \el{\bva}[j]} \var*{x} + \imag{\el{\bvb[h]}[i] \el{\bvb[h]}[j]} \var*{u} \,, & i > j
+%%	\end{cases}
+%%\end{equation}
+%

@@ -1,0 +1,106 @@
+%% INVERTED FIGURE
+\begin{figure}[t]
+	\centering
+	\hspace*{-1em}
+	\tikzsetnextfilename{sec4-boxplot_filtering_metrics_per-dir}
+	\begin{tikzpicture}
+		\begin{boxplot}[
+			height=1.3\linewidth,
+			width=0.8\linewidth,
+			scale only axis,
+			ymin = 0, ymax = 47,
+			ytick = {7.5, 23.5, 39.5},
+			yticklabels = {UPRF, gSIR, gSNR},
+			ytick style = {draw=none},
+			yticklabel style={
+				rotate=90,
+				anchor=south,
+				align=center,
+				%				text width=3em
+			},
+			%
+			xlabel={Output value ($\dB$)},
+			xmin=-1, xmax=33,
+			xtick={0, 5, ..., 30},
+			%
+			boxplot/draw direction = x,
+			%
+			legend style={
+				legend columns=2,
+				/tikz/every even column/.append style={column sep=1em}
+			},
+			legend cell align={left},
+			%
+			xmajorgrids,
+			grid style={line width=.1pt, draw=gray!15},
+			extra y ticks={2.5, 7.5, 12.5, 18.5, 23.5, 28.5, 34.5, 39.5, 44.5},
+			extra y tick labels={$80\dg$,$50\dg$,$20\dg$,$80\dg$,$50\dg$,$20\dg$,$80\dg$,$50\dg$,$20\dg$},
+			extra y tick style={
+				ticklabel pos=right,
+				yticklabel style={
+					rotate=0,
+					anchor=north,
+					align=center,
+					text width=3em,}
+			},
+			%			extra yticklabel style={rotate=90,
+				%				anchor=north,
+				%				align=center,
+				%				text width=3em,}
+			]
+			\addplot[forget plot, thin, dash pattern = {on 4pt off 2pt}] coordinates{(0,0) (0,47)};
+			%
+			%			
+			\addboxplot{14.92}{17.20}{19.21}{20.87}{22.64}[draw position=1][styleE]         % UPRF LCMP wMSC 80
+			\addboxplot{14.83}{16.54}{18.57}{20.59}{22.83}[draw position=2][styleC]         % UPRF LCMP MSC 80
+			\addboxplot{18.74}{19.40}{21.20}{25.04}{27.66}[draw position=3][styleB]         % UPRF MVDR NCM 80
+			\addboxplot{20.73}{22.15}{26.52}{29.79}{32.22}[draw position=4][styleA]         % UPRF LCMV NCM 80
+			%
+			\addboxplot{13.87}{16.14}{18.62}{20.05}{21.61}[draw position=6][styleE]         % UPRF LCMP wMSC 50
+			\addboxplot{13.57}{15.98}{18.46}{20.28}{21.91}[draw position=7][styleC]         % UPRF LCMP MSC 50
+			\addboxplot{9.05}{11.40}{13.11}{14.56}{15.21}[draw position=8][styleB]          % UPRF MVDR NCM 50
+			\addboxplot{15.33}{17.12}{21.91}{24.96}{26.76}[draw position=9][styleA]         % UPRF LCMV NCM 50
+			%
+			\addboxplot{8.31}{11.21}{14.25}{17.04}{18.84}[draw position=11][styleE]         % UPRF LCMP wMSC 20
+			\addboxplot{10.61}{12.90}{14.78}{16.94}{18.82}[draw position=12][styleC]        % UPRF LCMP MSC 20
+			\addboxplot{2.53}{3.63}{5.66}{7.06}{8.04}[draw position=13][styleB]             % UPRF MVDR NCM 20
+			\addboxplot{3.71}{4.78}{8.87}{11.21}{13.80}[draw position=14][styleA]           % UPRF LCMV NCM 20
+			%
+			%
+			\addboxplot{8.07}{10.69}{12.38}{15.57}{18.19}[draw position=17][styleE]         % gSIR LCMP wMSC 80
+			\addboxplot{8.19}{10.64}{12.25}{14.57}{17.36}[draw position=18][styleC]         % gSIR LCMP MSC 80
+			\addboxplot{10.10}{12.43}{17.92}{21.07}{26.36}[draw position=19][styleB]        % gSIR MVDR NCM 80
+			\addboxplot{9.88}{12.74}{19.14}{21.84}{28.60}[draw position=20][styleA]         % gSIR LCMV NCM 80
+			%
+			\addboxplot{6.49}{9.21}{11.82}{15.03}{17.41}[draw position=22][styleE]          % gSIR LCMP wMSC 50
+			\addboxplot{6.34}{8.96}{11.61}{14.48}{17.00}[draw position=23][styleC]          % gSIR LCMP MSC 50
+			\addboxplot{8.88}{9.66}{11.94}{13.78}{14.99}[draw position=24][styleB]          % gSIR MVDR NCM 50
+			\addboxplot{8.82}{11.78}{14.88}{19.80}{25.80}[draw position=25][styleA]         % gSIR LCMV NCM 50
+			%
+			\addboxplot{2.95}{5.04}{7.77}{12.43}{16.32}[draw position=27][styleE]           % gSIR LCMP wMSC 20
+			\addboxplot{-0.05}{4.35}{7.79}{12.31}{15.72}[draw position=28][styleC]          % gSIR LCMP MSC 20
+			\addboxplot{3.57}{4.59}{5.06}{5.98}{6.79}[draw position=29][styleB]             % gSIR MVDR NCM 20
+			\addboxplot{4.66}{5.40}{7.75}{9.88}{13.27}[draw position=30][styleA]            % gSIR LCMV NCM 20
+			%
+			%
+			\addboxplot{5.43}{7.34}{8.53}{10.36}{12.75}[draw position=33][styleE]           % gSNR LCMP wMSC 80
+			\addboxplot{5.64}{7.32}{8.41}{10.28}{12.33}[draw position=34][styleC]           % gSNR LCMP MSC 80
+			\addboxplot{7.33}{9.03}{11.56}{13.33}{15.73}[draw position=35][styleB]          % gSNR MVDR NCM 80
+			\addboxplot{7.33}{9.20}{11.89}{13.81}{15.85}[draw position=36][styleA]          % gSNR LCMV NCM 80
+			%
+			\addboxplot{4.83}{6.79}{8.08}{9.78}{12.13}[draw position=38][styleE]            % gSNR LCMP wMSC 50
+			\addboxplot{4.91}{6.55}{8.01}{9.78}{11.98}[draw position=39][styleC]            % gSNR LCMP MSC 50
+			\addboxplot{7.08}{8.36}{10.06}{11.17}{12.62}[draw position=40][styleB]          % gSNR MVDR NCM 50
+			\addboxplot{6.62}{7.57}{9.97}{11.40}{12.61}[draw position=41][styleA]           % gSNR LCMV NCM 50
+			%
+			\addboxplot{1.14}{3.22}{4.80}{6.62}{9.53}[draw position=43][styleE]             % gSNR LCMP wMSC 20
+			\addboxplot{-0.48}{2.03}{4.49}{6.76}{9.52}[draw position=44][styleC]            % gSNR LCMP MSC 20
+			\addboxplot{4.36}{5.11}{5.68}{6.02}{6.30}[draw position=45][styleB]             % gSNR MVDR NCM 20
+			\addboxplot{2.08}{3.45}{4.68}{6.58}{7.37}[draw position=46][styleA]             % gSNR LCMV NCM 20
+		\end{boxplot}
+	\end{tikzpicture}
+	\vspace*{1em}
+	\ppref{BoxPlotGainSNR}
+	\caption{gSNR, gSIR, and UPRF (left $\y$-axis), for each beamformer, for each DoA angle (right $\y$-axis).}
+	\label{fig:sec4:boxplot_bf_metrics_per-dir}
+\end{figure}%

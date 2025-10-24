@@ -1,0 +1,23 @@
+\subsection{Active-inactive analysis}
+\label{app:appC:active-inactive_analysis}
+
+Let $n\opt$ be the number of zeroes forced (active constraints) on $\bvsi\opt*$. Since via \cref{thm:no-constraints_global_min_positive_values} only the negative entries of the global minimum may need constraints, the search for the constrained minimum can be done procedurally, increasing $n$ if no valid solutions were found with $n$ constraints. That is, we start by computing the global minimum ($n = 0$), and if it doesn't satisfy the condition $\bvsi \geq \bv0$, we incrementally add constraints until a solution is found. At each step, we test all combinations of constraining the entries relative to the negative ones of $\bvsi\opt$. 
+
+We call this process of testing which entries must be forced to zero -- equivalent to making the constraint active -- the active-inactive analysis of the constraints. This process is done systemically as follows:
+\begin{enumerate}
+	\item Compute the global minimum $\bvsi\opt$
+	\item Check if it fulfills the constraints
+	\item If it does, return $\bvsi\opt$
+	\item If it doesn't:
+	\begin{enumerate}
+		\item Set $n=1$ of the entries on $\bvsi\opt$ to $0$
+		\item Minimize w.r.t. the other variables
+		\item Verify the constraints
+		\item Repeat from (a) for each negative entry on $\bvsi\opt$
+		\item If none of the combinations respects $\bvsi\geq0$, restart from (a) with an incremented $n$
+		\item Calculate the cost for each combination
+		\item Return the combination with lowest cost
+	\end{enumerate}
+\end{enumerate}
+
+We do this search procedurally (incrementing $n$, instead of doing all combinations at once) given that some negative entries of $\bvsi\opt$ may not need constraining to achieve the desired minimum, and that extra unnecessary constraints will increase the cost function, leading to a false minimum within the feasible region.

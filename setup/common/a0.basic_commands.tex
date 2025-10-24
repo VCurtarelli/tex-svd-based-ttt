@@ -1,0 +1,97 @@
+%% Requires:
+% xparse
+% nicefrac
+% xcolor
+% derivative
+
+\NewDocumentCommand{\IfEmpty}{m m G{}}{\ifthenelse{\equal{#1}{}}{#2}{#3}}%
+\let\ABD\AtBeginDocument
+\let\nfrac\nicefrac
+\NewDocumentCommand{\MakeSymbol}{m m}{
+    \ABD{\DeclareDocumentCommand{#1}{}{#2}}
+}
+%% Formating
+\setlength{\parskip}{1em}
+% \setlength{\textheight}{26.0cm}
+\let\mbf\mathbf
+
+\makeatletter
+\definecolor{TodoBlue}{HTML}{50b0d0}
+\definecolor{TodoGreen}{HTML}{50d060}
+\definecolor{TodoOrange}{HTML}{d09030}
+\DeclareDocumentCommand{\@todo}{m O{TodoOrange}}{%
+	\noindent{\small\texttt{\textcolor{#2}{-TODO-:} [\\
+	\phantom{aaaa}\begin{minipage}[t]{0.8\linewidth}\noindent{\color{#2}#1}\end{minipage}\\
+	]}}\\%
+}
+\DeclareDocumentCommand{\todotext}{m}{%
+	\@todo{#1}[TodoBlue]
+}
+\DeclareDocumentCommand{\todosym}{m}{%
+	\@todo{#1}[TodoGreen]
+}
+\let\todo\@todo
+\makeatother
+\DeclareDocumentCommand{\tocite}{m m}{%
+	{\todo{\cite{#1} / #2}}%
+}
+
+
+\ABD{%
+	\def\checkmark{
+	\tikzsetnextfilename{checkmark}\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+	\NewDocumentCommand{\done}{s m}{%
+		\IfBooleanTF{#1}{
+			{\color{TodoBlue!30!white} \sout{#2}}%
+		}{%
+			{\color{TodoGreen!30!white}\checkmark \sout{#2}}%
+		}%
+	}
+}
+
+\NewDocumentCommand{\real}{m}{%
+    \re\cts{#1}%
+}
+\NewDocumentCommand{\imag}{m}{%
+    \im\cts{#1}%
+}
+
+\DeclareDocumentCommand{\re}{}{%
+    \symbb{R}%
+}
+\DeclareDocumentCommand{\im}{}{%
+    \symbb{I}%
+}
+
+\AtBeginDocument{%
+\DeclareDocumentCommand{\Re}{s m}{%
+	\IfBooleanTF{#1}{%
+		{#2}^{\re}%
+	}{%
+		#2^{\re}%
+	}%
+}
+\DeclareDocumentCommand{\Im}{s m}{%
+	\IfBooleanTF{#1}{%
+		{#2}^{\im}%
+	}{%
+		#2^{\im}%
+	}%
+}
+}
+
+\DeclareMathOperator{\Sign}{sgn}
+\NewDocumentCommand{\sgn}{m}{\Sign\pts{#1}}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareDocumentCommand{\ceil}{m}{%
+	\left\lceil #1 \right\rceil
+}
+\DeclareDocumentCommand{\floor}{m}{%
+	\left\lfloor #1 \right\rfloor
+}
+\DeclareDocumentCommand{\expec}{m}{%
+	\mathbb{E}\left\{#1\right\}
+}
+
+\DeclareDerivative{\npdv}{\partial}[style-var=multiple, style-var-/=multiple, style-var-!=mixed, style-var-/!=multiple, delims-eval=(), delims-eval-/=(), delims-eval-!=(),style-frac=\nfrac]

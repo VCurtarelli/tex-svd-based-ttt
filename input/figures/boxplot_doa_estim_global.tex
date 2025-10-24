@@ -1,0 +1,47 @@
+\begin{figure}[t]
+	\centering
+	\hspace*{-1em}
+	\tikzsetnextfilename{sec3-boxplot_doa_estim_global}
+	\begin{tikzpicture}
+		\begin{boxplot}[
+			ylabel={Angle error ($\dg$)},
+			xlabel={Undesired source's DoA ($\dg$)},
+			xtick = {2, 6, 10},
+			xmin = 0,
+			xmax = 12,
+			xticklabels={$20\dg$, $50\dg$, $80\dg$},
+			xticklabel style = {align=center, font=\small},
+			ymin=-18,
+			ymax=18,
+			ytick={-16, -8, ..., 16},
+			legend to name = {BoxPlotErrorDg},
+			legend style={
+				legend columns=3,
+				/tikz/every even column/.append style={column sep=1em}
+			},
+			legend cell align={left},]
+			\addboxplot{1.03}{2.23}{7.93}{8.45}{15.97}[draw position=1][styleA]
+			\addboxplot{-0.96}{-0.09}{2.50}{5.19}{7.87}[draw position=2][styleC]
+			\addboxplot{-1.21}{-0.10}{4.50}{7.74}{13.78}[draw position=3][styleE]
+			
+			\addboxplot{-3.47}{-2.71}{-0.49}{0.41}{3.69}[draw position=5][styleA]
+			\addboxplot{-7.22}{-4.97}{-2.78}{-0.85}{2.47}[draw position=6][styleC]
+			\addboxplot{-7.15}{-3.76}{-1.28}{0.99}{5.46}[draw position=7][styleE]
+			
+			\addboxplot{-5.64}{-5.34}{-2.82}{-1.35}{-0.19}[draw position=9][styleA]
+			\addboxplot{-12.56}{-10.26}{-8.14}{-5.61}{-4.19}[draw position=10][styleC]
+			\addboxplot{-12.66}{-9.91}{-7.89}{-4.96}{-3.46}[draw position=11][styleE]
+									
+			\addplot[styleA] coordinates{(0, -1)};
+			\addplot[styleC] coordinates{(0, -1)};
+			\addplot[styleE] coordinates{(0, -1)};
+			\addlegendentry{NCM};
+			\addlegendentry{MSC};
+			\addlegendentry{wMSC};
+		\end{boxplot}
+	\end{tikzpicture}
+	\tikzsetnextfilename{sec3-boxplot_doa_estim_global_legend}
+	\ppref{BoxPlotErrorDg}
+	\caption{Error plot for the prediction error results, for each undesired signal DoA.}
+	\label{fig:sec3:barplot_prediction_error}
+\end{figure}

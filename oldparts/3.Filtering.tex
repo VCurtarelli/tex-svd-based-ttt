@@ -1,0 +1,37 @@
+%\section{Filtering}
+%
+%Equipped with the information established previously (DoA for all sources of interest, and variances for all necessary CM's), we can find a linear filter $\bvh{}[l,k]$ and an estimate $z[l,k]$ such that
+%
+%\begin{equations}
+%	z[l,k] 
+%	& = \he{\bvh}[l,k] \bvy{}[l,k] \\
+%	& \approx x_1[l,k]
+%\end{equations}
+%
+%\subsection{Traditional filtering}
+%One of the most traditional approaches is to use the MVDR beamformer, which minimizes the noise $\bveta{}[l,k]$ in the output signal. This option is interesting since, from \cref{sec:cm_estimation} we ultimately get an estimate for the noise covariance matrix $\Corr{\bveta}$, and therefore we don't need to use the MPDR beamformer. With this, the MVDR beamformer is defined as
+%\begin{equation}
+%	\bvh{\mvdr} = \arg\min_{\bvh} \he{\bvh} \Corr{\bveta} \bvh ~\text{s.t.}~ \he{\bvh} \bva = 1
+%\end{equation}
+%and given by
+%\begin{equation}
+%	\bvh{\mvdr} = \frac{\inv{\Corr{\bveta}} \bva }{\he{\bva} \inv{\Corr{\bveta}} \bva}
+%\end{equation}
+%in which $\bva$ is the steering vector for the desired signal, and ensures a distortionless response for the desired direction of arrival.
+%
+%Another relevant approach is to use an LCMV beamformer, which along with the distortionless constraint, also allows for the cancellation of one (or more) undesired directions. For so, we define a matrix $\bvC$ which encapsulates all directional constraints, and in our case is a $\sz{M}{2}$ matrix given by
+%\begin{equation}
+%	\bvC = \tup{\bva, \bvb}
+%\end{equation}
+%with $\bvb$ being the undesired signal's estimate steering vector, being directed towards the estimated DoA $\bar{\Theta}$. The constraints equation is then given by
+%\begin{equation}
+%	\he{\bvh}\bvC = \tr{\bvi}
+%\end{equation}
+%with $\bvi = \tr{[1, 0]}$. The LCMV beamformer is defined similarly to the MVDR,
+%\begin{equation}
+%	\bvh{\lcmv} = \arg\min_{\bvh} \he{\bvh} \Corr{\bveta} \bvh ~\text{s.t.}~ \he{\bvh} \bvC = \tr{\bvi}
+%\end{equation}
+%with solution
+%\begin{equation}
+%	\bvh{\lcmv} = \inv{\Corr{\bveta}} \bvC \inv*{\he{\bvC} \inv{\Corr{\bveta}} \bvC} \bvi
+%\end{equation}

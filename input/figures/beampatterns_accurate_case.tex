@@ -1,0 +1,39 @@
+%\pgfplotsset{
+	%    table/myStyleWithMeta/.style={    
+		%        meta=Label, 
+		%    }
+	%}
+\def\ymin{-40}
+\def\ymax{0}
+\def\meshcols{32}
+\def\meshrows{73}
+%\definecolor{LightA}{HTML}{991F3D}
+%\definecolor{LightC}{HTML}{997A1F}
+%\definecolor{LightE}{HTML}{3D991F}
+%\definecolor{LightB}{HTML}{1F997A}
+%\definecolor{LightD}{HTML}{1F3D99}
+%\definecolor{LightF}{HTML}{7A1F99}
+%\definecolor{LightG}{HTML}{3F3F3F}
+
+%\pgfplotsset{
+	%    table/myStyleWithMeta/.style={    
+		%        meta=Label, 
+		%    }
+	%}
+\pgfplotsset{compat=1.17}
+\begin{figure}[!t]
+	\centering
+	{\footnotesize
+		\heatmapfig[0.8\linewidth][beamHmA][\meshcols][\meshrows]{figures/results/6x2 150ms 2cm acc/bp_id__mvdr_n.csv}{Oracle-NCM $\bvh{\mvdr}$}{beam_heatmap_mvdr_id_acc}
+		\\
+		\heatmapfig[0.8\linewidth][beamHmB][\meshcols][\meshrows]{figures/results/6x2 150ms 2cm acc/bp_es__mvdr_n.csv}{$\bvh{\mvdr}$}{beam_heatmap_mvdr_acc}
+		\\
+		\heatmapfig[0.8\linewidth][beamHmC][\meshcols][\meshrows]{figures/results/6x2 150ms 2cm acc/bp_es__lcmv_m.csv}{$\bvh{\mvdr}$}{beam_heatmap_lcmv_acc}
+		\\
+		\heatmapfig[0.8\linewidth][beamHmD][\meshcols][\meshrows]{figures/results/6x2 150ms 2cm acc/bp_es__rcmg_m.csv}{$\bvh{\mvdr}$}{beam_heatmap_rcmg_acc}
+	}
+	%\tikzsetnextfilename{beam_heatmap_colormap}
+	\ppref{beamHmD}
+	\caption{Beampatterns for the accurate case.}
+	\label{fig:beam_heatmap_case_acc}
+\end{figure}

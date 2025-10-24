@@ -1,0 +1,40 @@
+\subsection{Proofs and Theorems}
+\label{app:appB:proofs}
+We let $E(\bvs) = \norm{\bvJ{i} \bvs - \bvt{\obs}}^2$, $\bvJ{i} = \bvU \bvSi \bvV[T]$ be the SVD of $\bvJ{i}$, and $\pinv*{\cdot}$ denote the Moore-Penrose pseudo-inverse.
+
+\begin{theorem}{The p-inverse solution has zero gradient.}[\label{thm:p-inverse_zero-gradient}]
+	Given a solution $\bvs = \pinv{\bvJ{i}} \bvt{\obs}$, then the gradient of $E(\bvs)$ for this solution will be
+	\begin{equation}
+		\begin{split}
+			\nabla E(\bvs{i+1})
+			& = 2\pts{\bvJ[T]{i} \bvJ{i} \pinv{\bvJ{i}} \bvt{\obs} - \bvJ[T]{i} \bvt{\obs}} \\
+			& = 2\pts{\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV \pinv{\bvSi} \bvU[T] \bvt{\obs} - \bvV \bvSi[T] \bvU[T] \bvt{\obs}} \\
+			& = 2\pts{\bvV \bvSi[T] \bvSi \pinv{\bvSi} \bvU[T] \bvt{\obs} - \bvV \bvSi[T] \bvU[T] \bvt{\obs}} \\
+			& = 2\pts{\bvV \bvSi[T] \bts{\Id{M;R} - \Id{M}} \bvU[T] \bvt{\obs}}
+		\end{split}
+	\end{equation}
+	where $\Id{M;R} \in \re^{\sz{M}{M}}$ is a diagonal matrix with the first $R$ entries being $1$, and the remaining $M-R$ ones being $0$; $\Id{M} \in \re^{\sz{M}{M}}$ is the identity matrix; and $R = \rank{\bvJ{i}}$.
+	
+	From this, $\Id{M;R} - \Id{M}$ has its first $R$ diagonal entries $0$, and the last ones $-1$. Since all rows of $\bvSi[T]$ are in the null space of $\Id{M;R} - \Id{M}$ (only the first $R$ entries of any row of $\bvSi[T]$ are non-zero, exactly where $\Id{M;R} - \Id{M}$ is zero), then $\bvSi[T]\bts{\Id{M;R} - \Id{M}} = \bv0$. Therefore,
+	\begin{equation}
+		\begin{split}
+			\nabla E(\pinv{\bvJ{i}} \bvt{\obs})
+			& = 2\pts{\bvV \,\bv0\, \bvU[T] \bvt{\obs}} \\
+			& = \bv0
+		\end{split}
+	\end{equation}
+\end{theorem}
+
+\begin{theorem}{The SVD truncated solution doesn't have zero gradient.}[\label{thm:svd-truncated_non-zero-gradient}]
+	Given $\bvSi[t]$ be a truncated $\bvSi$ with only $\tilde{R}$ non-zero diagonal entries, then a solution to the minimization of $E(\bvs)$ of the form $\bvs = \bvV \pinv{\bvSi[t]} \bvU[T] \bvt{\obs}$ will have a gradient
+	\begin{equation}
+		\begin{split}
+			\nabla E(\bvs{i+1})
+			& = 2\pts{\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV \pinv{\bvSi[t]} \bvU[T] - \bvV \bvSi[T] \bvU[T]} \bvt{\obs} \\
+			& = 2\pts{\bvV \bvSi[T] \bvSi \pinv{\bvSi[t]} \bvU[T] - \bvV \bvSi[T] \bvU[T]}\bvt{\obs} \\
+			& = 2\bvV \bvSi[T] \pts{\Id{M;\tilde{R}} - \Id{M}} \bvU[T] \bvt{\obs} \\
+			& = 2\pts{\sum_{i=\tilde{R}+1}^{R} \sigma_i \bvv{i} \bvu[T]{i}} \bvt{\obs}
+		\end{split}
+	\end{equation}
+	which isn't identically $\bv0$.
+\end{theorem}

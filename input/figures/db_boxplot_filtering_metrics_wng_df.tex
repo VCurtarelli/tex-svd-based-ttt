@@ -1,0 +1,50 @@
+\begin{figure}[t]
+	\centering
+	\begin{subfigure}{\linewidth}
+		\begin{tikzpicture}
+			\begin{boxplot}{WNG ($\dB$)}[
+				xticklabels = {},
+				ymin=-5, ymax=18, ytick={-4, 0, ..., 16}
+				]
+				\addboxplot{5.16}{5.84}{7.37}{8.69}{10.16}[draw position=1][ColB!90!black]  %MVDR NCM
+				\addboxplot{6.12}{7.14}{10.35}{12.41}{16.47}[draw position=2][ColA!90!black]  %LCMV NCM
+				\addboxplot{6.09}{7.46}{8.36}{9.73}{11.92}[draw position=3][ColC!90!black]  %LCMP MSC
+				\addboxplot{-2.64}{-1.22}{-0.01}{0.81}{1.53}[draw position=4][ColE!90!black]  %LCMP wMSC
+			\end{boxplot}
+		\end{tikzpicture}
+		\caption{White noise gain, for each beamformer.}
+		\label{subfig:sec4:boxplot_bf_metrics:wng}
+	\end{subfigure} \\
+	\vspace*{1em}
+	\begin{subfigure}{\linewidth}
+		\begin{tikzpicture}
+			\begin{boxplot}{DF ($\dB$)}[
+				xticklabels = {}, legend to name = {BoxPlotGainSNR},
+				xmin = 0, xmax=5,
+				legend style={
+					legend columns=2,
+					/tikz/every even column/.append style={column sep=1em}},
+				ymin=-5, ymax=16, ytick={-3, 0, ..., 15}]
+				\addboxplot{4.49}{4.88}{5.44}{6.12}{7.31}[draw position=1][ColB!90!black]  %MVDR NCM
+				\addboxplot{5.12}{6.09}{8.94}{10.27}{14.12}[draw position=2][ColA!90!black]  %LCMV NCM
+				\addboxplot{7.35}{8.18}{11.01}{11.90}{13.10}[draw position=3][ColC!90!black]  %LCMP MSC
+				\addboxplot{-3.77}{-2.67}{-1.80}{-1.21}{-0.57}[draw position=4][ColE!90!black]  %LCMP wMSC
+				
+				\addplot[ColB!90!black, only marks, mark=square*, thick] coordinates{(-1, 0)};
+				\addplot[ColA!90!black, only marks, mark=square*, thick] coordinates{(-1, 0)};
+				\addplot[ColC!90!black, only marks, mark=square*, thick] coordinates{(-1, 0)};
+				\addplot[ColE!90!black, only marks, mark=square*, thick] coordinates{(-1, 0)};
+				\addlegendentry{MVDR - NCM};
+				\addlegendentry{LCMV - NCM};
+				\addlegendentry{LCMP - MSC};
+				\addlegendentry{LCMP - wMSC};
+			\end{boxplot}
+		\end{tikzpicture}
+		\caption{Directivity factor, for each beamformer.}
+		\label{subfig:sec4:boxplot_bf_metrics:df}
+	\end{subfigure} \\
+	\vspace*{0.5em}
+	\ppref{BoxPlotGainSNR}
+	\caption{DF and WNG, for each beamformer.}
+	\label{fig:sec4:boxplot_bf_metrics}
+\end{figure}
