@@ -120,12 +120,16 @@ With this solution, the primary cost function $E(\bvs)$ is minimized globally (a
 
 An important remark is that $\bvV{2} \pinv*{\bvD \bvV{2}} \bvD$ can't be further simplified. By the p-inverse's properties, this would require $\bvV{2}$ to have linearly independent rows, which it can't given it is a tall matrix (either $N > N-R$, or $N > N-\tilde{R}$ for the truncated scenario). Another relevant attribute is that, if $\bvD$ is invertible, the solution for taking the gradient of $F(\bvG{i} \bvt{\obs},\bvmu)$ w.r.t. $\bvmu$, $\bvG{i}\bvt{\obs}$, or $\bvG{i}\bvt{\obs}+\bvV{2}\bvmu$, all result in \cref{eq:sec3:bvmu_solution}.
 
-\subsection{Spatial under- over-modeling}
+\subsection{Spatial under- and over-modeling}
 
 Previously on the proposed method, no mention on the dimensions of $\bvR{i}$ was given, or its impact on the minimization scheme. Given that $\bvR{i} \in \re^{\sz{M}{N}}$, with $\bvG{i}$ having the transposed dimentionality, the relationship of $M$ and $N$ (as well as with the rank $R$) can be impactful on the inverse map's behavior.
 
 As commented in \cref{subsec:sec2:ssf_estimation}, $M \geq N=R$ is sufficient to obtain the inverse map through a direct matrix inversion. For the proposed method, no such condition was imposed, but analyzing these conditions can bring some insight to the process. In particular, $M < N$ (labeled over-modeled scenario, where there are more variables than equations/information on the system) ensures that $R \leq M$ and therefore $N - R > 0$, guaranteeing the existance of a null-space for $\bvR{i}$, and securing the possibility of a secondary minimization on $\bvmu$.
 
 Assuming $R = M < N$, then $\bvU{2} = [\,]\SubSize{0}{M}$ is an empty vector, and therefore through \cref{eq:sec3:primary-cost_with_svd} we obtain $E(\bvs{i+1}) = \bv0$. This means that, if all measurements are linearly independent ($R = M$), it is possible to achieve zero error between measured and estimated travel times. On the contrary scenario ($R < M < N$), linearly dependent measurements can lead to a non-zero cost function due to value mismatches in the measurements (two measurements between the same source and receiver having different times, for example). This is also only valid for the non-truncated SVD case, as a truncation will incur in the presence of some residual error.
+
+Although practical from having few measurements and high resolution, over-modeling scenarios have to be carefully used. For under-modeled cases, $E(\bvz)$ represents the overdetermined system of equations' error residues, fitting a smaller model to a large number of measurements, and thus the solution will be the optimal model (up to traversing the null-space). For over-modeled cases, $E(\bvz)$ is merely an assessment of the measurements linearly dependence, and the mismatch in them. Achieving zero error isn't necessarily a desirable scenario, as it may represent overfitting of the model to the observed travel times. On the forward problem (used for iterating $\bvR{i}$), this can cause $\bvR{i+1} = \bvR{i}$ without guarantee of achieving a meaningful slowness field.
+
+In this sense, the SVD truncation step or the addition of a regularizing term (as in \cref{eq:sec2:bvs_i+1_regularized-form}) both act to counterbalance and reduce overfitting, as they create some error in the primary cost function, leaving space for the iterative Eikonal optimization to find more suitable curves.
 
 

@@ -45,7 +45,7 @@ and the $(i+1)$-th iteration of $\bvR$ is obtained by solving the Eikonal equati
 
 One extra component that is usually added is a regularization step, turning \cref{eq:sec2:bvs_i+1_basic-form} into
 \begin{equation}
-	\bvs{i+1} = \argmin_{\bvs} E'(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2 + \alpha^2 \norm{\bvD \bvs}^2
+	\bvs{i+1} = \argmin_{\bvs} \bar{E}(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2 + \alpha^2 \norm{\bvD \bvs}^2
 	\label{eq:sec2:bvs_i+1_regularized-form}
 \end{equation}
 in which $\bvD \in \re^{\sz{N}{N}}$ is a regularizing matrix, and $\alpha$ a regularization parameter. The proper choice of $\bvD$ ensures a well-posed problem, improving some quality or metric in the obtained solution $\bvs{i+1}$ at the cost of some error in the modeled travel times. 
@@ -55,9 +55,9 @@ The solution to the minimization problem is given by an inverse map function $\b
 	\bvs{i+1} = \bvG{i} \bvt{\obs}
 \end{equation}
 
-In order to achieve $\bvs{i+1}$, the gradient of $E'(\bvs)$ is taken,
+In order to achieve $\bvs{i+1}$, the gradient of $\bar{E}(\bvs)$ is taken,
 \begin{equation}
-	\nabla E'(\bvs) = 2\bvR[T]{i} \pts{\bvR{i} \bvs - \bvt{\obs}} + 2\alpha^2 \bvD[T] \bvD \bvs
+	\nabla \bar{E}(\bvs) = 2\bvR[T]{i} \pts{\bvR{i} \bvs - \bvt{\obs}} + 2\alpha^2 \bvD[T] \bvD \bvs
 \end{equation}
 which, when set to $\bv0$, leads to
 \begin{equation}
