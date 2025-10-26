@@ -2,3 +2,9 @@ v1.0.251024
 	Started writing paper.
 	Up to Section 3, writing Section 3.E.
 	Missing Section 4, Section 5, Abstract, Title, and Keywords.
+v1.0.251025
+	Improved Abstract.
+	Added references throughout the text.
+	Many changes and improvements throughout the text.
+	Added 3.F Theoretical Comparison.
+	Added Theorem 3.

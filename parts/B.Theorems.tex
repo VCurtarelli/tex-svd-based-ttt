@@ -1,24 +1,24 @@
 \subsection{Proofs and Theorems}
 \label{app:appB:proofs}
-We let $E(\bvs) = \norm{\bvJ{i} \bvs - \bvt{\obs}}^2$, $\bvJ{i} = \bvU \bvSi \bvV[T]$ be the SVD of $\bvJ{i}$, and $\pinv*{\cdot}$ denote the Moore-Penrose pseudo-inverse.
+We let $E(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2$, $\bvR{i} = \bvU \bvSi \bvV[T]$ be the SVD of $\bvR{i}$, and $\pinv*{\cdot}$ denote the Moore-Penrose pseudo-inverse. We also remark that $\rank{\bvR{i}} = R$.
 
 \begin{theorem}{The p-inverse solution has zero gradient.}[\label{thm:p-inverse_zero-gradient}]
-	Given a solution $\bvs = \pinv{\bvJ{i}} \bvt{\obs}$, then the gradient of $E(\bvs)$ for this solution will be
+	Given a solution $\bvs = \pinv{\bvR{i}} \bvt{\obs}$, then the gradient of $E(\bvs)$ for this solution will be
 	\begin{equation}
 		\begin{split}
 			\nabla E(\bvs{i+1})
-			& = 2\pts{\bvJ[T]{i} \bvJ{i} \pinv{\bvJ{i}} \bvt{\obs} - \bvJ[T]{i} \bvt{\obs}} \\
+			& = 2\pts{\bvR[T]{i} \bvR{i} \pinv{\bvR{i}} \bvt{\obs} - \bvR[T]{i} \bvt{\obs}} \\
 			& = 2\pts{\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV \pinv{\bvSi} \bvU[T] \bvt{\obs} - \bvV \bvSi[T] \bvU[T] \bvt{\obs}} \\
 			& = 2\pts{\bvV \bvSi[T] \bvSi \pinv{\bvSi} \bvU[T] \bvt{\obs} - \bvV \bvSi[T] \bvU[T] \bvt{\obs}} \\
 			& = 2\pts{\bvV \bvSi[T] \bts{\Id{M;R} - \Id{M}} \bvU[T] \bvt{\obs}}
 		\end{split}
 	\end{equation}
-	where $\Id{M;R} \in \re^{\sz{M}{M}}$ is a diagonal matrix with the first $R$ entries being $1$, and the remaining $M-R$ ones being $0$; $\Id{M} \in \re^{\sz{M}{M}}$ is the identity matrix; and $R = \rank{\bvJ{i}}$.
+	where $\Id{M;R} \in \re^{\sz{M}{M}}$ is a diagonal matrix with the first $R$ entries being $1$, and the remaining $M-R$ ones being $0$; and $\Id{M} \in \re^{\sz{M}{M}}$ is the identity matrix.
 	
 	From this, $\Id{M;R} - \Id{M}$ has its first $R$ diagonal entries $0$, and the last ones $-1$. Since all rows of $\bvSi[T]$ are in the null space of $\Id{M;R} - \Id{M}$ (only the first $R$ entries of any row of $\bvSi[T]$ are non-zero, exactly where $\Id{M;R} - \Id{M}$ is zero), then $\bvSi[T]\bts{\Id{M;R} - \Id{M}} = \bv0$. Therefore,
 	\begin{equation}
 		\begin{split}
-			\nabla E(\pinv{\bvJ{i}} \bvt{\obs})
+			\nabla E(\pinv{\bvR{i}} \bvt{\obs})
 			& = 2\pts{\bvV \,\bv0\, \bvU[T] \bvt{\obs}} \\
 			& = \bv0
 		\end{split}
@@ -37,4 +37,16 @@ We let $E(\bvs) = \norm{\bvJ{i} \bvs - \bvt{\obs}}^2$, $\bvJ{i} = \bvU \bvSi \bv
 		\end{split}
 	\end{equation}
 	which isn't identically $\bv0$.
+\end{theorem}
+
+\begin{theorem}{Difference in gradient for null-space exploiting truncated scenario.}[\label{thm:diff_gradient_null-space-exploiting_truncated}]
+	We let $\bvV[t]{2}$ be the last $\tilde{R}$ columns of $\bvV$. With this,
+	\begin{align*}
+		& \nabla E(\bvG{i} \bvt{\obs} + \bvV{2} \bvmu) \\
+		& = 2\bvR[T] \pts{\bvR \bvG{i} \bvt{\obs} + 2\bvR \bvV[t]{2} \bvmu - \bvt{\obs}} \\
+		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvR[T] \bvR \bvV[t]{2} \bvmu \\
+		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV[t]{2} \bvmu \\
+		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvV \bvSi[T] \bvSi \bvV[T] \bvV[t]{2} \bvmu \\
+		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\pts{\sum_{j=\tilde{R}+1}^{R} \lambda_j^2 \mu_{j-\tilde{R}} \bvv{j}}
+\end{align*}
 \end{theorem}

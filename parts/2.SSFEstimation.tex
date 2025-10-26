@@ -20,7 +20,7 @@ where $r_{m;n}$ is the length of the $m$-th ray within the $n$-th cell, $s_n$ is
 \begin{equation}
 	t_m(\bvs) = \bvr[T]{m}(\bvs) \bvs
 \end{equation}
-in which $\bvr{m}(\bvs) \in \re^{\sz{N}{1}}$ corresponds to the lengths in each cell of the $m$-th ray (this being usually a sparse vector), and $\bvs \in \re^{\sz{N}{1}}$ represents the modeled slowness in each cell. We explicit the dependency of $\bvr{m}(\bvs)$ on $\bvs$ since the ray bending effects on the $m$-th ray's path will depend on the slowness field, following Fermat's principle and Snell's law.
+in which $\bvr{m}(\bvs) \in \re^{\sz{N}{1}}$ corresponds to the lengths in each cell of the $m$-th ray (this being usually a sparse vector), $\bvs \in \re^{\sz{N}{1}}$ represents the modeled slowness in each cell, and $\tr{\pts{\cdot}}$ stands for the transpose operator. We explicit the dependency of $\bvr{m}(\bvs)$ on $\bvs$ since the ray bending effects on the $m$-th ray's path will depend on the slowness field, following Fermat's principle and Snell's law.
 
 We now let $\bvt(\bvs) \in \re^{\sz{M}{1}}$ as a vector of travel-times for the current model, for all $M$ considered rays; and $\bvR(\bvs) \in \re^{\sz{M}{N}}$ is a vertical stacking of all $\bvr[T]{m}(\bvs)$. With this, we achieve that
 \begin{equation}
@@ -62,8 +62,10 @@ In order to achieve $\bvs{i+1}$, the gradient of $\bar{E}(\bvs)$ is taken,
 which, when set to $\bv0$, leads to
 \begin{equation}
 	\bvG{i} = \inv*{\bvR[T]{i} \bvR{i} + \alpha^2 \bvD[T] \bvD} \bvR[T]{i}
+	\label{eq:sec2:minim_solution_literature}
 \end{equation}
 
 This requires the inversibility of $\bvR[T]{i} \bvR{i} + \alpha^2 \bvD[T] \bvD$. Given the construction of the problem, either $\bvR{i}$ has to be full-rank with $M \geq N$, or $\bvD$ has to be full-rank, for this inverse to be possible. When these conditions aren't met, non-inverting schemes have to be used, such as the popularly employed conjugate gradient method \cite{ali_opensource_2019,hormati_robust_2010,zhang_nonlinear_1998,tang_travel_2024}.
 
-As explained, the regularizing matrix $\bvD$ (and $\alpha$) have to be appropriately chosen to improve some desired metric. For example, choosing $\bvD = \bvI{N}$ (the $\sz{N}{N}$ identity) results in the minimization weighting in the mean-squared value of the slowness vector \cite{phillips_traveltime_1991}; this is equivalent to considering the presence of white noise in the measurements, and trading model accurateness for noise rejection \cite{beamforming-maxwng}. Alternatively, $\bvD$ can be chosen to (discretely) approximate the Laplacian of the underlying continous slowness field \cite{ali_opensource_2019,zhang_nonlinear_1998}, resulting in a minimization that penalizes the Laplacian of the achieved slowness field; that is, minimizes the SSF's curvature, searching for a smoother field.
+As explained, the regularizing matrix $\bvD$ (and $\alpha$) have to be appropriately chosen to improve some desired metric. For example, choosing $\bvD = \bvI{N}$ (the $\sz{N}{N}$ identity) results in the minimization weighting in the mean-squared value of the slowness vector \cite{phillips_traveltime_1991}; this is equivalent to considering the presence of white noise in the measurements, and trading model accurateness for noise rejection \cite{pan_beamforming_2015}. Alternatively, $\bvD$ can be chosen to (discretely) approximate the Laplacian of the underlying continous slowness field \cite{ali_opensource_2019,zhang_nonlinear_1998}, leading to a minimization that penalizes the SSF's curvature, resulting in a smoother field.
+% pan_beamforming_2015 - Theoretical Analysis of Differential Microphone Array Beamforming and an Improved Solution, by C. Pan et. al.
