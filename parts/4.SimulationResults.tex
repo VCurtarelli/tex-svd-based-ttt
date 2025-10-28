@@ -5,9 +5,32 @@ In this section, we detail the considerations taken for the exhibited methods, p
 
 \subsection{Environment conditions}
 
+We assume that the environment is discretized into 2D cells along the width ($\x$-axis) and depth ($\z$-axis), with $N = N_{\x} \times N_{\z}$. This enables an easier visualization and faster computational complexity, without oversimplifying the presented conditions. We also consider the speed profile to be modeled as
+\begin{equation}
+	c(x,z) = 1500 + \Delta c_{\x}(x) + \Delta c_{\z}(z)
+\end{equation}
+where $c(x,z)$ is presented in \cref{fig:ssf}, and the variations along width and depth are as shown in \cref{figs:ssf_profiles}.
+
 \subsection{Regularization matrix}
 
+As discussed, a choice of regularization matrix will control which metric will be adjointed to the primary objective of SSF estimation. We chose a discrete Laplacian approach, improving smoothness in the outcome. We assume that $\bvs$ is constructed by vectorizing a $\bvS \in \re^{\sz{N_{\z}}{N_{\x}}}$ matrix, where each entry is its corresponding cell's slowness. Then, $\bvD$ for this discrete Laplacian regularization can be written in block form
+\begin{equation}
+	\bvD = ...
+\end{equation}
+where $\bvB,\bvB' \in \re^{\sz{N_{\x}}{N_{\x}}}$ are block matrices, given respectively by
+\begin{subequations}
+	\begin{gather}
+		\bvB = ...\\
+		\bvB' = ...
+	\end{gather}
+\end{subequations}
+
+We can also define $\bvD$ as having ones on its first super- and sub-diagonals, as well as on its $N_{\x}$-th super- and sub-diagonals; and its main diagonal is such that the sum of any row (or column) is $0$. This is to ensure that no cell on the environment's boundary is over-represented in the discrete Laplacian.
 \subsection{Eikonal solving}
+
+Although the literature usually employs graph-based Eikonal solving algorithms, such as FMM \cite{chopp_improvements_2001,sethian_fast_1999} and FSM \cite{tang_travel_2024}, here we chose to use a ray-tracing method based on Snell's law.
+
+At the boundary between cells, the SSF's gradient is estimated through a bicubic interpolation of the discrete estimation points (assumed to be at the center of each cell). This gradient is then considered to be the interface-between-media boundary's normal vector. The velocity for each medium is calculated along this normal vector. This scheme allows for a more physical-aware modeling, as well as easily estimating the path taken between any two points, not only between cells. It also permits the inclusion of reflection effects in the model, along with the refractions modeled by Snell's law.
 
 \subsection{Results}
 

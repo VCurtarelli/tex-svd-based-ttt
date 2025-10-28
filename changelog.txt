@@ -8,3 +8,6 @@ v1.0.251025
 	Many changes and improvements throughout the text.
 	Added 3.F Theoretical Comparison.
 	Added Theorem 3.
+v1.0.251027
+	Small text changes.
+	Start 4.A Environment Conditions, 4.B Regularization matrix, and 4.C Eikonal solving.

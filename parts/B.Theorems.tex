@@ -10,7 +10,7 @@ We let $E(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2$, $\bvR{i} = \bvU \bvSi \bv
 			& = 2\pts{\bvR[T]{i} \bvR{i} \pinv{\bvR{i}} \bvt{\obs} - \bvR[T]{i} \bvt{\obs}} \\
 			& = 2\pts{\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV \pinv{\bvSi} \bvU[T] \bvt{\obs} - \bvV \bvSi[T] \bvU[T] \bvt{\obs}} \\
 			& = 2\pts{\bvV \bvSi[T] \bvSi \pinv{\bvSi} \bvU[T] \bvt{\obs} - \bvV \bvSi[T] \bvU[T] \bvt{\obs}} \\
-			& = 2\pts{\bvV \bvSi[T] \bts{\Id{M;R} - \Id{M}} \bvU[T] \bvt{\obs}}
+			& = 2\pts{\bvV \bvSi[T] \bts{\Id{M;R} - \Id{M}} \bvU[T] \bvt{\obs}},
 		\end{split}
 	\end{equation}
 	where $\Id{M;R} \in \re^{\sz{M}{M}}$ is a diagonal matrix with the first $R$ entries being $1$, and the remaining $M-R$ ones being $0$; and $\Id{M} \in \re^{\sz{M}{M}}$ is the identity matrix.
@@ -20,7 +20,7 @@ We let $E(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2$, $\bvR{i} = \bvU \bvSi \bv
 		\begin{split}
 			\nabla E(\pinv{\bvR{i}} \bvt{\obs})
 			& = 2\pts{\bvV \,\bv0\, \bvU[T] \bvt{\obs}} \\
-			& = \bv0
+			& = \bv0.
 		\end{split}
 	\end{equation}
 \end{theorem}
@@ -33,7 +33,7 @@ We let $E(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2$, $\bvR{i} = \bvU \bvSi \bv
 			& = 2\pts{\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV \pinv{\bvSi[t]} \bvU[T] - \bvV \bvSi[T] \bvU[T]} \bvt{\obs} \\
 			& = 2\pts{\bvV \bvSi[T] \bvSi \pinv{\bvSi[t]} \bvU[T] - \bvV \bvSi[T] \bvU[T]}\bvt{\obs} \\
 			& = 2\bvV \bvSi[T] \pts{\Id{M;\tilde{R}} - \Id{M}} \bvU[T] \bvt{\obs} \\
-			& = 2\pts{\sum_{i=\tilde{R}+1}^{R} \sigma_i \bvv{i} \bvu[T]{i}} \bvt{\obs}
+			& = 2\pts{\sum_{i=\tilde{R}+1}^{R} \sigma_i \bvv{i} \bvu[T]{i}} \bvt{\obs},
 		\end{split}
 	\end{equation}
 	which isn't identically $\bv0$.
@@ -47,6 +47,6 @@ We let $E(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2$, $\bvR{i} = \bvU \bvSi \bv
 		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvR[T] \bvR \bvV[t]{2} \bvmu \\
 		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV[t]{2} \bvmu \\
 		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvV \bvSi[T] \bvSi \bvV[T] \bvV[t]{2} \bvmu \\
-		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\pts{\sum_{j=\tilde{R}+1}^{R} \lambda_j^2 \mu_{j-\tilde{R}} \bvv{j}}
+		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\pts{\sum_{j=\tilde{R}+1}^{R} \lambda_j^2 \mu_{j-\tilde{R}} \bvv{j}}.
 \end{align*}
 \end{theorem}
