@@ -1,36 +1,73 @@
 \section{Simulation and Results}
 \label{sec:simulation_and_results}
+\def\sympath{h2212}
+\input{figures/data/\sympath/params.tex}
 
-In this section, we detail the considerations taken for the exhibited methods, present the environment and practical conditions assumed, as well as the results and their following discussions.
+To compare in practice the techniques developed throughout the text, simulated environments were created, in which these techniques were employed. Namely, we will compare the literature standard technique from \cref{eq:sec2:minim_solution_literature} with the proposed method as obtained in \cref{eq:sec3:minim_solution_proposed}. In this section, we present the environment and practical conditions assumed, detail the considerations taken for the exhibited techniques, as well as other underlying necessary parameters, methods and metrics; and finally, we bring forth the results, and their following discussions.
 
 \subsection{Environment conditions}
 
-We assume that the environment is discretized into 2D cells along the width ($\x$-axis) and depth ($\z$-axis), with $N = N_{\x} \times N_{\z}$. This enables an easier visualization and faster computational complexity, without oversimplifying the presented conditions. We also consider the speed profile to be modeled as
+We assume that the environment is discretized into 2D cells along the width ($\x$-axis) and depth ($\z$-axis), with $N = N_{\x} \cdot N_{\z}$. This enables an easier visualization and faster computational complexity, without oversimplifying the presented conditions. For the simulations, we take $N_{\x} = \pyNx$, $N_{\z} = \pyNz$, and $N = \pyN$.
+
+We also consider the sound speed field to be modeled as
 \begin{equation}
 	c(x,z) = 1500 + \Delta c_{\x}(x) + \Delta c_{\z}(z)
 \end{equation}
-where $c(x,z)$ is presented in \cref{fig:ssf}, and the variations along width and depth are as shown in \cref{figs:ssf_profiles}.
+where $c(x,z)$ is presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}, and the variations along width and depth are as shown in \cref{subfig:sec4:discretized_ssf_with_profiles:fig2,subfig:sec4:discretized_ssf_with_profiles:fig3}. Here, $\Delta$ merely symbolizes a variation. \Cref{subfig:sec4:discretized_ssf_with_profiles:fig1} also shows the chosen positions for the sources (in blue with $\bigcirc$, along the floor) and receivers (in red with $\times$, along the surface). This device positioning aligns with the practical underlying motivation, where ocean bottom nodes (OBNs) \cite{obns} are proposed to be used both as receivers for sub-surface imaging, and sources for the above-ground oceanic environment modeling; the later being necessary for a faithful reconstruction of the subterranean structures \cite{?}.
+
+\input{figures/4.discretized_ssf_with_profiles.tex}
+
+%\input{figures/4.device_positioning.tex}
+
+Although the model variable $\bvs$ represents the environment's slowness, the figures and discussions will be with respect to the sound speed. Given their inverse relationship, this choice doesn't implicate in any information loss, only helping the visualization and presentability.
+
+Given the amount of rays (\#receivers $\times$ \#source) and cells, this scenario is under the spatial over-modeling condition, as in \cref{subsec:spatial_under-over-_modeling}. Therefore, all simulations and analysis has to be done under the optics of its considerations.
+
+The \texttt{EikonalFM} Python package \cite{ganster_eikonalfm_2025} was used, which implements the FMM \cite{sethian_fast_1999,chopp_improvements_2001} for solving the first arrival-times along the grid points. This aligns with the standard approach taken by the literature for estimating $\bvJ{i}$ at each iteration, given the slowness field $\bvs{i}$.
 
 \subsection{Regularization matrix}
 
-As discussed, a choice of regularization matrix will control which metric will be adjointed to the primary objective of SSF estimation. We chose a discrete Laplacian approach, improving smoothness in the outcome. We assume that $\bvs$ is constructed by vectorizing a $\bvS \in \re^{\sz{N_{\z}}{N_{\x}}}$ matrix, where each entry is its corresponding cell's slowness. Then, $\bvD$ for this discrete Laplacian regularization can be written in block form
+As discussed, a choice of regularization matrix will control which metric will be adjointed to the primary objective of SSF estimation. We chose a discrete Laplacian approach, improving smoothness in the outcome. We assume that $\bvs$ is constructed by vectorizing a $\bvS \in \re^{\sz{N_{\z}}{N_{\x}}}$ matrix, where each entry is its corresponding cell's slowness. More precisely, the relationship between elements of $\bvs$ and of $\bvS$ is
 \begin{equation}
-	\bvD = ...
+	\el{\bv{S}}[j,k] = \el{\bvs}[N_{\x}j+k],
 \end{equation}
-where $\bvB,\bvB' \in \re^{\sz{N_{\x}}{N_{\x}}}$ are block matrices, given respectively by
+with $0 \leq j < N_{\z}$, and $0 \leq k < N_{\x}$. With this, $\bvD$ for this discrete Laplacian regularization can be written in block form
+\begin{equation}
+	\bvD = \begin{bmatrix}
+		\bvQ' & \Id{N_{\x}} & \bv0  & \cdots & \bv0\\
+		\Id{N_{\x}} & \bvQ & \Id{N_{\x}} & \cdots & \bv0\\
+		\bv0 & \Id{N_{\x}} & \bvQ & \cdots & \bv0\\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		\bv0 & \bv0 & \bv0 & \cdots & \bvQ'
+	\end{bmatrix}
+\end{equation}
+where $\bvQ,\bvQ' \in \re^{\sz{N_{\x}}{N_{\x}}}$ are block matrices, given by
 \begin{subequations}
 	\begin{gather}
-		\bvB = ...\\
-		\bvB' = ...
+		\bvQ' = \begin{bmatrix}
+			-2 & 1 & 0 & \cdots & 0 & 0 \\
+			1 & -3 & 1 & \cdots & 0 & 0 \\
+			0 & 1 & -3 & \cdots & 0 & 0 \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+			0 & 0 & 0 & \cdots & -3 & 1 \\
+			0 & 0 & 0 & \cdots & 1  & -2
+		\end{bmatrix}
+	\end{gather}
+	\begin{gather}
+		\bvQ = \bvQ' - \Id{N_{\x}}
 	\end{gather}
 \end{subequations}
 
-We can also define $\bvD$ as having ones on its first super- and sub-diagonals, as well as on its $N_{\x}$-th super- and sub-diagonals; and its main diagonal is such that the sum of any row (or column) is $0$. This is to ensure that no cell on the environment's boundary is over-represented in the discrete Laplacian.
-\subsection{Eikonal solving}
+Alternatively, $\bvD$ is defined as having ones on hits first super-, first sub-, $N_{\x}$-th super, and $N_{\x}$-th sub-diagonals; and its main diagonal is such that any row (or column) sum is $0$. This ensures that cells on the boundary -- cells with 3 or less neighbors -- aren't over-represented in the discrete Laplacian.
 
-Although the literature usually employs graph-based Eikonal solving algorithms, such as FMM \cite{chopp_improvements_2001,sethian_fast_1999} and FSM \cite{tang_travel_2024}, here we chose to use a ray-tracing method based on Snell's law.
+\subsection{Metrics and evaluation}
 
-At the boundary between cells, the SSF's gradient is estimated through a bicubic interpolation of the discrete estimation points (assumed to be at the center of each cell). This gradient is then considered to be the interface-between-media boundary's normal vector. The velocity for each medium is calculated along this normal vector. This scheme allows for a more physical-aware modeling, as well as easily estimating the path taken between any two points, not only between cells. It also permits the inclusion of reflection effects in the model, along with the refractions modeled by Snell's law.
+The first metric reflects the primary optimization function, this being defined by $E(\bvs{i})$ as in \cref{eq:sec2:def_optimization_and_cost-function}. We will also use the root mean squared (RMS) error between the true velocity field $\bvc{\true}$ and the estimated one $\bvc = \nfrac{1}{\bvs}$,
+\begin{equation}
+	\mse(\bvs) = \frac{1}{N} \norm{\bvc{\true} - \frac{1}{\bvs}}
+\end{equation}
+
+$E(\bvs)$ reflects the model estimation of the cost function used, while $\mse(\bvs)$ represents the underlying objective of estimating the original SSF, as presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}. %One last metric of interest is the mean of the Laplacian squared, this being a measure of the roughness \cite{phillips_traveltime_1991} of the estimated field.
 
 \subsection{Results}
 

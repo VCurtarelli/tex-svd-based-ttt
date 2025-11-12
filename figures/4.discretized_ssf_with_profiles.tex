@@ -1,0 +1,70 @@
+\begin{figure}[!htbp]
+	\centering
+	%	\tiny
+	\begin{minipage}[c]{0.95\linewidth}
+		\centering
+		\begin{subfigure}{\linewidth}
+			\centering
+			\begin{tikzpicture}
+				\begin{heatmap}{\ncols}[colorbar to name={velocityHeatmap}][fill opacity=0.8]
+					\addplot3[surf, mesh/cols={\ncols}, mesh/rows={\nrows}, opacity=0.8] table[x=x, y=y, z=val, col sep=comma] {figures/data/\sympath/observed.csv};
+					\addplot[only marks, mark=x, white, line width=2.8pt, mark size=0.5em+0.8pt] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_receivers.csv};
+					\addplot[only marks, mark=o, white, line width=2.8pt, mark size=0.4em] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_sources.csv};
+					\addplot[only marks, mark=x, red!50!black, very thick, mark size=0.5em] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_receivers.csv};
+					\addplot[only marks, mark=o, blue!50!black, very thick, mark size=0.4em] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_sources.csv};
+				\end{heatmap}
+			\end{tikzpicture}
+			\caption{Discretized sound speed field with device positions. Sources in blue with $\bigcirc$, receivers in red with $\times$.}
+			\label{subfig:sec4:discretized_ssf_with_profiles:fig1}
+		\end{subfigure}
+		
+		\vspace*{0.5em}
+		\ref*{velocityHeatmap}
+	\end{minipage}
+	\\[1.5em]
+	\begin{minipage}[c]{0.47\linewidth}
+		\begin{subfigure}{\linewidth}
+			\begin{tikzpicture}
+				\begin{lineplot}{Width ($\si{\kilo\meter}$)}{$\Delta c_{\x}$ ($\si{\meter/\second}$)}{0}{5000}[xtick={0, 1000, ..., 5000}, xticklabels={0, 1, ..., 5}]
+					\addplot[samples=100, domain=0:5000] {10*(2*x/5000-1)};
+				\end{lineplot}
+			\end{tikzpicture}
+			\vspace*{-0.5em}
+			\caption{Speed variation along the width.}
+			\label{subfig:sec4:discretized_ssf_with_profiles:fig2}
+		\end{subfigure}
+	\end{minipage} \hfill
+	\begin{minipage}[c]{0.47\linewidth}
+		\begin{subfigure}{\linewidth}
+			\begin{tikzpicture}
+				\begin{lineplot}{Depth ($\si{\kilo\meter}$)}{$\Delta c_{\z}$ ($\si{\meter/\second}$)}{0}{5000}[xtick={0, 1000, ..., 5000}, xticklabels={0, 1, ..., 5}]
+					\addplot[samples=100, domain=0:5000] {100*(1 - (exp((0.748*(5000-x)/5000)^2) - 0.748*(5000-x)/5000 - 0.773)/0.225)};
+				\end{lineplot}
+			\end{tikzpicture}
+			\vspace*{-0.5em}
+			\caption{Speed variation along the depth.}
+			\label{subfig:sec4:discretized_ssf_with_profiles:fig3}
+		\end{subfigure}
+	\end{minipage}
+	\caption{Discretized SSF, with horizontal and vertical profiles for speed variations.}
+	\label{fig:sec4:discretized_ssf_with_profiles}
+%	
+%	\bigskip
+%	\begin{subfigure}{0.95\linewidth}
+%		\centering
+%		\begin{tikzpicture}
+%			\begin{heatmap}{\ncols}[colorbar to name={velocityHeatmapOpacity}][fill opacity=0.2]
+%				\addplot3[surf, mesh/cols={\ncols}, mesh/rows={\nrows}, opacity=0.2] table[x=x, y=y, z=val, col sep=comma] {figures/data/h2835/observed.csv};
+%				\addplot[only marks, mark=x, white, line width=2.4pt, mark size=0.5em+0.6pt] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_receivers.csv};
+%				\addplot[only marks, mark=o, white, line width=2.4pt, mark size=0.4em] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_sources.csv};
+%				\addplot[only marks, mark=x, red!50!black, very thick, mark size=0.5em] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_receivers.csv};
+%				\addplot[only marks, mark=o, blue!50!black, very thick, mark size=0.4em] table [x=x_pos, y=y_pos, col sep=comma] {figures/data/\sympath/pos_sources.csv};
+%			\end{heatmap}
+%		\end{tikzpicture}
+%		
+%		\vspace*{.5em}
+%		\ref*{velocityHeatmapOpacity}
+%	\end{subfigure}
+%	\caption{Device positioning within the environment. Sources in blue with $\bigcirc$, receivers in red with $\times$.}
+%	\label{fig:sec4:device_positioning}
+\end{figure}

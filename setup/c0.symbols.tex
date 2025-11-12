@@ -15,18 +15,12 @@
 \MakeSymbol{\+}{{}^{+}}
 \MakeSymbol{\-}{{}^{-}}
 \MakeSymbol{\Agemo}{\text{\rotatebox[origin=c]{180}{\ensuremath{\Omega}}}}
-\NewDocumentCommand{\srf}{m}{%
-	\xi_{#1}
-}
-\MakeSymbol{\tD}{\tilde{D}}
-\MakeSymbol{\dsrf}{\text{DSRF}}
-\MakeSymbol{\uprf}{\text{UPRF}}
-\MakeSymbol{\nsrf}{\srf{\eta}}
-\MakeSymbol{\gsnr}{\text{gSNR}}
-\MakeSymbol{\gsir}{\text{gSIR}}
-\MakeSymbol{\df}{\text{DF}}
-\MakeSymbol{\wng}{\text{WNG}}
+
 \DeclareMathOperator{\obs}{o}
+\DeclareMathOperator{\source}{s}
+\DeclareMathOperator{\receiver}{r}
+\DeclareMathOperator{\true}{true}
+\DeclareMathOperator{\mse}{MSE}
 \makeatletter
 % BEGIN_FOLD
 \NewDocumentCommand{\@OneIdx}{m m O{;} m}{% Name | Optional | Name

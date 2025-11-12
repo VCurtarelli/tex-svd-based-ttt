@@ -44,12 +44,12 @@ It is easy to prove that $\nabla E(\bvs{i+1}) = \bv0$ when using the p-inverse (
 \subsection{SVD truncation}
 \label{subsec:sec3:svd_truncation}
 
-In general, the smaller a singular value $\lambda_n$ is, the lessened its impact will be on the reconstruction of $\bvR{i}$, and thus in the minimization problem. However, its impact on the estimation of $\bvs{i+1}$ will be increased by the p-inverse, over-representing the corresponding bases, and possibly leading to overfitting \cite{vallet_solving_1989,nittscher_svd-dip_2023}.
+In general, the smaller a singular value $\lambda_n$ is, the lessened its impact will be on the reconstruction of $\bvR{i}$, and thus in the minimization problem. However, its impact on the estimation of $\bvs{i+1}$ will be increased by the p-inverse, over-representing the corresponding bases, and possibly leading to overfitting \cite{vallet_solving_1989,nittscher_svddip_2023}.
 % vallet_solving_1989 - Solving the problem of overfitting of the pseudo-inverse solution for classification learning, by F. Vallet et. al.
 % nittscher_svd-dip_2023 - SVD-DIP: Overcoming the Overfitting Problem in DIP-based CT Reconstruction, by M. Nittscher et. al., DOI https://doi.org/10.48550/arXiv.2303.15748
 % kim_regularization_2025 - Regularization of document-term matrices using singular value decomposition, by B. Kim, DOI https://doi.org/10.48009/4_iis_2025_104
 
-This effect can be attenuated by setting an arbitrary number of the smallest diagonal entries of $\bvSi$ to $0$. This procedure reduces the effective condition number (largest-to- smallest-non-zero singular value ratio), improving stability in the inversion problem; and increases its practical null-space, which will be followingly exploited. In contrast, using this truncation introduces some minimization error, with the minimum found not having truly zero gradient.
+This effect can be attenuated by setting an arbitrary number of the smallest diagonal entries of $\bvSi$ to $0$ \cite{song_singular_1999}. This procedure reduces the effective condition number (largest-to- smallest-non-zero singular value ratio), improving stability in the inversion problem; and increases its practical null-space, which will be followingly exploited. In contrast, using this truncation introduces some minimization error, with the minimum found not having truly zero gradient.
 
 We denote $\bvSi[t]$ as a truncated $\bvSi$, with only its first $\tilde{R}$ diagonal entries being non-zero. Trivially, $\tilde{R} \leq R$ for this to be meaningful. Given this approximation, we define $\bvR[t]{i} = \bvU \bvSi[t] \bvV[T]$, and the inverse map function can be approximated as
 \begin{equation}
@@ -138,6 +138,7 @@ With this solution, the primary cost function $E(\bvs)$ is minimized globally (a
 An important remark is that $\bvV{2} \pinv*{\bvD \bvV{2}} \bvD$ can't be further simplified. By the p-inverse's properties, this would require $\bvV{2}$ to have linearly independent rows, which it can't given it is a tall matrix (either $N > N-R$, or $N > N-\tilde{R}$ for the truncated scenario). %Another relevant attribute is that, if $\bvD$ is invertible, the solution for taking the gradient of $F(\bvG{i} \bvt{\obs},\bvmu)$ w.r.t. $\bvmu$, $\bvG{i}\bvt{\obs}$, or $\bvG{i}\bvt{\obs}+\bvV{2}\bvmu$, all result in \cref{eq:sec3:bvmu_solution}.
 
 \subsection{Spatial under- and over-modeling}
+\label{subsec:spatial_under-over-_modeling}
 
 Through the proposed method derivations, no mention was given on the dimensions of $\bvR{i}$, or its impact on the minimization scheme. Since $\bvR{i} \in \re^{\sz{M}{N}}$, with $\bvG{i}$ having the transposed dimentionality, the relationship between $M$ and $N$ (as well as with the rank $R$) can be impactful on the inverse map's behavior.
 

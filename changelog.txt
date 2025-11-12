@@ -11,3 +11,6 @@ v1.0.251025
 v1.0.251027
 	Small text changes.
 	Start 4.A Environment Conditions, 4.B Regularization matrix, and 4.C Eikonal solving.
+v1.0.251112
+	Changes in text.
+	Started adding results.
