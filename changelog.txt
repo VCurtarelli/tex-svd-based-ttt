@@ -14,3 +14,5 @@ v1.0.251027
 v1.0.251112
 	Changes in text.
 	Started adding results.
+v1.0.251126
+	Changes in references.
