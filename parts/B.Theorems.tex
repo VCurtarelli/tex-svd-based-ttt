@@ -26,27 +26,27 @@ We let $E(\bvs) = \norm{\bvR{i} \bvs - \bvt{\obs}}^2$, $\bvR{i} = \bvU \bvSi \bv
 \end{theorem}
 
 \begin{theorem}{The SVD truncated solution doesn't have zero gradient.}[\label{thm:svd-truncated_non-zero-gradient}]
-	Given $\bvSi[t]$ be a truncated $\bvSi$ with only $\tilde{R}$ non-zero diagonal entries, then a solution to the minimization of $E(\bvs)$ of the form $\bvs = \bvV \pinv{\bvSi[t]} \bvU[T] \bvt{\obs}$ will have a gradient
+	Given $\bvSi[t]$ be a truncated $\bvSi$ with only $K$ non-zero diagonal entries, then a solution to the minimization of $E(\bvs)$ of the form $\bvs = \bvV \pinv{\bvSi[t]} \bvU[T] \bvt{\obs}$ will have a gradient
 	\begin{equation}
 		\begin{split}
 			\nabla E(\bvs{i+1})
 			& = 2\pts{\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV \pinv{\bvSi[t]} \bvU[T] - \bvV \bvSi[T] \bvU[T]} \bvt{\obs} \\
 			& = 2\pts{\bvV \bvSi[T] \bvSi \pinv{\bvSi[t]} \bvU[T] - \bvV \bvSi[T] \bvU[T]}\bvt{\obs} \\
-			& = 2\bvV \bvSi[T] \pts{\Id{M;\tilde{R}} - \Id{M}} \bvU[T] \bvt{\obs} \\
-			& = 2\pts{\sum_{i=\tilde{R}+1}^{R} \sigma_i \bvv{i} \bvu[T]{i}} \bvt{\obs},
+			& = 2\bvV \bvSi[T] \pts{\Id{M;K} - \Id{M}} \bvU[T] \bvt{\obs} \\
+			& = 2\pts{\sum_{i=K+1}^{R} \sigma_i \bvv{i} \bvu[T]{i}} \bvt{\obs},
 		\end{split}
 	\end{equation}
 	which isn't identically $\bv0$.
 \end{theorem}
 
 \begin{theorem}{Difference in gradient for null-space exploiting truncated scenario.}[\label{thm:diff_gradient_null-space-exploiting_truncated}]
-	We let $\bvV[t]{2}$ be the last $\tilde{R}$ columns of $\bvV$. With this,
+	We let $\bvV[t]{2}$ be the last $K$ columns of $\bvV$. With this,
 	\begin{align*}
 		& \nabla E(\bvG{i} \bvt{\obs} + \bvV{2} \bvmu) \\
 		& = 2\bvR[T] \pts{\bvR \bvG{i} \bvt{\obs} + 2\bvR \bvV[t]{2} \bvmu - \bvt{\obs}} \\
 		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvR[T] \bvR \bvV[t]{2} \bvmu \\
 		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvV \bvSi[T] \bvU[T] \bvU \bvSi \bvV[T] \bvV[t]{2} \bvmu \\
 		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\bvV \bvSi[T] \bvSi \bvV[T] \bvV[t]{2} \bvmu \\
-		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\pts{\sum_{j=\tilde{R}+1}^{R} \lambda_j^2 \mu_{j-\tilde{R}} \bvv{j}}.
+		& = \nabla E(\bvG{i} \bvt{\obs}) + 2\pts{\sum_{j=K+1}^{R} \lambda_j^2 \mu_{j-K} \bvv{j}}.
 \end{align*}
 \end{theorem}

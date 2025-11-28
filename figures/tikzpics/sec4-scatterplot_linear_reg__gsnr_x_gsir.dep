@@ -1,8 +1,0 @@
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__lcmv_ncm.csv
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__mvdr_ncm.csv
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__lcmp_msc.csv
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__lcmp_wmsc.csv
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__lcmv_ncm.csv
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__mvdr_ncm.csv
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__lcmp_msc.csv
-figures/tikzpics/sec4-scatterplot_linear_reg__gsnr_x_gsir.pdf: input/data/scatter_gsnr_x_gsir__lcmp_wmsc.csv

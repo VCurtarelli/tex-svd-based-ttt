@@ -16,3 +16,7 @@ v1.0.251112
 	Started adding results.
 v1.0.251126
 	Changes in references.
+v1.0.251128
+    File clean-up.
+    Added new results and subsequent discussion.
+    Some changes to text and variables.

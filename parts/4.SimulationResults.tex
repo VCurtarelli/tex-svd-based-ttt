@@ -1,29 +1,9 @@
 \section{Simulation and Results}
 \label{sec:simulation_and_results}
-\def\sympath{h2212}
+\def\sympath{h386f}
 \input{figures/data/\sympath/params.tex}
 
 To compare in practice the techniques developed throughout the text, simulated environments were created, in which these techniques were employed. Namely, we will compare the literature standard technique from \cref{eq:sec2:minim_solution_literature} with the proposed method as obtained in \cref{eq:sec3:minim_solution_proposed}. In this section, we present the environment and practical conditions assumed, detail the considerations taken for the exhibited techniques, as well as other underlying necessary parameters, methods and metrics; and finally, we bring forth the results, and their following discussions.
-
-\subsection{Environment conditions}
-
-We assume that the environment is discretized into 2D cells along the width ($\x$-axis) and depth ($\z$-axis), with $N = N_{\x} \cdot N_{\z}$. This enables an easier visualization and faster computational complexity, without oversimplifying the presented conditions. For the simulations, we take $N_{\x} = \pyNx$, $N_{\z} = \pyNz$, and $N = \pyN$.
-
-We also consider the sound speed field to be modeled as
-\begin{equation}
-	c(x,z) = 1500 + \Delta c_{\x}(x) + \Delta c_{\z}(z)
-\end{equation}
-where $c(x,z)$ is presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}, and the variations along width and depth are as shown in \cref{subfig:sec4:discretized_ssf_with_profiles:fig2,subfig:sec4:discretized_ssf_with_profiles:fig3}. Here, $\Delta$ merely symbolizes a variation. \Cref{subfig:sec4:discretized_ssf_with_profiles:fig1} also shows the chosen positions for the sources (in blue with $\bigcirc$, along the floor) and receivers (in red with $\times$, along the surface). This device positioning aligns with the practical underlying motivation, where ocean bottom nodes (OBNs) \cite{obns} are proposed to be used both as receivers for sub-surface imaging, and sources for the above-ground oceanic environment modeling; the later being necessary for a faithful reconstruction of the subterranean structures \cite{?}.
-
-\input{figures/4.discretized_ssf_with_profiles.tex}
-
-%\input{figures/4.device_positioning.tex}
-
-Although the model variable $\bvs$ represents the environment's slowness, the figures and discussions will be with respect to the sound speed. Given their inverse relationship, this choice doesn't implicate in any information loss, only helping the visualization and presentability.
-
-Given the amount of rays (\#receivers $\times$ \#source) and cells, this scenario is under the spatial over-modeling condition, as in \cref{subsec:spatial_under-over-_modeling}. Therefore, all simulations and analysis has to be done under the optics of its considerations.
-
-The \texttt{EikonalFM} Python package \cite{ganster_eikonalfm_2025} was used, which implements the FMM \cite{sethian_fast_1999,chopp_improvements_2001} for solving the first arrival-times along the grid points. This aligns with the standard approach taken by the literature for estimating $\bvJ{i}$ at each iteration, given the slowness field $\bvs{i}$.
 
 \subsection{Regularization matrix}
 
@@ -58,17 +38,58 @@ where $\bvQ,\bvQ' \in \re^{\sz{N_{\x}}{N_{\x}}}$ are block matrices, given by
 	\end{gather}
 \end{subequations}
 
-Alternatively, $\bvD$ is defined as having ones on hits first super-, first sub-, $N_{\x}$-th super, and $N_{\x}$-th sub-diagonals; and its main diagonal is such that any row (or column) sum is $0$. This ensures that cells on the boundary -- cells with 3 or less neighbors -- aren't over-represented in the discrete Laplacian.
+Alternatively, $\bvD$ is defined as having ones on hits first {super-,} first sub-, $N_{\x}$-th super, and $N_{\x}$-th sub-diagonals; and its main diagonal is such that any row (or column) sum is $0$. This ensures that cells on the boundary -- cells with 3 or less neighbors -- aren't over-represented in the discrete Laplacian.
 
 \subsection{Metrics and evaluation}
 
-The first metric reflects the primary optimization function, this being defined by $E(\bvs{i})$ as in \cref{eq:sec2:def_optimization_and_cost-function}. We will also use the root mean squared (RMS) error between the true velocity field $\bvc{\true}$ and the estimated one $\bvc = \nfrac{1}{\bvs}$,
+The first metric reflects the travel-time error for true and estimated SSFs. We denote $\rmse_{t}(\bvs)$ the travel-time root mean-squared error (RMS error, or RMSE) between the true and estimated travel-times, given by
+\begin{equations}
+    \rmse_{t}(\bvs)
+    & = \frac{1}{M}\Sqrt{E(\bvs)} \\
+    & = \frac{1}{M}\Sqrt{\norm{\bvR{\est} \bvs{\est} - \bvt{\true}}^2}
+\end{equations}
+with $E(\bvs)$ being the primary optimization function as defined in \cref{eq:sec2:def_optimization_and_cost-function}. This allows us to compare the estimated models to the observed result through the objective metric that is being optimized.
+
+We will also use the RMS error between the true velocity field $\bvc{\true}$ and the estimated one $\bvc = \nfrac{1}{\bvs}$,
 \begin{equation}
-	\mse(\bvs) = \frac{1}{N} \norm{\bvc{\true} - \frac{1}{\bvs}}
+	\rmse_{\ssf}(\bvs) = \frac{1}{M} \norm{\bvc{\true} - \bvc{\est}}
 \end{equation}
 
-$E(\bvs)$ reflects the model estimation of the cost function used, while $\mse(\bvs)$ represents the underlying objective of estimating the original SSF, as presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}. %One last metric of interest is the mean of the Laplacian squared, this being a measure of the roughness \cite{phillips_traveltime_1991} of the estimated field.
+\subsection{Environment conditions}
 
-\subsection{Results}
+We assume that the environment is discretized into 2D cells along the depth ($\z$-axis) and offset ($\x$-axis), with $N = N_{\x} \cdot N_{\z}$. For the simulations, we take $N_{\x} = 10$ and $N_{\z} = 30$.
 
-\subsection{Discussion}
+We also consider the sound speed field to be modeled as
+\begin{equation}
+	c(x,z) = c_{\munk}(z) + \Delta c_{\x}(x)
+\end{equation}
+where $c(x,z)$ is presented in \cref{fig:sec4:discretized_ssf_true}, $c_{\munk}(z)$ is built based on the Munk profile \cite{munk}, and $\Delta c_{\x}(x)$ is a small variation along the $\x$-axis, with $\Delta$ merely symbolizing a variation. \Cref{fig:sec4:discretized_ssf_true} also shows the chosen positions for the $16$ devices (operating both as sources and receivers) for both considered distributions: (a) with devices in two layers along the surface and ocean floor (marked with red $\times$); and (b) with devices along the environment's perimeter (marked with yellow $\bigcirc$). With this, travel-time measurements were taken between every pair of devices, totaling $120$ observations.
+
+\input{figures/4.discretized_ssf_with_profiles.tex}
+
+%\input{figures/4.device_positioning.tex}
+
+Although the model variable $\bvs$ represents the environment's slowness, the figures and discussions will be with respect to the sound speed. Given their inverse relationship, this choice doesn't implicate in any information loss, only helping with visualization and presentability.
+
+Given the amount of rays (\#receivers $\times$ \#source) and cells, this scenario is under the spatial over-modeling condition, as in \cref{subsec:spatial_under-over-_modeling}, with all simulations and analysis done under this consideration's optics.
+
+The \texttt{EikonalFM} Python package \cite{ganster_eikonalfm_2025} was used, which implements the FMM \cite{sethian_fast_1999,chopp_improvements_2001} for solving the first arrival-times along the grid points. This aligns with the standard approach taken by the literature for estimating $\bvR{i}$ at each iteration, given the slowness field $\bvs{i}$.
+
+Two methods will be compared: the one based on known formulations, called the literature approach, as written in \cref{eq:sec2:minim_solution_literature}; and the one through the presented novel derivations, denoted the proposed method, as defined via \cref{eq:sec3:Gi_truncated} (or \cref{eq:sec3:Gi_proposed}) and \cref{eq:sec3:minim_solution_proposed}. On the following, subscript $\est$ denotes the estimation for the variable (through any of the techniques), and $\true$ the true variables as defined to the problem. For the proposed technique, only the first $K=30$ singular values were maintained, with the remaining $90$ being zeroed. For the literature approach, $\alpha = 2$, and the matrices $\bvR$ and $\bvD$ were normalized (given that the entries of $\bvR$ are $\sim100\times$ larger than the entries of $\bvD$).
+
+\input{figures/4.tt_ssf_rms_errors}
+
+\subsection{Results and discussion}
+
+The results for the chosen metrics are presented in \cref{fig:sec4:tt_ssf_rms_errors}, for both techniques and scenarios. In terms of travel-time, all scenarios' performances achieve errors of below $20\si{\micro\second}$. Meanwhile, the SSF estimation error contrast between the two scenarios is noticeable: while using devices around the perimeter results in errors of below $2\si{\meter/\second}$, devices on two layers (surface + floor) lead to much bigger errors, of around $5.5\si{\meter/\second}$.
+
+Although the horizontal scenario had smaller $\rmse_{t}$ errors (this being the metric for the primary objective in TTT, minimizing the travel-time errors), its performance in approximating the sound speed field --- the technique's implicit objective --- was sub-par; indicative of over-fitting to the explicit metric. This is linked to the lack of travel-direction variability: since most rays travel in a similar direction, without crossing or traversing a common cell, the ill-posed problem degenerates to many quasi-identity smaller problems. This solution independence between the smaller problems simultaneously leads to the reduced travel-time error, and to the greater SSF estimation error.
+
+\input{figures/data/\sympath/params_comp.tex}
+
+To expand on the results presented in \cref{fig:sec4:tt_ssf_rms_errors:subfig2}, in \cref{fig:sec4:estimated_ssfs} we present the absolute difference between the true (\cref{fig:sec4:discretized_ssf_true}) and estimated (for each method and device distribution) SSFs, after $50$ iterations. These results align with the previously discussion: while in the perimeter situations the error is mostly distributed, almost behaving like a smoothed random noise; and it is very concentrated in two regions for the two device layers (horizontal) consideration.
+
+\input{figures/4.estimated_ssfs}
+
+\todotext{Improve discussion and results. Add more results?}
+
