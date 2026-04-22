@@ -1,76 +1,101 @@
 \section{Simulation and Results}
 \label{sec:simulation_and_results}
-\def\sympathlayer{test-bas-vs-svd-layer-260422-13h24m19s}
-\def\sympathsurround{test-bas-vs-svd-surround-260422-13h35m50s}
+\def\sympathlayer{optimal-bas-vs-svd-layer-260422-16h48m27s}
+\def\sympathsurround{optimal-bas-vs-svd-surround-260422-16h50m25s}
 \def\sympath{\sympathlayer}
 \input{figures/data/\sympath/params.tex}
 
-To compare in practice the two techniques presented, simulated SSFs were created, in which these techniques were employed for the inversion step of estimating the SSF. Namely, we will compare the literature standard technique from \cref{eq:sec2:minim_solution_literature}, with the proposed method as obtained in \cref{eq:sec3:minim_solution_proposed}. In this section, we present the environment and practical conditions assumed, detail the considerations taken for the exhibited techniques, as well as other underlying necessary parameters, methods, and metrics; and finally, we bring forth the results, and their following discussions.
+To compare in practice the two techniques presented, simulated SSFs were created, in which these techniques were employed for the inversion step of estimating the SSF. Namely, we will compare the literature standard technique from \cref{eq:sec2:minim_solution_literature} (named TTT), with the proposed method as obtained in \cref{eq:sec3:minim_solution_proposed} (named SVD). In this section, we present the environment and practical conditions assumed, detail the considerations taken for the exhibited techniques, as well as other underlying necessary parameters, methods, and metrics; and finally, we bring forth the results, and their following discussions.
 
 \subsection{Environment conditions}
 
 We assume that the environment is discretized into 2D cells along the width ($\x$-axis) and depth ($\z$-axis), with $N = N_{\x} \cdot N_{\z}$. This enables an easier visualization and faster computational complexity, without oversimplifying the presented conditions. For the simulations, we take $N_{\x} = \pyNx$, $N_{\z} = \pyNz$, and $N = \pyN$.
 
-We also consider the sound speed field to follow the formula derived by \citeauthor{delgrosso_new_1974}, with empirical functions for the temperature and salinity following the thermocline and halocline \cite{janecki_new_2022}. The considered SSF is presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}, with its profiles --- each 1D slice for a fixed $\x$-axis offset --- in \cref{subfig:sec4:discretized_ssf_with_profiles:fig2}.
+We also consider the sound speed field to follow the formula derived by \citeauthor{delgrosso_new_1974} \cite{delgrosso_new_1974}, with empirical functions for the temperature and salinity following the thermocline and halocline \cite{janecki_new_2022}. The considered SSF is presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}, with its profiles --- each 1D slice for a fixed $\x$-axis offset --- in \cref{subfig:sec4:discretized_ssf_with_profiles:fig2}.
 
-Along with the SSF, we also consider two distributions of devices, presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig3,subfig:sec4:discretized_ssf_with_profiles:fig4}: in the first case, the sources are along the bottom and right-side, with receivers along the surface and left-side; and in the second case, the sources are strictly along the bottom, and receivers only on the surface. In both cases and figures, the sources are represented by blue circles, and receivers by red exes.
+Along with the SSF, we also consider two distributions of devices, presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig3,subfig:sec4:discretized_ssf_with_profiles:fig4}: in the first case, the sources are along the bottom and right-side, with receivers along the surface and left-side (which will be called the ``surround'' scenario); and in the second case, the sources are strictly along the bottom, and receivers only on the surface (called the ``layered'' scenario). In both cases and figures, the sources are represented by blue circles, and receivers by red exes. We assume that all devices are at the centered of their respective cells, for simplicity.
 
-% \Cref{subfig:sec4:discretized_ssf_with_profiles:fig1} also shows the chosen positions for the sources (in blue with $\bigcirc$, along the floor) and receivers (in red with $\times$, along the surface). This device positioning aligns with the practical underlying motivation, where ocean bottom nodes (OBNs) \cite{obns} are proposed to be used both as receivers for sub-surface imaging, and sources for the above-ground oceanic environment modeling; the later being necessary for a faithful reconstruction of the subterranean structures \cite{?}.
+The surround scenario more closely aligns with conditions commonly found in the literature \cite{ali_opensource_2019,holstein_acoustic_2004,hormati_robust_2010,jeong_investigating_2024}, specially considering the biomedical applications for this technique. It will also work as a benchmark for the performance of the two presented methods. Meanwhile, the layered scenario aligns with the practical underlying motivation, where ocean bottom nodes (OBNs) \cite{obns} --- commonly used as receivers for oceanic underground imaging --- are repurposed as sources for oceanic above-ground environment modeling, and remotely operated vehicles traversing in the surface are used as receivers. This oceanic water SSF reconstruction is necessary for a faithful imaging of the underground structures \cite{??}.
 
 \input{figures/4.discretized_ssf_with_profiles.tex}
 
-%\input{figures/4.device_positioning.tex}
+%Although the model variable $\bvs$ represents the environment's sound slowness, the figures and discussions will be with respect to the sound speed. Given their inverse relationship, this choice doesn't implicate in any information loss, only helping the visualization and presentability.
 
-%Although the model variable $\bvs$ represents the environment's slowness, the figures and discussions will be with respect to the sound speed. Given their inverse relationship, this choice doesn't implicate in any information loss, only helping the visualization and presentability.
-%
-%%Given the amount of rays (\#receivers $\times$ \#source) and cells, this scenario is under the spatial over-modeling condition, as in \cref{subsec:spatial_under-over-_modeling}. Therefore, all simulations and analysis has to be done under the optics of its considerations.
-%
-%The \texttt{EikonalFM} Python package \cite{ganster_eikonalfm_2025} was used, which implements the FMM \cite{sethian_fast_1999,chopp_improvements_2001} for solving the first arrival-times along the grid points. This aligns with the standard approach taken by the literature for estimating $\bvJ{i}$ at each iteration, given the slowness field $\bvs{i}$.
-%
-%\subsection{Regularization matrix}
-%
-%As discussed, a choice of regularization matrix will control which metric will be adjointed to the primary objective of SSF estimation. We chose a discrete Laplacian approach, improving smoothness in the outcome. We assume that $\bvs$ is constructed by vectorizing a $\bvS \in \re^{\sz{N_{\z}}{N_{\x}}}$ matrix, where each entry is its corresponding cell's slowness. More precisely, the relationship between elements of $\bvs$ and of $\bvS$ is
+For the forward problem (of estimating $\bvR{i}$ given $\bvs{i}$), the \texttt{EikonalFM} Python package \cite{ganster_eikonalfm_2025} will be used, implementing the FMM \cite{sethian_fast_1999} for solving the first arrival-times along the grid points. This aligns with the standard approach taken by the literature.
+
+\subsection{Regularization matrix}
+
+As discussed, a choice of regularization matrix will control which metric will be adjointed to the primary objective of SSF estimation. We chose a discrete Laplacian approach, improving smoothness in the outcome. We assume that $\bvs$ is constructed by vectorizing a $\bvS \in \re^{\sz{N_{\z}}{N_{\x}}}$ matrix, where each entry is its corresponding cell's slowness. More precisely, the relationship between elements of $\bvs$ and of $\bvS$ is
+\begin{equation}
+	\el{\bv{S}}[j,k] = \el{\bvs}[N_{\x}j+k],
+\end{equation}
+with $0 \leq j < N_{\z}$, and $0 \leq k < N_{\x}$. With this, $\bvD$ for this discrete Laplacian regularization can be written in block form, with $N_{\z}$ blocks vertically and horizontally,
+\begin{equation}
+	\bvD = \begin{bmatrix}
+		\bvQ' & \Id{N_{\x}} & \bv0  & \cdots & \bv0\\
+		\Id{N_{\x}} & \bvQ & \Id{N_{\x}} & \cdots & \bv0\\
+		\bv0 & \Id{N_{\x}} & \bvQ & \cdots & \bv0\\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		\bv0 & \bv0 & \bv0 & \cdots & \bvQ'
+	\end{bmatrix}
+\end{equation}
+where $\bvQ,\bvQ' \in \re^{\sz{N_{\x}}{N_{\x}}}$ are block matrices, given by
+\begin{subequations}
+	\begin{gather}
+		\bvQ' = \begin{bmatrix}
+			-2 & 1 & 0 & \cdots & 0 & 0 \\
+			1 & -3 & 1 & \cdots & 0 & 0 \\
+			0 & 1 & -3 & \cdots & 0 & 0 \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+			0 & 0 & 0 & \cdots & -3 & 1 \\
+			0 & 0 & 0 & \cdots & 1  & -2
+		\end{bmatrix}
+	\end{gather}
+	\begin{gather}
+		\bvQ = \bvQ' - \Id{N_{\x}}
+	\end{gather}
+\end{subequations}
+
+\subsection{Metrics and evaluation}
+
+The first metric reflects the primary optimization objective of minimizing the travel-time error, and is given by the root mean squared error (RMSE) of the cost function from \cref{eq:sec2:def_optimization_and_cost-function},
+\begin{equation}
+	\rmse_t(\bvs{\est}) = \Sqrt{\frac{1}{M} E(\bvs{\est})},
+\end{equation}
+with $\bvs{\est}$ being the estimated slowness field. We will also use the RMSE of the sound speed field, between the true $\bvc{\true}$ and the estimated $\bvc{\est}$ SSFs,
+\begin{equation}
+	\rmse_{\ssf}(\bvs{\est}) = \frac{1}{\Sqrt{N}} \norm{\bvc{\true} - \bvc{\est}},
+\end{equation}
+where $\bvc{\est} = \nfrac{1}{\bvs{\est}}$ (element-wise reciprocal).
+
+$\rmse_t(\bvs{\est})$ reflects the model estimation of the cost function used, while $\rmse_{\ssf}(\bvs)$ represents the underlying objective of estimating the original SSF, as presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}.
+%One last metric of interest is the RMS of the Laplacian squared, this being a measure of the roughness \cite{phillips_traveltime_1991} of the estimated field. The roughness is denoted by $\rho$, and given by the sum of the squared horizontal and vertical second differences of the SSF; algebraically given by
 %\begin{equation}
-%	\el{\bv{S}}[j,k] = \el{\bvs}[N_{\x}j+k],
+%	\begin{split}
+%		\rho
+%		& = \left[\frac{1}{\delta_{\z}^2} \sum_{k=0}^{N_{\x}-1} \sum_{j=2}^{N_{\z}-2} \pts{\el{\bvC}[j-1,k] - 2 \el{\bvC}[j,k] + \el{\bvC}[j+1,k]}^2\right. \\
+%		& + \left.\frac{1}{\delta_{\x}^2} \sum_{j=0}^{N_{\z}-1} \sum_{k=2}^{N_{\x}-2} \pts{\el{\bvC}[j,k-1] - 2 \el{\bvC}[j,k] + \el{\bvC}[j,k+1]}^2\right]^{\frac{1}{2}}
+%	\end{split}
 %\end{equation}
-%with $0 \leq j < N_{\z}$, and $0 \leq k < N_{\x}$. With this, $\bvD$ for this discrete Laplacian regularization can be written in block form
-%\begin{equation}
-%	\bvD = \begin{bmatrix}
-%		\bvQ' & \Id{N_{\x}} & \bv0  & \cdots & \bv0\\
-%		\Id{N_{\x}} & \bvQ & \Id{N_{\x}} & \cdots & \bv0\\
-%		\bv0 & \Id{N_{\x}} & \bvQ & \cdots & \bv0\\
-%		\vdots & \vdots & \vdots & \ddots & \vdots \\
-%		\bv0 & \bv0 & \bv0 & \cdots & \bvQ'
-%	\end{bmatrix}
-%\end{equation}
-%where $\bvQ,\bvQ' \in \re^{\sz{N_{\x}}{N_{\x}}}$ are block matrices, given by
-%\begin{subequations}
-%	\begin{gather}
-%		\bvQ' = \begin{bmatrix}
-%			-2 & 1 & 0 & \cdots & 0 & 0 \\
-%			1 & -3 & 1 & \cdots & 0 & 0 \\
-%			0 & 1 & -3 & \cdots & 0 & 0 \\
-%			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-%			0 & 0 & 0 & \cdots & -3 & 1 \\
-%			0 & 0 & 0 & \cdots & 1  & -2
-%		\end{bmatrix}
-%	\end{gather}
-%	\begin{gather}
-%		\bvQ = \bvQ' - \Id{N_{\x}}
-%	\end{gather}
-%\end{subequations}
-%
-%Alternatively, $\bvD$ is defined as having ones on hits first super-, first sub-, $N_{\x}$-th super, and $N_{\x}$-th sub-diagonals; and its main diagonal is such that any row (or column) sum is $0$. This ensures that cells on the boundary --- cells with 3 or less neighbors --- aren't over-represented in the discrete Laplacian.
-%
-%\subsection{Metrics and evaluation}
-%
-%The first metric reflects the primary optimization function, this being defined by $E(\bvs{i})$ as in \cref{eq:sec2:def_optimization_and_cost-function}. We will also use the root mean squared (RMS) error between the true velocity field $\bvc{\true}$ and the estimated one $\bvc = \nfrac{1}{\bvs}$,
-%\begin{equation}
-%	\mse(\bvs) = \frac{1}{N} \norm{\bvc{\true} - \frac{1}{\bvs}}
-%\end{equation}
-%
-%$E(\bvs)$ reflects the model estimation of the cost function used, while $\mse(\bvs)$ represents the underlying objective of estimating the original SSF, as presented in \cref{subfig:sec4:discretized_ssf_with_profiles:fig1}. %One last metric of interest is the mean of the Laplacian squared, this being a measure of the roughness \cite{phillips_traveltime_1991} of the estimated field.
-%
-%\subsection{Results}
-%
-%\subsection{Discussion}
+%where $\bvC \in \re^{\sz{N_{\z}}{N_{\x}}}$ is the matrix-form of the SSF $\bvc{\est}$; $\delta_{\x}$ and $\delta_{\z}$ are the $\x$-axis and $\z$-axis distances between cells; and $\el{\bvC}[j,k]$ is the $(j,k)$-th element of $\bvC$.
+
+\subsection{Estimation parameters}
+
+Although in the definition of the truncated SVD the presented parameter was $\tilde{R}$, we will use a parameter $\beta$, truncating any singular value $\lambda_n$ such that $\lambda_n < \beta \lambda_0$, respective to the largest singular value. For the surround scenario, the TTT technique will use $\alpha = 2.6077$, and the SVD will use $\beta = 0.2888$. For the layered scenario, the TTT will use $\alpha = 7.0179$, and the SVD will use $\beta = 0.6337$. These were chosen through a hyperparameter search, choosing the ones that minimize the SSF error.
+
+Regarding the iterative minimization (alternating forward and inverse maps), the number of iterations will be limited to $20$ iterations, as we empirically noticed no further improvements above this value.
+
+\subsection{Results}
+
+\input{figures/4.tt_ssf_rmse_metrics}
+
+The $\rmse_{t}$ and $\rmse_{\ssf}$ results, over the 10 iterations, for both techniques (TTT and SVD) and scenarios (surround and layered), are presented in \cref{fig:sec4:tt_ssf_rms_errors}.
+
+\subsubsection*{Per metric analysis}
+
+It is clear from \cref{fig:sec4:tt_ssf_rms_errors:subfig1} that, at the end of the minimization process, all results (for both techniques, and both scenarios) had very similar travel-time errors of around $0.12\si{\milli\meter}$. It is also noticeable that, while in the surround scenario the travel-time RMSE has a mostly downward trend (with both techniques having similar performances), the performance for the layered scenario reaches its minimum earlier, and then has a growing error later (although this growth is minimal). This potentially indicates overfitting in the results.
+
+
+
+
+\subsection{Discussion}

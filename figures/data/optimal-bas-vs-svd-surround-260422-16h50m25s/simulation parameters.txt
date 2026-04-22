@@ -1,0 +1,12 @@
+pos_name: surround
+num_cells_x: 9
+num_cells_y: 25
+width: 2000
+height: 2000
+pos_receivers_x: [ 111.111111  777.777778  111.111111  111.111111 1888.888889  111.111111  111.111111  111.111111 1222.222222]
+pos_receivers_y: [1640.   40. 1000.  360.   40. 1320.  680.   40.   40.]
+pos_sources_x: [1888.888889 1888.888889 1888.888889  111.111111 1222.222222 1888.888889 1888.888889 1888.888889  777.777778]
+pos_sources_y: [ 680. 1640. 1000. 1960. 1960. 1320.  360. 1960. 1960.]
+method_params: {'classic': [MethodParameters(alpha=0.9337, beta=None, masking_depth=None)], 'svd': [MethodParameters(alpha=0.2888, beta=None, masking_depth=None)]}
+code: h7784
+n_rays: 81

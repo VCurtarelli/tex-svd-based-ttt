@@ -1,3 +1,0 @@
-figures/tikzpics/main-figure3.pdf: figures/data/h2835/observed.csv
-figures/tikzpics/main-figure3.pdf: figures/data/h2835/pos_receivers.csv
-figures/tikzpics/main-figure3.pdf: figures/data/h2835/pos_sources.csv

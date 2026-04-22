@@ -245,3 +245,7 @@
 		ylabel={Depth ($\si{\kilo\meter}$)},
 	}
 }
+
+\NewDocumentCommand{\colorbar}{m}{%
+	\tikzexternaldisable \ref{#1} \tikzexternalenable%
+}

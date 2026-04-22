@@ -738,42 +738,57 @@ INPUT parts\3.SVDPseudoTTT.tex
 INPUT .\parts\4.SimulationResults.tex
 INPUT .\parts\4.SimulationResults.tex
 INPUT parts\4.SimulationResults.tex
-INPUT .\figures\data\test-bas-vs-svd-layer-260422-13h24m19s\params.tex
-INPUT .\figures\data\test-bas-vs-svd-layer-260422-13h24m19s\params.tex
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\params.tex
+INPUT .\figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\params.tex
+INPUT .\figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\params.tex
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\params.tex
 INPUT .\figures\4.discretized_ssf_with_profiles.tex
 INPUT .\figures\4.discretized_ssf_with_profiles.tex
 INPUT figures\4.discretized_ssf_with_profiles.tex
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_field_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_profiles_observed.csv
-INPUT figures\data\test-bas-vs-svd-surround-260422-13h35m50s\0_field_observed.csv
-INPUT figures\data\test-bas-vs-svd-surround-260422-13h35m50s\pos_receivers.csv
-INPUT figures\data\test-bas-vs-svd-surround-260422-13h35m50s\pos_sources.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\0_field_observed.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\pos_receivers.csv
-INPUT figures\data\test-bas-vs-svd-layer-260422-13h24m19s\pos_sources.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_field_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_profiles_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-surround-260422-16h50m25s\0_field_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-surround-260422-16h50m25s\pos_receivers.csv
+INPUT figures\data\optimal-bas-vs-svd-surround-260422-16h50m25s\pos_sources.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\0_field_observed.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\pos_receivers.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\pos_sources.csv
+INPUT C:\Users\VitorLISHA\AppData\Roaming\MiKTeX\tex\latex\psnfss\ot1pcr.fd
+INPUT C:\Users\VitorLISHA\AppData\Roaming\MiKTeX\tex\latex\psnfss\ot1pcr.fd
+INPUT C:\Users\VitorLISHA\AppData\Roaming\MiKTeX\tex\latex\psnfss\ot1pcr.fd
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr7t.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmb7t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrr7t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr8r.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\helvetic\phvr7t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\helvetic\phvr8r.tfm
+INPUT .\figures\4.tt_ssf_rmse_metrics.tex
+INPUT .\figures\4.tt_ssf_rmse_metrics.tex
+INPUT figures\4.tt_ssf_rmse_metrics.tex
+INPUT figures\data\optimal-bas-vs-svd-surround-260422-16h50m25s\metric_time_svd.csv
+INPUT figures\data\optimal-bas-vs-svd-surround-260422-16h50m25s\metric_time_classic.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\metric_time_svd.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\metric_time_classic.csv
+INPUT figures\data\optimal-bas-vs-svd-surround-260422-16h50m25s\metric_ssf_svd.csv
+INPUT figures\data\optimal-bas-vs-svd-surround-260422-16h50m25s\metric_ssf_classic.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\metric_ssf_svd.csv
+INPUT figures\data\optimal-bas-vs-svd-layer-260422-16h48m27s\metric_ssf_classic.csv
 INPUT .\parts\5.Conclusion.tex
 INPUT .\parts\5.Conclusion.tex
 INPUT parts\5.Conclusion.tex
 INPUT .\parts\A.Symbols.tex
 INPUT .\parts\A.Symbols.tex
 INPUT parts\A.Symbols.tex
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr7t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
-INPUT C:\Users\VitorLISHA\AppData\Roaming\MiKTeX\tex\latex\psnfss\ot1pcr.fd
-INPUT C:\Users\VitorLISHA\AppData\Roaming\MiKTeX\tex\latex\psnfss\ot1pcr.fd
-INPUT C:\Users\VitorLISHA\AppData\Roaming\MiKTeX\tex\latex\psnfss\ot1pcr.fd
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr7t.tfm
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrr7t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr8r.tfm
 INPUT main.aux
 INPUT .\main.out
 INPUT .\main.out
@@ -791,6 +806,8 @@ INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi7.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi7.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr5.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr5.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr7.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr7.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
