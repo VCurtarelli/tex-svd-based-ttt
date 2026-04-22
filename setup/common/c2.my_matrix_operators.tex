@@ -5,7 +5,7 @@
 \newcommand{\he}[1]{#1^{\Sym@he}}
 %
 \NewDocumentCommand{\Sym@inv}{O{1}}{
-	\myminus\mkern-2mu \symsfup{#1}
+	\symsfup{-}\mkern-2mu\symsfup{#1}
 }
 \NewDocumentCommand{\inv}{s O{1} m}{
 	\IfBooleanTF{#1}{

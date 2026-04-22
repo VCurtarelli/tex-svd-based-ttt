@@ -16,3 +16,7 @@ v1.0.251112
 	Started adding results.
 v1.0.251126
 	Changes in references.
+v1.1.260422
+	Rewriting and reformatting text.
+	Adding new references.
+	Adding new results.

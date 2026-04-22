@@ -1,9 +1,9 @@
 \section{SVD-Based Travel-Time Tomography}
 \label{sec:svd_pseudo_ttt}
 
-As stated, the kernel of the inverse problem is to iterate $\bvs{i}$ and $\bvR{i}$, searching concomitantly for an optimal slowness field and the ray paths, using the travel-time information. While the literature technique relies on the regularization being appended to the cost function $E(\bvs)$ as an additive term (\cref{eq:sec2:bvs_i+1_regularized-form}), improving a desired behavior (noise rejection smoothness, or others) and ensuring invertibility if properly chosen, other approaches are possible and available for study.
+As stated, the core of the inverse problem in the TTT is to iterate $\bvs{i}$ and $\bvR{i}$, searching alternatingly for an optimal slowness field and the ray paths, using the travel-time information. While the literature technique relies on the regularization being appended to the cost function $E(\bvs)$ as an additive term (\cref{eq:sec2:bvs_i+1_regularized-form}), improving a desired behavior (noise rejection smoothness, or others) and ensuring invertibility if properly chosen, other approaches are possible and available for study.
 
-Here, we will present the SVD technique  \cite{golub_calculating_1965,chen_treatment_2006}, its applicability for a pseudo-inverse (p-inverse), and how this enables an alternative approach, where the regularization step is applied disjoint of the primary minimization.
+Here, we will present the singular-value decomposition (SVD) technique \cite{golub_calculating_1965,chen_treatment_2006}, its applicability for a pseudo-inverse (p-inverse), and how this enables an alternative approach, where the regularization step is disjoint of the primary minimization.
 
 \subsection{Singular value decomposition and the p-inverse}
 
@@ -11,9 +11,9 @@ Given the matrix $\bvR{i}$, we can decompose it through the SVD as
 \begin{equation}
 	\bvR{i} = \bvU \bvSi \bvV[T],
 \end{equation}
-in which $\bvU \in \re^{\sz{M}{M}}$ and $\bvV \in \re^{\sz{N}{N}}$ are the left- and right-singular matrices of $\bvR{i}$, forming left and right orthonormal bases; and $\bvSi \in \re^{\sz{M}{N}}$ is a diagonal matrix, with diagonal entries $\lambda_j$ and $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_R > 0$ being the singular values of $\bvR{i}$, in decreasing order; where $R = \rank{\bvR{i}}$.
+in which $\bvU \in \re^{\sz{M}{M}}$ and $\bvV \in \re^{\sz{N}{N}}$ are the left- and right-singular matrices of $\bvR{i}$, forming left and right orthonormal bases; and $\bvSi \in \re^{\sz{M}{N}}$ is a diagonal matrix, with diagonal entries $\lambda_j$ and $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_R \geq 0$ being the singular values of $\bvR{i}$, in decreasing order (by definition, they are non-negative); where $R = \rank{\bvR{i}}$.
 
-Some important known SVD properties are: if $N > M$, the last $N-M$ columns of $\bvSi$ are 0, and if $M > N$, the last $M-N$ rows of $\bvSi$ are 0; $\bvU[T] = \inv{\bvU}$, and $\bvV[T] \inv{\bvV}$. By definition, all $\bvU$, $\bvSi$ and $\bvV$ are dependent on the iterator $i$, but this relation will be omitted for clarity.
+Some important known SVD properties are: given that $N > M$, the last $N-R$ columns of $\bvSi$ are 0; and $\bvU$ and $\bvV$ are orthonormal matrices, such that $\bvU[T] = \inv{\bvU}$ $\bvV[T] = \inv{\bvV}$. By definition, all $\bvU$, $\bvSi$ and $\bvV$ are dependent on the iterator $i$, but this relation will be omitted for clarity.
 
 Given $R$ being the rank of $\bvR{i}$, then $\rank{\bvR[T]{i} \bvR{i}} = R < N$, and therefore this matrix isn't invertible. We denote the Moore-Penrose p-inverse \cite{barata_moore_2012} of $\bvR{i}$ as $\pinv{\bvR{i}}$, it being given by
 \begin{equation}
@@ -23,7 +23,7 @@ Given $R$ being the rank of $\bvR{i}$, then $\rank{\bvR[T]{i} \bvR{i}} = R < N$,
 		& = \bvV \pinv{\bvSi} \bvU[T],
 	\end{split}
 \end{equation}
-where, for the diagonal matrix $\bvSi$, its p-inverse $\pinv{\bvSi}\in\re^{\sz{N}{M}}$ is its transpose, with all non-zero diagonal entries being reciprocated; and for any full-rank matrix $\bvA$, we have $\pinv{\bvA} = \inv{\bvA}$. With this p-inverse, the solution to the problem in \cref{eq:sec2:bvt_product-form} (without regularization) is given by
+where, for the diagonal matrix $\bvSi$, its p-inverse $\pinv{\bvSi}\in\re^{\sz{N}{M}}$ is its transpose, with all non-zero diagonal entries being reciprocated; and for any full-rank matrix $\bvA$, we have $\pinv{\bvA} = \inv{\bvA}$. With this p-inverse, the solution to the problem in \cref{eq:sec2:def_optimization_and_cost-function} (without regularization) is
 \begin{equation}
 	\begin{split}
 		\bvG{i}
@@ -35,7 +35,9 @@ where, for the diagonal matrix $\bvSi$, its p-inverse $\pinv{\bvSi}\in\re^{\sz{N
 \end{equation}
 where, via the properties of the p-inverse, $\pinv*{\bvR[T]{i} \bvR{i}} \bvR[T]{i} = \pinv{\bvR{i}}$.
 
-It is easy to prove that $\nabla E(\bvs{i+1}) = \bv0$ when using the p-inverse (\cref{thm:p-inverse_zero-gradient}, \cref{app:appB:proofs}), showing that the obtained slowness field fulfills the desired condition on the cost function. We let $\bvU{2}$ as the last $M-R$ columns of $\bvU$, linked to the left null-space of $\bvR{i}$. With this, the cost function with this solution can be given by
+It is easy to prove that $\nabla E(\bvs{i+1}) = \bv0$ when using the p-inverse%
+%(\cref{thm:p-inverse_zero-gradient}, \cref{app:appB:proofs})
+, showing that the obtained slowness field fulfills the desired condition on the cost function. We let $\bvU{2}$ as the last $M-R$ columns of $\bvU$, linked to the left null-space of $\bvR{i}$. With this, the cost function with this solution can be given by
 \begin{equation}
 	E(\bvs{i+1}) = \bvt[T]{\obs} \bvU{2} \bvU[T]{2} \bvt{\obs}.
 	\label{eq:sec3:primary-cost_with_svd}
@@ -44,12 +46,14 @@ It is easy to prove that $\nabla E(\bvs{i+1}) = \bv0$ when using the p-inverse (
 \subsection{SVD truncation}
 \label{subsec:sec3:svd_truncation}
 
-In general, the smaller a singular value $\lambda_n$ is, the lessened its impact will be on the reconstruction of $\bvR{i}$, and thus in the minimization problem. However, its impact on the estimation of $\bvs{i+1}$ will be increased by the p-inverse, over-representing the corresponding bases, and possibly leading to overfitting \cite{vallet_solving_1989,nittscher_svddip_2023}.
+In general, the smaller a singular value $\lambda_n$ is, the lessened its impact will be on the reconstruction of $\bvR{i}$, and thus in the minimization problem. However, its impact on the estimation of $\bvs{i+1}$ will be increased by the p-inverse, over-representing the corresponding bases vectors, and possibly leading to overfitting \cite{vallet_solving_1989,nittscher_svddip_2023,kim_regularization_2025}.
 % vallet_solving_1989 - Solving the problem of overfitting of the pseudo-inverse solution for classification learning, by F. Vallet et. al.
 % nittscher_svd-dip_2023 - SVD-DIP: Overcoming the Overfitting Problem in DIP-based CT Reconstruction, by M. Nittscher et. al., DOI https://doi.org/10.48550/arXiv.2303.15748
 % kim_regularization_2025 - Regularization of document-term matrices using singular value decomposition, by B. Kim, DOI https://doi.org/10.48009/4_iis_2025_104
 
-This effect can be attenuated by setting an arbitrary number of the smallest diagonal entries of $\bvSi$ to $0$ \cite{song_singular_1999}. This procedure reduces the effective condition number (largest-to- smallest-non-zero singular value ratio), improving stability in the inversion problem; and increases its practical null-space, which will be followingly exploited. In contrast, using this truncation introduces some minimization error, with the minimum found not having truly zero gradient.
+This effect can be attenuated by setting an arbitrary number of the smallest diagonal entries of $\bvSi$ to $0$ \cite{song_singular_1999}. This procedure reduces the effective condition number (ratio between largest and smallest non-zero singular values), improving stability in the inversion problem; and increases its practical null-space, which will be followingly exploited. In contrast, using this truncation introduces some minimization error, with the minimum found not having truly zero gradient%
+% (that is, the results in \cref{thm:p-inverse_zero-gradient} fail)
+.
 
 We denote $\bvSi[t]$ as a truncated $\bvSi$, with only its first $\tilde{R}$ diagonal entries being non-zero. Trivially, $\tilde{R} \leq R$ for this to be meaningful. Given this approximation, we define $\bvR[t]{i} = \bvU \bvSi[t] \bvV[T]$, and the inverse map function can be approximated as
 \begin{equation}
@@ -61,27 +65,31 @@ We denote $\bvSi[t]$ as a truncated $\bvSi$, with only its first $\tilde{R}$ dia
 	\label{eq:sec3:Gi_truncated}
 \end{equation}
 
-For this solution, given the truncation, $\nabla E(\bvs{i+1}) \neq \bv0$. Instead, we can show that (\cref{thm:svd-truncated_non-zero-gradient}, \cref{app:appB:proofs})
+For this solution, given the truncation, $\nabla E(\bvs{i+1}) \neq \bv0$. Instead, we can show that
+%(\cref{thm:svd-truncated_non-zero-gradient}, \cref{app:appB:proofs})
 \begin{equation}
 	\nabla E(\bvs{i+1}) = 2 \pts{ \sum_{j=\tilde{R}+1}^{R} \lambda_j \bvv{j} \bvu[T]{j}} \bvt{\obs},
 \end{equation}
-where the summation happens over the truncated singular values; and $\bvv{j}$ and $\bvu{j}$ are the $j$-th column of $\bvV$ and $\bvU$, respectively. Therefore, the smaller the zeroed singular values are, the smaller the gradient will be, and the closer the obtained solution would be to the space of optimal solutions ($\nabla E = \bv0$). Furthermore, the cost function with the truncated SVD can be computed as
-\begin{equation}
-	E(\bvs{i+1}) = \bvt[T]{\obs} \bvU[t]{2} \tr{\bvU[t]{2}} \bvt{\obs},
-\end{equation}
-in which $\bvU[t]{2}$ is the left null-space of $\bvR[t]{i}$. Furthermore, the change in cost function compared to the non-truncated SVD can be written as
-\begin{equation}
-	\Delta E(\bvs{i+1}) = \bvt[T]{\obs} \pts{\bvU[t]{2} - \bvU{2}} \tr{\pts{\bvU[t]{2} - \bvU{2}}} \bvt{\obs}.
-\end{equation}
+where the summation happens over the truncated singular values; and $\bvv{j}$ and $\bvu{j}$ are the $j$-th column of $\bvV$ and $\bvU$, respectively. Therefore, the smaller the zeroed singular values are, the smaller the gradient will be, and the closer the obtained solution would be to the space of optimal solutions ($\nabla E = \bv0$). 
 
-This increase in cost function $\Delta E$ doesn't depend on the truncated singular values directly. Therefore, the choice of $\lambda_n$'s to truncate isn't explicitly related to the increase in cost function.
+%The cost function with the truncated SVD can be computed as
+%\begin{equation}
+%	E(\bvs{i+1}) = \bvt[T]{\obs} \bvU[t]{2} \tr{\bvU[t]{2}} \bvt{\obs},
+%\end{equation}
+%in which $\bvU[t]{2}$ is the left null-space of $\bvR[t]{i}$. Furthermore, the change in cost function compared to the non-truncated SVD is
+%\begin{equation}
+%	\Delta E(\bvs{i+1}) = \bvt[T]{\obs} \pts{\bvU[t]{2} - \bvU{2}} \tr{\pts{\bvU[t]{2} - \bvU{2}}} \bvt{\obs}.
+%\end{equation}
+%
+%This increase in cost function $\Delta E$ doesn't depend on the truncated singular values directly. Therefore, the choice of $\lambda_n$'s to truncate isn't explicitly related to the increase in cost function.
+% Necessário?
 
 \subsection{Null-space exploitation}
 %todo invert this; first explain for the truncated, then particularize to the non-truncated, and show that for non-truncated bvmu doesn't affect
 
 We define $\bvV{2}$ as the last $N-R$ columns of $\bvV$, corresponding to the zero diagonal entries of $\bvSi$; that is, the columns of $\bvV{2}$ form an orthonormal basis for the (right) null-space of $\bvR{i}$.
 
-Given any coordinate vector $\bvmu \in \re^{\sz{(N-R)}{1}}$, any vector $\bvs[b] = \bvV{2} \bvmu$ will lie on the null-space of $\bvR{i}$, and therefore we obtain
+Given a coordinate vector $\bvmu \in \re^{\sz{(N-R)}{1}}$, any vector $\bvs[b] = \bvV{2} \bvmu$ will lie on the null-space of $\bvR{i}$, and therefore we obtain
 \begin{equation}
 	\begin{split}
 		\bvR{i} \bvs[b] 
@@ -89,77 +97,80 @@ Given any coordinate vector $\bvmu \in \re^{\sz{(N-R)}{1}}$, any vector $\bvs[b]
 		& = 0.
 	\end{split}
 \end{equation}
-where orthonormality of $\bvV$ and the null diagonal-entries of $\bvSi$ were used. This means that, for any $\bvs{i+1} = \bvG{i} \bvt{\obs} + \bvV{2} \bvmu$, we have
+where orthonormality of $\bvV$ and the null diagonal-entries of $\bvSi$ were used. This means that, for any $\bvs{i+1} = \pinv{\bvR{i}} \bvt{\obs} + \bvV{2} \bvmu$, we have
 \begin{subequations}
 	\label{eqs:sec3:cost-gradient_null-space}
 	\begin{gather}
-		E(\bvG{i} \bvt{\obs} + \bvV{2} \bvmu) = E(\bvG{i} \bvt{\obs}), \\
-		\nabla E(\bvG{i} \bvt{\obs} + \bvV{2} \bvmu) = \nabla E(\bvG{i} \bvt{\obs}).
+		E(\pinv{\bvR{i}} \bvt{\obs} + \bvV{2} \bvmu) = E(\pinv{\bvR{i}} \bvt{\obs}), \\
+		\nabla E(\pinv{\bvR{i}} \bvt{\obs} + \bvV{2} \bvmu) = \nabla E(\pinv{\bvR{i}} \bvt{\obs}).
 	\end{gather}
 \end{subequations}
 
-With this, both the cost function and its gradient are unaffected by $\bvmu$, for any $\bvmu$. This generalizes the singular solution obtained -- from \cref{eq:sec3:Gi_proposed} or \cref{eq:sec3:Gi_truncated} -- to a solution-space that spans the forward map's null-space, within which the primary cost function $E(\bvs)$ is invariant.
+With this, both the cost function and its gradient are unaffected by $\bvmu$, for any $\bvmu$. This generalizes the singular solution obtained --- from \cref{eq:sec3:Gi_proposed} or \cref{eq:sec3:Gi_truncated} --- to a solution-space that spans the forward map's null-space, within which the primary cost function $E(\bvs)$ is invariant.
 
-Note that, independent of using the truncated SVD for estimating $\bvG{i}$, $\bvmu$ must be a coordinate vector for the null-space of $\bvR{i}$, not of $\bvR[t]{i}$. If $\bvV{2}$ comprises the last $N-\tilde{R}$ columns of $\bvV$, then the equations in \cref{eqs:sec3:cost-gradient_null-space} aren't valid, with there being some residual cost function and gradient related to the truncation. More so, it is possible to show (\cref{thm:diff_gradient_null-space-exploiting_truncated}, \cref{app:appB:proofs}) that the gradient in this scenario will be
+This is only valid for the non-truncated SVD. If truncation is considered, with $\bvV{2}$ comprising the last $N-\tilde{R}$ columns of $\bvV$, then some residual cost function and gradient related to the truncation will be present. More so, in this scenario the gradient will be
+%(\cref{thm:diff_gradient_null-space-exploiting_truncated}, \cref{app:appB:proofs})
 \begin{equation}
-	\nabla E( \bvG{i} \bvt{\obs} + \bvV[t]{2} \bvmu) = \nabla E(\bvG{i} \bvt{\obs}) + \sum_{j=\tilde{R}+1}^{R} \lambda_j^2 \mu_{j-\tilde{R}} \bvv{j},
+	\nabla E( \pinv{\bvR[t]{i}} \bvt{\obs} + \bvV{2} \bvmu) = \nabla E(\pinv{\bvR[t]{i}} \bvt{\obs}) + \sum_{j=\tilde{R}+1}^{R} \lambda_j^2 \mu_{j-\tilde{R}} \bvv{j},
+	\label{eq:sec3:cost-gradient_null-space_truncated}
 \end{equation}
-in which $\mu_{m}$ is the $m$-th element of $\bvmu$. From this, only the first $R-\tilde{R}$ entries of $\bvmu$ -- the ones relative to the truncated singular values -- interfere in the gradient, these being modulated by the respective singular value squared. That is, the smaller the truncated singular values are, the lesser their impact on the difference in gradient will be.
+in which $\mu_{m}$ is the $m$-th element of $\bvmu$. From this, only the first $R-\tilde{R}$ entries of $\bvmu$ --- the ones relative to the truncated singular values --- interfere in the gradient, these being weighted by the respective singular value squared. That is, the smaller the truncated singular values are, the lesser their impact on the difference in gradient will be.
 
-Through the rest of the text, we assume that $\bvV{2}$ forms the basis for the null-space of $\bvR{i}$.
+Through the rest of the text, we assume that $\bvV{2}$ forms the basis for the null-space of $\bvR[t]{i}$, and the truncated singular values are sufficiently small so that the gradient of $E(\pinv{\bvR[t]{i}} \bvt{\obs} + \bvV{2} \bvmu)$ is invariant with $\bvmu$.
 
 \subsection{Secondary minimization}
 
-This information on the independence of $\bvmu$ and null-space  can be leveraged to find an optimal solution within a secondary metric, while preserving the cost function and its gradient through \cref{eqs:sec3:cost-gradient_null-space}. Given a regularization matrix $\bvD$ as before, we define a new cost function $F(\bvG{i} \bvt{\obs},\bvmu)$ to be minimized w.r.t. $\bvmu$. We let $\bvmu{i+1}$ be the $i+1$-th iteration's optimum $\bvmu$, defined as
+This information on the invariance of $E(\pinv{\bvR[t]{i}}\bvt{\obs} + \bvV{2}\bvmu)$ w.r.t. $\bvmu$ can be leveraged to find an optimal solution within a secondary metric, while preserving the cost function and its gradient through \cref{eqs:sec3:cost-gradient_null-space} (up to the neglected truncation-related error). Given a regularization matrix $\bvD$ as before, we define a new cost function $F(\pinv{\bvR[t]{i}} \bvt{\obs},\bvmu)$ to be minimized w.r.t. $\bvmu$. We let $\bvmu{i+1}$ be the $(i+1)$-th iteration's optimum $\bvmu$, defined as
 \begin{equation}
-	\bvmu{i+1} = \argmin_{\bvmu} F(\bvG{i} \bvt{\obs},\bvmu) = \norm{\bvD\pts{\bvG{i} \bvt{\obs} + \bvV{2} \bvmu}}^2.
+	\bvmu{i+1} = \argmin_{\bvmu} F(\pinv{\bvR[t]{i}} \bvt{\obs},\bvmu) = \norm{\bvD\pts{\pinv{\bvR[t]{i}} \bvt{\obs} + \bvV{2} \bvmu}}^2.
 \end{equation}
 
-Since by definition $\bvV{2}$ is a column-orthogonal matrix (meaning $\rank{\bvV{2}} = N-R$), if $\bvD$ is a full-rank matrix then the solution is given by
+Since by definition $\bvV{2}$ is a column-orthogonal matrix (meaning $\rank{\bvV{2}} = N-\tilde{R}$), if $\bvD$ is a full-rank matrix then the solution is given by
 \begin{equation}
-	\bvmu{i+1} = -\inv*{\bvV[T]{2} \bvD[T] \bvD \bvV{2}} \bvV[T]{2} \bvD[T] \bvD \bvG{i} \bvt{\obs}.
+	\bvmu{i+1} = -\inv*{\bvV[T]{2} \bvD[T] \bvD \bvV{2}} \bvV[T]{2} \bvD[T] \bvD \pinv{\bvR[t]{i}} \bvt{\obs}.
 \end{equation}
 
 This expression can be simplified through the p-inverse and its properties, resulting in
 \begin{equation}
-	\bvmu{i+1} = -\pinv*{\bvD \bvV{2}} \bvD \bvG{i} \bvt{\obs}.
+	\bvmu{i+1} = -\pinv*{\bvD \bvV{2}} \bvD \pinv{\bvR[t]{i}} \bvt{\obs}.
 	\label{eq:sec3:bvmu_solution}
 \end{equation}
 
 The formulation in \cref{eq:sec3:bvmu_solution} is also valid for situations where $\bvD$ is a rank-deficient matrix. With this, the complete solution through this secondary null-space exploiting minimization is
 \begin{equation}
-	\bvs{i+1} = \pts{\bvI{n} - \bvV{2} \pinv*{\bvD \bvV{2}} \bvD} \bvG{i} \bvt{\obs},
+	\bvG{i} = \pts{\bvI{n} - \bvV{2} \pinv*{\bvD \bvV{2}} \bvD} \pinv{\bvR[t]{i}}.
 	\label{eq:sec3:minim_solution_proposed}
 \end{equation}
-where $\bvG{i}$ can be either with \cref{eq:sec3:Gi_proposed} or \cref{eq:sec3:Gi_truncated}.
 
-With this solution, the primary cost function $E(\bvs)$ is minimized globally (at most within the truncated SVD), and the secondary cost function $F(\bvG{i} \bvt{\obs},\bvmu)$ is minimized within the primary cost function's solution space. The main insight for this expansion by using $\bvmu{i+1}$ is, given that $\bvG{i}$ isn't full-rank, there is an entire space of solutions that result in the same primary metric, and a secondary metric can be optimized within this space. Note that this procedure requires $\rank{\bvG{i}} < N$ (either naturally or through truncation), otherwise there is no null-space to be exploited, and the second minimization can't be performed.
+This formulation is also valid without a truncated SVD, by replacing $\bvR[t]{i}$ with $\bvR{i}$, and taking $\bvV{2}$ as its null-space-related columns.
+
+With this solution, the primary cost function $E(\bvs)$ is minimized globally (at most within the truncated SVD), and the secondary cost function $F(\pinv{\bvR[t]{i}} \bvt{\obs},\bvmu)$ is minimized within the primary cost function's solution space. The main insight for this expansion is, given that $\bvR[t]{i}$ isn't full-rank (and neither is $\bvR{i}$), there is an entire space of solutions that result in the same primary metric, and a secondary metric can be optimized within this space. Since by definition $\rank{\pinv{\bvR[t]{i}}} = \tilde{R} \leq R < N$ (using the assumption that $N > M$), it is guaranteed that there will be a null-space to be explored.
 
 An important remark is that $\bvV{2} \pinv*{\bvD \bvV{2}} \bvD$ can't be further simplified. By the p-inverse's properties, this would require $\bvV{2}$ to have linearly independent rows, which it can't given it is a tall matrix (either $N > N-R$, or $N > N-\tilde{R}$ for the truncated scenario). %Another relevant attribute is that, if $\bvD$ is invertible, the solution for taking the gradient of $F(\bvG{i} \bvt{\obs},\bvmu)$ w.r.t. $\bvmu$, $\bvG{i}\bvt{\obs}$, or $\bvG{i}\bvt{\obs}+\bvV{2}\bvmu$, all result in \cref{eq:sec3:bvmu_solution}.
 
-\subsection{Spatial under- and over-modeling}
-\label{subsec:spatial_under-over-_modeling}
-
-Through the proposed method derivations, no mention was given on the dimensions of $\bvR{i}$, or its impact on the minimization scheme. Since $\bvR{i} \in \re^{\sz{M}{N}}$, with $\bvG{i}$ having the transposed dimentionality, the relationship between $M$ and $N$ (as well as with the rank $R$) can be impactful on the inverse map's behavior.
-
-As commented in \cref{subsec:sec2:ssf_estimation}, $M \geq N=R$ is sufficient to obtain the inverse map through a direct matrix inversion. For the proposed method, no such condition was imposed, but analyzing these conditions can bring some insight to the process. In particular, $M < N$ (labeled over-modeled scenario, where there are more variables than equations/information on the system) ensures that $R \leq M$ and therefore $N - R > 0$, guaranteeing the existence of a null-space for $\bvR{i}$, and securing the possibility of a secondary minimization on $\bvmu$.
-
-Assuming $R = M < N$, then $\bvU{2} = [\,]\SubSize{0}{M}$ is an empty vector, and therefore through \cref{eq:sec3:primary-cost_with_svd} we obtain $E(\bvs{i+1}) = \bv0$. This means that, if all measurements are linearly independent ($R = M$), it is possible to achieve zero error between measured and estimated travel times. On the contrary scenario ($R < M < N$), linearly dependent measurements can lead to a non-zero cost function due to value mismatches in the measurements (two measurements between the same source and receiver having different times, for example). This is also only valid for the non-truncated SVD case, as a truncation will incur in the presence of some residual error.
-
-Although practical from having few measurements and high resolution, over-modeling scenarios have to be carefully used. For under-modeled cases, $E(\bvs)$ represents the overdetermined system of equations' error residues, fitting a smaller model to a large number of measurements, and thus the solution will be the optimal model (up to traversing the null-space). For over-modeled cases, $E(\bvs)$ is merely an assessment of the measurements linearly dependence, and the mismatch in them. Achieving zero error isn't necessarily a desirable scenario, as it may represent overfitting of the model to the observed travel times. On the forward problem (used for iterating $\bvR{i}$), this can cause $\bvR{i+1} = \bvR{i}$ without guarantee of achieving a meaningful slowness field.
-
-In this sense, the SVD truncation step or the addition of a regularizing term (as in \cref{eq:sec2:bvs_i+1_regularized-form}) both act to counterbalance and reduce overfitting, as they create some error in the primary cost function, leaving space for the iterative Eikonal optimization to find more suitable curves.
+%\subsection{Spatial under- and over-modeling}
+%\label{subsec:spatial_under-over-_modeling}
+%
+%Through the proposed method derivations, no mention was given on the dimensions of $\bvR{i}$, or its impact on the minimization scheme. Since $\bvR{i} \in \re^{\sz{M}{N}}$, with $\bvG{i}$ having the transposed dimentionality, the relationship between $M$ and $N$ (as well as with the rank $R$) can be impactful on the inverse map's behavior.
+%
+%As commented in \cref{subsec:sec2:ssf_estimation}, $M \geq N=R$ is sufficient to obtain the inverse map through a direct matrix inversion. For the proposed method, no such condition was imposed, but analyzing these conditions can bring some insight to the process. In particular, $M < N$ (labeled over-modeled scenario, where there are more variables than equations/information on the system) ensures that $R \leq M$ and therefore $N - R > 0$, guaranteeing the existence of a null-space for $\bvR{i}$, and securing the possibility of a secondary minimization on $\bvmu$.
+%
+%Assuming $R = M < N$, then $\bvU{2} = [\,]\SubSize{0}{M}$ is an empty vector, and therefore through \cref{eq:sec3:primary-cost_with_svd} we obtain $E(\bvs{i+1}) = \bv0$. This means that, if all measurements are linearly independent ($R = M$), it is possible to achieve zero error between measured and estimated travel times. On the contrary scenario ($R < M < N$), linearly dependent measurements can lead to a non-zero cost function due to value mismatches in the measurements (two measurements between the same source and receiver having different times, for example). This is also only valid for the non-truncated SVD case, as a truncation will incur in the presence of some residual error.
+%
+%Although practical from having few measurements and high resolution, over-modeling scenarios have to be carefully used. For under-modeled cases, $E(\bvs)$ represents the overdetermined system of equations' error residues, fitting a smaller model to a large number of measurements, and thus the solution will be the optimal model (up to traversing the null-space). For over-modeled cases, $E(\bvs)$ is merely an assessment of the measurements linearly dependence, and the mismatch in them. Achieving zero error isn't necessarily a desirable scenario, as it may represent overfitting of the model to the observed travel times. On the forward problem (used for iterating $\bvR{i}$), this can cause $\bvR{i+1} = \bvR{i}$ without guarantee of achieving a meaningful slowness field.
+%
+%In this sense, the SVD truncation step or the addition of a regularizing term (as in \cref{eq:sec2:bvs_i+1_regularized-form}) both act to counterbalance and reduce overfitting, as they create some error in the primary cost function, leaving space for the iterative Eikonal optimization to find more suitable curves.
 
 \subsection{Theoretical comparison}
 
-In the previous section, we presented one comparable aspect between the literature and the proposed frameworks, of diminishing overfit through some specific mechanism.
+%In the previous section, we presented one comparable aspect between the literature and the proposed frameworks, of diminishing overfit through some specific mechanism.
 
-While the literature method aim to minimize both the primary (travel-time estimation error) and secondary (regularization) metrics simultaneously through a single cost function (as established in \cref{eq:sec2:bvs_i+1_regularized-form}), the proposed technique focuses on minimizing one, and within the first one's solution space, optimize the second one. Although the obtained formulation from \cref{eq:sec3:minim_solution_proposed} encapsulates both minimizations jointly, they are inherently still sequentially applied.
+While the literature method aims to minimize both the primary (travel-time estimation error) and secondary (regularization) metrics simultaneously through a single cost function (as established in \cref{eq:sec2:bvs_i+1_regularized-form}), the proposed technique focuses on minimizing one, and within its solution-space, optimize the second one. Although the obtained formulation from \cref{eq:sec3:minim_solution_proposed} encapsulates both minimizations jointly, they are inherently still sequentially solved in the algebraic developments.
 
-This difference in framework -- simultaneous versus sequential optimizations -- highlights one of the main differences between the techniques: while the literature one's cost function has to leverage both metrics, the proposed technique inherently gives more importance to the primary cost function. Given that the main objective is to correctly estimate the SSF, this naturally translates to first optimizing this step, and only once this is achieved, improving the secondary objective.
+This difference in framework --- simultaneous versus sequential optimizations --- highlights one of the main differences between the techniques: while the literature one's cost function has to leverage both metrics, the proposed technique inherently gives more importance to the primary cost function. Given that the main objective is to correctly estimate the SSF, this naturally translates to first optimizing this step, and only once this is achieved, improving the secondary objective.
 
-This comes at a cost of a greater mathematical and computational complexity. Through analysis on the achieved formulations in \cref{eq:sec2:minim_solution_literature,eq:sec3:minim_solution_proposed} for the literature and proposed methods, we can find that the Big O notation \cite{big O} for both techniques is $\mathcal{O}(n^3)$; that is, asymptotically, both will have the same growth rate in time complexity. However, it is known that the SVD of a matrix is a very costly process \cite{svd computational costly}.
+This comes at a cost of a greater mathematical and computational complexity. Through analysis on the achieved formulations in \cref{eq:sec2:minim_solution_literature,eq:sec3:minim_solution_proposed} for the literature and proposed methods, we can find that the Big O notation \cite{mala_bigo_2022} for both techniques is $\mathcal{O}(n^3)$; that is, asymptotically, both will have the same growth rate in time complexity. However, it is known that the SVD of a matrix is a very costly process \cite{li_tutorial_2019}.
 
-To improve this, the information of sparsity of $\bvR{i}$ can be used. Given that each ray will travel only a few cells -- at most $N_{\x} + N_{\y} + N_{\z} - 2$ cells will be traversed by any ray, assuming a well-behaved environment -- then most entries on each row of $\bvR{i}$ will be $0$, and thus the same applies to the whole $\bvR{i}$ matrix. This enables using SVD calculation algorithms optimized for this scenario, such as in  \cite{sairabanu_parallel_2015}. Another scenario is when $M \ll N$, with a heavily over-modeled environment. In this case, the algorithm in \cite{vasudevan_hierarchical_2019} can be usefully implemented.
+To improve this, the information of sparsity of $\bvR{i}$ can be used. Given that each ray will travel only a few cells --- at most $N_{\x} + N_{\z} - 1$ cells will be traversed by any ray in a 2D environment, assuming a well-behaved environment --- then most entries on each row of $\bvR{i}$ will be $0$, and thus the same applies to the whole $\bvR{i}$ matrix. This enables using SVD calculation algorithms optimized for this scenario, such as in  \cite{sairabanu_parallel_2015}. Another scenario is when $M \ll N$, with a heavily over-modeled environment. In this case, the algorithm in \cite{vasudevan_hierarchical_2019} can be usefully implemented.
 % sairabanu_parallel_2015 - Parallel Implementation of Singular Value Decomposition (SVD) in Image Compression using Open Mp and Sparse Matrix Representation, DOI https://doi.org/10.17485/ijst/2015/v8i13/59410 
 % vasudevan_hierarchical_2019 - A Hierarchical Singular Value Decomposition Algorithm for Low Rank Matrices, by V. Vasudevan et. al.
