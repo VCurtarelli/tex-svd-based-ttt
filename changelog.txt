@@ -21,3 +21,7 @@ v1.1.260422
 	Adding new references.
 	Adding new results.
 	Needs to continue results discussion.
+v1.1.260423
+	Finished discussions and conclusion.
+	Polished references to shorten it and added missing ones.
+	File cleanup on figures folder.

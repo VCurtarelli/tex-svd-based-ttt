@@ -129,8 +129,8 @@
 %BEGIN_FOLD
 \NewDocumentEnvironment{lineplot}{O{axis} m m O{}}{ % xlabel | ylabel | other arguments
 	\begin{#1}[
-		width=\linewidth,
-		height=0.9\linewidth,
+		width=0.8\linewidth,
+		height=0.6\linewidth,
 		%
 		%		xtick = {1, 2 ,..., 7},
 		xtick align=outside,
@@ -166,7 +166,7 @@
 			%			align=left,
 			%			% xshift=-0.2em,
 			%		},
-%		scale only axis,
+		scale only axis,
 		#4,
 		]
 		%		\draw[thin, dash pattern = {on 4pt off 1pt}] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
@@ -195,10 +195,9 @@
 ]
 \tikzstyle{resC} = [
 	thick, ColC, dash pattern = {on 2pt off 2pt},
-	mark=star, mark size=2, mark options={
-		rotate=0,
+	mark=triangle*, mark size=1.5, mark options={
+		rotate=180,
 		solid,
-		very thick
 	}
 ]
 \tikzstyle{resD} = [
@@ -210,9 +209,10 @@
 ]
 \tikzstyle{resE} = [
 	thick, ColE, dash pattern = {on 3pt off 1pt},
-	mark=triangle*, mark size=1.5, mark options={
-		rotate=180,
+		mark=star, mark size=2, mark options={
+		rotate=0,
 		solid,
+		very thick
 	}
 ]
 \tikzstyle{resF} = [
@@ -243,6 +243,21 @@
 		ymin=0, ymax=2000,
 		xlabel={Offset ($\si{\kilo\meter}$)},
 		ylabel={Depth ($\si{\kilo\meter}$)},
+	}
+}
+\pgfplotsset{
+	profilestyle/.style={
+		y dir=reverse,
+		ytick={0, 500, ..., 2000},
+		yticklabels={0, 0.5, ..., 2},
+		xtick={1490, 1500, ..., 1550},
+		xticklabels={$1.49$, $1.5$, $1.51$, $1.52$, $1.53$, $1.54$, $1.55$},
+		xmin=1489, xmax=1547,
+		ymin=0, ymax=2000,
+		xlabel={Sound speed ($\si{\kilo\meter/\second}$)},
+		ylabel={Depth ($\si{\kilo\meter}$)},
+		yticklabel style={anchor=north east}
+%		scale only axis
 	}
 }
 

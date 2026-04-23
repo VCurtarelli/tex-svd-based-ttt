@@ -3,15 +3,15 @@
 	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
 		\begin{tikzpicture}
-			\begin{lineplot}{Iterations}{$\rmse_{t}$ ($\si{\milli\second}$)}[legend to name=lineplots, xmin=0.5, xmax=10.5, ymode=log, ytick={0.01, 0.1, 1, 10}, ymin=0.01, ymax=10,  ]
+			\begin{lineplot}{Iterations}{$\rmse_{t}$ ($\si{\milli\second}$)}[legend to name=lineplots, xmin=0.5, xmax=10.5, ymode=log, ytick={0.01, 0.1, 1}, ymin=0.01, ymax=4,  ]
 				{
 					\def\sympath{\sympathsurround}
 					\addplot[draw, resA] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_time_svd.csv}; 
-					\addplot[draw, resB] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_time_classic.csv};
+					\addplot[draw, resD] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_time_classic.csv};
 				}
 				{
 					\def\sympath{\sympathlayer}
-					\addplot[draw, resD] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_time_svd.csv}; 
+					\addplot[draw, resB] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_time_svd.csv}; 
 					\addplot[draw, resE] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_time_classic.csv};
 				}
 				
@@ -27,15 +27,15 @@
 	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
 		\begin{tikzpicture}
-			\begin{lineplot}{Iterations}{$\rmse_{\ssf}$ ($\si{\meter/\second}$)}[ytick={0, 5, 10, 15, 20}, yticklabels={$1$, $2$, $4$, $10$, $20$},]
+			\begin{lineplot}{Iterations}{$\rmse_{\ssf}$ ($\si{\meter/\second}$)}[ytick={0, 5, 10, 15, 20}]
 				{
 					\def\sympath{\sympathsurround}
 					\addplot[draw, resA] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_svd.csv}; 
-					\addplot[draw, resB] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_classic.csv};
+					\addplot[draw, resD] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_classic.csv};
 				}
 				{
 					\def\sympath{\sympathlayer}
-					\addplot[draw, resD] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_svd.csv}; 
+					\addplot[draw, resB] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_svd.csv}; 
 					\addplot[draw, resE] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_classic.csv};
 				}
 			\end{lineplot}

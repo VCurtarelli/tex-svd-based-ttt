@@ -20,14 +20,13 @@
 	\begin{minipage}[b]{0.4\linewidth}
 		\begin{subfigure}{\linewidth}
 			\begin{tikzpicture}
-				\begin{lineplot}{Sound speed ($\si{\meter/\second}$)}{Depth ($\si{\kilo\meter}$)}[y dir=reverse,
-					ytick={0, 500, 1000, 1500, 2000}, yticklabels={0, 0.5, 1, 1.5, 2}]
+				\begin{lineplot}{}{}[profilestyle, height=0.8\linewidth]
 					\foreach \x in {1, 2, ..., 9} {	
 						\addplot[draw, black, very thin] table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/0_profiles_observed.csv};
 					}
 				\end{lineplot}
 			\end{tikzpicture}
-			\caption{Sound speed profiles for each 1D vertical slice of the SSF.}
+			\caption{SSPs for each 1D vertical slice of the SSF.}
 			\label{subfig:sec4:discretized_ssf_with_profiles:fig2}
 		\end{subfigure}
 	\end{minipage}\\[0.5cm]

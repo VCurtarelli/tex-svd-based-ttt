@@ -1,4 +1,4 @@
-\section{SSF Estimation and the TTT technique}
+\section{SSF estimation and Travel-Time Tomography}
 \label{sec:ssf_estimation}
 As previously explained, the TTT uses the delay --- travel-time, or first-arrival time --- between the wave's generation at a source and its arrival at a receptor to estimate the path traveled, and therefore the wave's speed along the route taken.
 
@@ -70,6 +70,17 @@ which, when set to $\bv0$ (which will be a minimum, given its quadratic formulat
 	\label{eq:sec2:minim_solution_literature}
 \end{equation}
 
-This assumes the inversibility of $\bvR[T]{i} \bvR{i} + \alpha^2 \bvD[T] \bvD$. Given the construction of the problem, $\bvR[T]{i} \bvR{i}$ can't be full-rank (since $\rank{\bvR[T]{i} \bvR{i}} = R \leq M < N$), requiring $\bvD$ to be a full-rank matrix. When this condition isn't met, non-inverting schemes have to be used, such as the popularly employed conjugate gradient method \cite{ali_opensource_2019,hormati_robust_2010,tang_travel_2024}.
+This assumes the invertibility of $\bvR[T]{i} \bvR{i} + \alpha^2 \bvD[T] \bvD$. Given the construction of the problem, $\bvR[T]{i} \bvR{i}$ can't be full-rank (since $\rank{\bvR[T]{i} \bvR{i}} = R \leq M < N$), requiring $\bvD$ to be a full-rank matrix. When this condition isn't met, non-inverting schemes have to be used, such as the popularly employed conjugate gradient method \cite{ali_opensource_2019,hormati_robust_2010,tang_travel_2024}.
 
-As explained, the regularizing matrix $\bvD$ (and its factor $\alpha$) have to be appropriately chosen to improve some desired metric. For example, choosing $\bvD = \bvI{N}$ (the $\sz{N}{N}$ identity matrix) results in the minimization weighting in the mean-squared value of the slowness vector \cite{phillips_traveltime_1991}; this is equivalent to considering the presence of white noise in the measurements, and trading model accurateness for noise rejection \cite{pan_theoretical_2015}. Alternatively, $\bvD$ can be chosen to (discretely) approximate the Laplacian of the underlying continuous slowness field \cite{ali_opensource_2019}, leading to a minimization that penalizes the SSF's curvature, resulting in a smoother field.
+As explained, the regularizing matrix $\bvD$ (and its factor $\alpha$) has to be appropriately chosen to improve some desired metric. For example, choosing $\bvD = \bvI{N}$ (the $\sz{N}{N}$ identity matrix) results in the minimization weighting in the mean-squared value of the slowness vector \cite{phillips_traveltime_1991}; this is equivalent to considering the presence of white noise in the measurements, and trading model accurateness for noise rejection \cite{pan_theoretical_2015}. Alternatively, $\bvD$ can be chosen to (discretely) approximate the Laplacian of the underlying continuous slowness field \cite{ali_opensource_2019}, leading to a minimization that penalizes the SSF's curvature, resulting in a smoother field.
+
+\subsection{Normalized form}
+
+Although the formulation achieved in \cref{eq:sec2:minim_solution_literature} is valid, it can require a very large regularization factor $\alpha$, when $\bvR{i}$ and $\bvD$ are of different magnitude scales. If we set $\rho_{\bvR{i}} = \norm{\bvR{i}}_F$ (and similar for $\rho_{\bvD}$), with $\norm{\cdot}_{F}$ being the Frobenius norm, we then define the normalized forms of $\bvR{i}$ and $\bvD$ (respectively) as $\bvR[d]{i} = \frac{\bvR{i}}{\rho_{\bvR{i}}}$ and $\bvD[d] = \frac{\bvD}{\rho_{\bvD}}$.
+
+With this modification it is possible to show that the minimization solution from \cref{eq:sec2:minim_solution_literature}
+\begin{equation}
+	\bvG{i} = \frac{1}{\rho_{\bvR{i}}} \inv*{\tr{\bvR[d]{i}} \bvR[d]{i} + \dot{\alpha}^2 \tr{\bvD[d]} \bvD[d]} \tr{\bvR[d]{i}}
+	\label{eq:sec2:minim_solution_literature_normalized}
+\end{equation}
+with $\dot{\alpha} = \alpha \frac{\rho_{\bvD}}{\rho_{\bvR{i}}}$. However, since $\alpha$ was arbitrary, so is $\dot{\alpha}$. This allows a more robust selection of the regularization factor, for which the effects of the scales of the distances that compose $\bvR{i}$ are lessened.

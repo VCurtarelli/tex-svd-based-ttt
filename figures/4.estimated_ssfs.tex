@@ -1,0 +1,50 @@
+\begin{figure}[!t]
+	\centering
+	\begin{subfigure}{0.9\linewidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{lineplot}{}{}[profilestyle]
+				\def\sympath{\sympathsurround}
+				\foreach \x in {1, 2, ..., 9} {	
+					\addplot[draw, black, very thin] table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/0_profiles_observed.csv};
+				}
+				\foreach \x in {1, 2, ..., 9} { % number of columns (excluding y)
+					\addplot[draw=none, resA]
+					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_svd.csv};
+				}
+				\foreach \x in {1, 2, ..., 9} { % number of columns (excluding y)
+					\addplot[draw=none, resD]
+					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_classic.csv};
+				}
+			\end{lineplot}
+		\end{tikzpicture}
+		\caption{Surround scenario, both methods.}
+		\label{fig:sec4:estimated_ssfs:subfig1}
+	\end{subfigure}\\[0.5cm]
+	\begin{subfigure}{0.9\linewidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{lineplot}{}{}[profilestyle]%[colorbar to name = {dump1},hmstyle]
+				\def\sympath{\sympathlayer}
+				\foreach \x in {1, 2, ..., 9} {	
+					\addplot[draw, black, very thin] table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/0_profiles_observed.csv};
+				}
+				\foreach \x in {1, 2, ..., 9} { % number of columns (excluding y)
+					\addplot[draw=none, resB]
+					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_svd.csv};
+				}
+				\foreach \x in {1, 2, ..., 9} { % number of columns (excluding y)
+					\addplot[draw=none, resE]
+					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_classic.csv};
+				}
+			\end{lineplot}
+		\end{tikzpicture}
+		\caption{Layered scenario, both methods.}
+		\label{fig:sec4:estimated_ssfs:subfig2}
+	\end{subfigure}
+	\\[0.5em]
+	
+	\colorbar{lineplots}
+	\caption{SSF estimation error through the $\rmse_{\ssf}$, separate for each scenario, for each of the presented methods.}
+	\label{fig:sec4:estimated_ssfs}
+\end{figure}
