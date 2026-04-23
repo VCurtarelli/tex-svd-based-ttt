@@ -111,7 +111,7 @@
 		y dir=reverse,
 		#2
 		]
-		\centering
+		\centering\footnotesize
 	}{
 	\end{axis}
 }
@@ -157,7 +157,8 @@
 			%			at={(1.05, 0.5)},
 			%			anchor=west,
 			legend columns=2,
-			/tikz/every even column/.append style={column sep=1em}
+			/tikz/every even column/.append style={column sep=1em},
+			font=\footnotesize
 		},
 		%		yticklabel pos=right,
 		%		yticklabel style={
@@ -169,6 +170,7 @@
 		scale only axis,
 		#4,
 		]
+		\centering\footnotesize
 		%		\draw[thin, dash pattern = {on 4pt off 1pt}] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
 	}{
 	\end{#1}

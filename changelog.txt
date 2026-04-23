@@ -25,3 +25,4 @@ v1.1.260423
 	Finished discussions and conclusion.
 	Polished references to shorten it and added missing ones.
 	File cleanup on figures folder.
+	Modified to follow the conference IEEE template.

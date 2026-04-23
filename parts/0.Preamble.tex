@@ -1,32 +1,36 @@
-\title{SVD-based sound speed field estimation with null-space exploiting regularization}
+\title{SVD-based sound speed field estimation with null-space exploiting regularization
+	\thanks{Funding for this research was provided by ..., funding number ....}
+	}
+%\title{SVD}
+%
 %\title{Directional beamforming with direction of arrival steering and noise covariance matrix estimation}
 
-\author{%
-	Vitor Gelsleichter Probst Curtarelli$^{\orcidlink{0009-0009-3996-5452}}$, Anderson Wedderhoff Spengler$^{\orcidlink{0000-0001-5204-2040}}$, \IEEEmembership{Fellow,~IEEE}, and Stephan Paul$^{\orcidlink{0000-0001-8181-1048}}$, \IEEEmembership{Fellow,~IEEE}
-	%
-	\thanks{\ieee Manuscript Info. Corresponding author: Vitor G. P. Curtarelli.}%
-	\thanks{V. G. P. Curtarelli, UFSC, Brazil (\url{vitor.curtarelli@posgrad.ufsc.br}).}%
-	\thanks{A. W. Spengler, UFSC, Brazil (\url{anderson.spengler@ufsc.br}).}%
-	\thanks{S. Paul, UFSC, Brazil (\url{stephan.paul@ufsc.br}).}%
-	%
+\author{\IEEEauthorblockN{1\textsuperscript{st} Vitor G. P. Curtarelli}
+	\IEEEauthorblockA{
+%		\textit{Dept. of Electrical and Electronic Engineering} \\
+		\textit{UFSC}\\
+		Florianópolis, Brazil \\
+		\url{vitor.curtarelli@posgrad.ufsc.br}}
+	\and
+	\IEEEauthorblockN{2\textsuperscript{nd} Anderson W. Spengler}
+	\IEEEauthorblockA{
+%		\textit{Dept. of Electrical and Electronic Engineering} \\
+		\textit{UFSC}\\
+		Florianópolis, Brazil \\
+		\url{anderson.spengler@ufsc.br}}
+	\and
+	\IEEEauthorblockN{3\textsuperscript{rd} Stephan Paul}
+	\IEEEauthorblockA{
+%		\textit{Dept. of Mechanical Engineering} \\
+		\textit{UFSC}\\
+		Florianópolis, Brazil \\
+		\url{stephan.paul@ufsc.br}}
 }
-%\author{\ieee{}IEEE Publication Technology,~\IEEEmembership{Staff,~IEEE,}
-%	% <-this % stops a space
-%	\thanks{\ieee{}This paper was produced by the IEEE Publication Technology Group. They are in Piscataway, NJ.}% <-this % stops a space
-%	\thanks{\ieee{}Manuscript received April 19, 2021; revised August 16, 2021.}}
-
-% The paper headers
-\markboth{\ieee{}Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%
-{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
-
-\IEEEpubid{\ieee{}0000---0000/00\$00.00~\copyright~2021 IEEE}
-% Remember, if you use this you must call \IEEEpubidadjcol in the second
-% column for its text to clear the IEEEpubid mark.
 
 \maketitle
 
 \begin{abstract}	
-	In this paper, we propose a new singular-value decomposition -based approach for the inverse map estimation in travel-time tomography, for sound speed field reconstruction in 2D environments. This novel procedure allows exploiting the forward map's null-space for the regularization step (instead of the traditional additive regularization term), ensuring the achievement of a primary metric's minimum, while controlling its behavior via the regularizing process. A standard method for the literature technique is also given, and a brief comparison of both is presented. Through simulations emulating oceanic bodies, the results show that our method more precisely models the speed field while achieving smaller errors.
+	In this paper, we propose a new singular-value decomposition -based approach for the inverse map estimation in travel-time tomography, for sound speed field reconstruction in 2D environments. This novel procedure allows exploiting the forward map's null-space for the regularization step (instead of the traditional additive regularization term), ensuring the achievement of a primary metric's minimum, while controlling its behavior via the regularizing process. A standard method for the literature technique is also given, and a brief comparison of both is presented. Through simulations emulating oceanic bodies, the results show that both achieved similar performance in literature-based device distributions, and the proposed method achieved better (although inadequate) performance in a scenario more aligned with practical considerations.
 \end{abstract}
 
 \begin{IEEEkeywords}
