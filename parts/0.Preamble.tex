@@ -1,27 +1,25 @@
 \title{SVD-based sound speed field estimation with null-space exploiting regularization
-	\thanks{Funding for this research was provided by ..., funding number ....}
+	\thanks{This work was supported by Petrobras, grant number XXXXX.}
 	}
 %\title{SVD}
 %
 %\title{Directional beamforming with direction of arrival steering and noise covariance matrix estimation}
 
 \author{\IEEEauthorblockN{1\textsuperscript{st} Vitor G. P. Curtarelli}
-	\IEEEauthorblockA{
-%		\textit{Dept. of Electrical and Electronic Engineering} \\
-		\textit{UFSC}\\
+	\IEEEauthorblockA{%
+		\textit{Dept. of Electrical}\\\textit{and Electronic Engineering}\\\textit{UFSC}\\
 		Florianópolis, Brazil \\
 		\url{vitor.curtarelli@posgrad.ufsc.br}}
 	\and
 	\IEEEauthorblockN{2\textsuperscript{nd} Anderson W. Spengler}
-	\IEEEauthorblockA{
-%		\textit{Dept. of Electrical and Electronic Engineering} \\
-		\textit{UFSC}\\
+	\IEEEauthorblockA{%
+		\textit{Dept. of Electrical}\\\textit{and Electronic Engineering}\\\textit{UFSC} \\
 		Florianópolis, Brazil \\
 		\url{anderson.spengler@ufsc.br}}
 	\and
 	\IEEEauthorblockN{3\textsuperscript{rd} Stephan Paul}
-	\IEEEauthorblockA{
-%		\textit{Dept. of Mechanical Engineering} \\
+	\IEEEauthorblockA{%
+		\textit{Dept. of Mechanical Engineering} \\
 		\textit{UFSC}\\
 		Florianópolis, Brazil \\
 		\url{stephan.paul@ufsc.br}}
@@ -30,7 +28,8 @@
 \maketitle
 
 \begin{abstract}	
-	In this paper, we propose a new singular-value decomposition -based approach for the inverse map estimation in travel-time tomography, for sound speed field reconstruction in 2D environments. This novel procedure allows exploiting the forward map's null-space for the regularization step (instead of the traditional additive regularization term), ensuring the achievement of a primary metric's minimum, while controlling its behavior via the regularizing process. A standard method for the literature technique is also given, and a brief comparison of both is presented. Through simulations emulating oceanic bodies, the results show that both achieved similar performance in literature-based device distributions, and the proposed method achieved better (although inadequate) performance in a scenario more aligned with practical considerations.
+	% In this paper, we propose a new singular-value decomposition -based approach for the inverse map estimation in travel-time tomography, for sound speed field reconstruction in 2D environments. This novel procedure allows exploiting the forward map's null-space for the regularization step (instead of the traditional additive regularization term), allowing the minimization of a primary metric, while controlling its behavior via the regularizing process. A standard method based on the literature is also given, and a brief comparison of both is presented. Through simulations emulating oceanic bodies, the results show that both achieve similar performance in literature-based device distributions, and the proposed method achieved better (although inadequate) performance in a scenario more aligned with practical considerations.
+    This paper proposes a singular-value decomposition -based approach for inverse mapping in travel-time tomography, applied to sound speed field reconstruction in multi-dimensional environments. The method exploits the null space of the forward operator to perform regularization, replacing the traditional additive regularization term. It enables minimization of the primary cost function while controlling solution properties through a secondary optimization. For comparisons, a conventional (literature-based) approach for travel-time tomography is also presented. Simulations in ocean-like 2D environments show comparable performance between methods under standard device configurations, while the proposed approach performs better in more practical configurations, although with overall limited accuracy.
 \end{abstract}
 
 \begin{IEEEkeywords}

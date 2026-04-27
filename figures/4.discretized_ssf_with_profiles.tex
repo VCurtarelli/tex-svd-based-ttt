@@ -1,4 +1,4 @@
-\begin{figure*}[!htb]
+\begin{figure*}[!ht]
 	\centering
 	\begin{minipage}[b]{0.4\linewidth}
 		\centering
@@ -12,7 +12,7 @@
 			\vspace*{0.5em}
 			\ref*{velocityHeatmap}
 			\caption{Discretized sound speed field.}
-			\label{subfig:sec4:discretized_ssf_with_profiles:fig1}
+			\label{fig:sec4:discretized_ssf_with_profiles:subfig1}
 		\end{subfigure}
 	\end{minipage}
 	\hspace*{1cm}
@@ -27,13 +27,14 @@
 				\end{lineplot}
 			\end{tikzpicture}
 			\caption{SSPs for each 1D vertical slice of the SSF.}
-			\label{subfig:sec4:discretized_ssf_with_profiles:fig2}
+			\label{fig:sec4:discretized_ssf_with_profiles:subfig2}
 		\end{subfigure}
 	\end{minipage}\\[0.5cm]
 	\begin{minipage}[b]{0.4\linewidth}
 		%		\vspace*{-3em}
 		\centering
 		\begin{subfigure}{0.8\linewidth}
+        \centering
 			\begin{tikzpicture}
 				\begin{heatmap}{\ncols}[colorbar=false,hmstyle]
 					\def\sympath{\sympathsurround}
@@ -44,13 +45,14 @@
 				\end{heatmap}
 			\end{tikzpicture}
 			\caption{Device distribution in the surround scenario.}
-			\label{subfig:sec4:discretized_ssf_with_profiles:fig3}
+			\label{fig:sec4:discretized_ssf_with_profiles:subfig3}
 		\end{subfigure}
 	\end{minipage}
 	\hspace{1cm}
 	\begin{minipage}[b]{0.4\linewidth}
 		\centering
 		\begin{subfigure}{0.8\linewidth}
+        \centering
 			\begin{tikzpicture}
 				\begin{heatmap}{\ncols}[colorbar=false,hmstyle]
 					\def\sympath{\sympathlayer}
@@ -61,7 +63,7 @@
 				\end{heatmap}
 			\end{tikzpicture}
 			\caption{Device distribution in the layered scenario.}
-			\label{subfig:sec4:discretized_ssf_with_profiles:fig4}
+			\label{fig:sec4:discretized_ssf_with_profiles:subfig4}
 		\end{subfigure}
 	\end{minipage}
 	\caption{Discretized sound speed field with 1D profiles and device distributions. In the device distributions, sources are denoted by blue circles, and receivers by red exes.}

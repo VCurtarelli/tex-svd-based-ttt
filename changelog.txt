@@ -26,3 +26,6 @@ v1.1.260423
 	Polished references to shorten it and added missing ones.
 	File cleanup on figures folder.
 	Modified to follow the conference IEEE template.
+v1.1.260427
+    New/modified results (same discussion).
+    Text improvements to whole paper.

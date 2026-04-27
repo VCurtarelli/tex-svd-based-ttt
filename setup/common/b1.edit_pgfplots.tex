@@ -7,9 +7,10 @@
 \newlength{\Yaxisshift}
 \setlength{\Yaxisshift}{3.8cm}
 
-%\usetikzlibrary{external}
-%\tikzexternalize
-%\tikzsetexternalprefix{figures/tikz_ext/}
+\usetikzlibrary{external}
+% \tikzexternalize
+% \tikzsetexternalprefix{/figures/tikz/}
+\tikzexternalize[prefix=figures/tikz/,figure name=output]
 
 \NewDocumentEnvironment{polar}{}{
 	\begin{polaraxis}[
@@ -100,10 +101,10 @@
 		point meta min=\zmin,
 		point meta max=\zmax,
 		mesh/cols=#1,
-		xlabel style = {anchor=north, yshift=0.9\linewidth-1.5em},
+		xlabel style = {anchor=north, yshift=0.9\linewidth-2.5em},
 		view={0}{90},
 		grid style = {draw=none},
-		ylabel style={anchor=center, yshift=-0.9\linewidth+1.5em},
+		ylabel style={anchor=center, yshift=-0.9\linewidth+2.5em},
 		major tick length=2pt,
 		ytick style = {black},
 		ytick pos = left,
@@ -130,7 +131,7 @@
 \NewDocumentEnvironment{lineplot}{O{axis} m m O{}}{ % xlabel | ylabel | other arguments
 	\begin{#1}[
 		width=0.8\linewidth,
-		height=0.6\linewidth,
+		height=0.65\linewidth,
 		%
 		%		xtick = {1, 2 ,..., 7},
 		xtick align=outside,
@@ -264,5 +265,5 @@
 }
 
 \NewDocumentCommand{\colorbar}{m}{%
-	\tikzexternaldisable \ref{#1} \tikzexternalenable%
+	\tikzexternaldisable \ref*{#1} \tikzexternalenable%
 }
