@@ -8,9 +8,9 @@
 \setlength{\Yaxisshift}{3.8cm}
 
 \usetikzlibrary{external}
-% \tikzexternalize
-% \tikzsetexternalprefix{/figures/tikz/}
-\tikzexternalize[prefix=figures/tikzexternal/,figure name=output]
+\tikzexternalize
+\tikzsetexternalprefix{figures/tikzexternal/}
+%\tikzexternalize[prefix=figures/tikzexternal/]
 
 \NewDocumentEnvironment{polar}{}{
 	\begin{polaraxis}[
@@ -60,8 +60,8 @@
 		ylabel={$\abs{\beam}$ (dB)},
 		ylabel style={xshift=\Yaxisshift, yshift=0.16\linewidth},
 		%END_FOLD
-	]
-}{
+		]
+	}{
 	\end{polaraxis}
 }
 %END_FOLD
@@ -122,9 +122,9 @@
 \setlength{\wdtwenty}{\widthof{$-20$}}
 %\setlength{\wdtwenty}{\widthof{-20}}
 \pgfplotsset{
-    every colorbar global/.append style={
-        zmin=,zmax=,
-    }
+	every colorbar global/.append style={
+		zmin=,zmax=,
+	}
 }
 
 %BEGIN_FOLD
@@ -180,59 +180,59 @@
 
 %BEGIN_FOLD
 \tikzstyle{axis} = [
-	black
+black
 ]
 \tikzstyle{resA} = [
-	thick, ColA, dash pattern = {on 1pt off 0pt},
-	mark=square*, mark size=1, mark options={
-		rotate=0,
-		solid,
-	}
+thick, ColA, dash pattern = {on 1pt off 0pt},
+mark=square*, mark size=1, mark options={
+	rotate=0,
+	solid,
+}
 ]
 \tikzstyle{resB} = [
-	thick, ColB, dash pattern = {on 2pt off 1pt},
-	mark=triangle*, mark size=1.5, mark options={
-		rotate=0,
-		solid,
-	}
+thick, ColB, dash pattern = {on 2pt off 1pt},
+mark=triangle*, mark size=1.5, mark options={
+	rotate=0,
+	solid,
+}
 ]
 \tikzstyle{resC} = [
-	thick, ColC, dash pattern = {on 2pt off 2pt},
-	mark=triangle*, mark size=1.5, mark options={
-		rotate=180,
-		solid,
-	}
+thick, ColC, dash pattern = {on 2pt off 2pt},
+mark=triangle*, mark size=1.5, mark options={
+	rotate=180,
+	solid,
+}
 ]
 \tikzstyle{resD} = [
-	thick, ColD, dash pattern = {on 2pt off 3pt},
-	mark=square*, mark size=1.2, mark options={
-		rotate=45,
-		solid,
-	}
+thick, ColD, dash pattern = {on 2pt off 3pt},
+mark=square*, mark size=1.2, mark options={
+	rotate=45,
+	solid,
+}
 ]
 \tikzstyle{resE} = [
-	thick, ColE, dash pattern = {on 3pt off 1pt},
-		mark=star, mark size=2, mark options={
-		rotate=0,
-		solid,
-		very thick
-	}
+thick, ColE, dash pattern = {on 3pt off 1pt},
+mark=star, mark size=2, mark options={
+	rotate=0,
+	solid,
+	very thick
+}
 ]
 \tikzstyle{resF} = [
-	thick, ColF, dash pattern = {on 3pt off 2pt},
-	mark=x, mark size=2, mark options={
-		rotate=0,
-		solid,
-		very thick
-	}
+thick, ColF, dash pattern = {on 3pt off 2pt},
+mark=x, mark size=2, mark options={
+	rotate=0,
+	solid,
+	very thick
+}
 ]
 \tikzstyle{resG} = [
-	thick, ColG, dash pattern = {on 3pt off 4pt},
-	mark=+, mark size=2, mark options={
-		rotate=0,
-		solid,
-		very thick
-	}
+thick, ColG, dash pattern = {on 3pt off 4pt},
+mark=+, mark size=2, mark options={
+	rotate=0,
+	solid,
+	very thick
+}
 ]
 %END_FOLD
 
@@ -260,12 +260,12 @@
 		xlabel={Sound speed ($\si{\kilo\meter/\second}$)},
 		ylabel={Depth ($\si{\kilo\meter}$)},
 		yticklabel style={anchor=north east}
-%		scale only axis
+		%		scale only axis
 	}
 }
 
 \NewDocumentCommand{\colorbar}{m}{%
-%	\tikzexternaldisable
-	\ref*{#1}
-%	\tikzexternalenable%
+	\tikzexternaldisable%
+	\ref*{#1}%
+	\tikzexternalenable%
 }
