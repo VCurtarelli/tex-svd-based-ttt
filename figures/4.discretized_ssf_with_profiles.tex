@@ -5,22 +5,27 @@
 		\begin{subfigure}{\linewidth}
 			\centering
 			\begin{tikzpicture}
-				\begin{heatmap}{\ncols}[colorbar to name={velocityHeatmap},hmstyle][fill opacity=0.8]
-					\addplot3[surf, mesh/cols={\ncols}, mesh/rows={\nrows}, opacity=0.8, draw opacity=0.0] table[x=x, y=y, z=val, col sep=comma] {figures/data/\sympath/0_field_observed.csv};
+				\begin{heatmap}{\ncols}[
+                % colorbar to name={velocityHeatmap},
+                hmstyle][fill opacity=1]
+					\addplot3[surf, mesh/cols={\ncols}, mesh/rows={\nrows}, opacity=1, draw opacity=0.0] table[x=x, y=y, z=val, col sep=comma] {figures/data/\sympath/0_field_observed.csv};
 				\end{heatmap}
 			\end{tikzpicture}
-			\vspace*{0.5em}
-			\colorbar{velocityHeatmap}
+			% \vspace*{0.5em}
+			% \colorbar{velocityHeatmap}
 			\caption{Discretized sound speed field.}
 			\label{fig:sec4:discretized_ssf_with_profiles:subfig1}
 		\end{subfigure}
 	\end{minipage}
-	\hspace*{1cm}
+	\hspace*{2cm}
 %	\\[1.5em]
 	\begin{minipage}[b]{0.4\linewidth}
 		\begin{subfigure}{\linewidth}
 			\begin{tikzpicture}
-				\begin{lineplot}{}{}[profilestyle, height=0.8\linewidth]
+				\begin{lineplot}{}{}[profilestyle, height=0.8\linewidth,
+            		% xlabel style = {anchor=center, yshift=0.9\linewidth-0em},
+            		% ylabel style = {anchor=north, yshift=-0.9\linewidth+0em},
+                ]
 					\foreach \x in {1, 2, ..., 9} {	
 						\addplot[draw, black, very thin] table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/0_profiles_observed.csv};
 					}
@@ -48,7 +53,7 @@
 			\label{fig:sec4:discretized_ssf_with_profiles:subfig3}
 		\end{subfigure}
 	\end{minipage}
-	\hspace{1cm}
+	\hspace*{2cm}
 	\begin{minipage}[b]{0.4\linewidth}
 		\centering
 		\begin{subfigure}{0.8\linewidth}

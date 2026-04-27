@@ -2,8 +2,8 @@
 	\centering\setlength{\parindent}{0pt}
 	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
-		\begin{tikzpicture}
-			\begin{lineplot}{Iterations}{$\rmse_{t}$ ($\si{\milli\second}$)}[legend to name=lineplots, xmin=0.5, xmax=10.5, ymode=log, ytick={0.01, 0.1, 1}, ymin=0.01, ymax=4,  ]
+		\begin{tikzfig}[0.78\linewidth]
+			\begin{lineplot}{Iterations}{$\rmse_{t}$ ($\si{\milli\second}$)}[legend to name=lineplots, xmin=0.5, xmax=10.5, ymode=log, ytick={0.01, 0.1, 1}, yticklabels={0.01, 0.1, 1}, ymin=0.01, ymax=4,  ]
 				{
 					\def\sympath{\sympathsurround}
 					\addplot[draw, resA] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_time_svd.csv}; 
@@ -20,13 +20,13 @@
 				\addlegendentry{SVD - Layered};
 				\addlegendentry{TTT - Layered};
 			\end{lineplot}
-		\end{tikzpicture}
+        \end{tikzfig}
 		\caption{Travel-time RMSE.}
 		\label{fig:sec4:tt_ssf_rms_errors:subfig1}
 	\end{subfigure} \\[0.5cm]
 	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
-		\begin{tikzpicture}
+		\begin{tikzfig}[0.78\linewidth]
 			\begin{lineplot}{Iterations}{$\rmse_{\ssf}$ ($\si{\meter/\second}$)}[ytick={1, 2, 4, 10, 20}, yticklabels={$1$, $2$, $4$, $10$, $20$}, ymode=log, minor ytick={1, 2, ..., 10}]
 				{
 					\def\sympath{\sympathsurround}
@@ -39,12 +39,12 @@
 					\addplot[draw, resE] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_classic.csv};
 				}
 			\end{lineplot}
-		\end{tikzpicture}
+        \end{tikzfig}
 		\caption{Sound speed field RMSE.}
 		\label{fig:sec4:tt_ssf_rms_errors:subfig2}
 	\end{subfigure}
-	
-	\vspace*{.5em}
+	\\[1em]
+    
 	\colorbar{lineplots}
 	\caption{Evolution of RMSE for travel-time and SSF, for TTT and SVD methods, in the surround and layered scenarios, over 10 iterations.}
 	\label{fig:sec4:tt_ssf_rms_errors}

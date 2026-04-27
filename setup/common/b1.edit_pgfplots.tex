@@ -7,120 +7,71 @@
 \newlength{\Yaxisshift}
 \setlength{\Yaxisshift}{3.8cm}
 
-\usetikzlibrary{external}
-\tikzexternalize
-\tikzsetexternalprefix{figures/tikzexternal/}
-%\tikzexternalize[prefix=figures/tikzexternal/]
-
-\NewDocumentEnvironment{polar}{}{
-	\begin{polaraxis}[
-		%BEGIN_FOLD
-		xtick = {
-			0,
-			30,
-			60,
-			90,
-			120,
-			150,
-			180,
-			210,
-			240,
-			270,
-			300,
-			330
-		},
-		xticklabels = {
-			$0\dg$,
-			$30\dg$,
-			$60\dg$,
-			$90\dg$,
-			$120\dg$,
-			$150\dg$,
-			$\PM180\dg$,
-			$-150\dg$,
-			$-120\dg$,
-			$-90\dg$,
-			$-60\dg$,
-			$-30\dg$
-		},
-		ymax=0, ymin=\ymin,
-		rotate=-90,
-		width=0.75\linewidth,
-		height=0.75\linewidth,
-		x dir=reverse,
-		xticklabel style={anchor=-\tick-90},
-		y coord trafo/.code=\pgfmathparse{##1-\ymin},
-		y coord inv trafo/.code=\pgfmathparse{##1\ymin},
-		yticklabel={$\pgfmathprintnumber{\tick}\dB$},
-		yticklabel style={anchor=west, xshift=\Yaxisshift+1ex},
-		y axis line style={yshift=\Yaxisshift},
-		ytick style={yshift=\Yaxisshift},
-		ytick align=outside,
-		ytick = {0, -20, ..., \ymin},
-		ylabel={$\abs{\beam}$ (dB)},
-		ylabel style={xshift=\Yaxisshift, yshift=0.16\linewidth},
-		%END_FOLD
-		]
-	}{
-	\end{polaraxis}
+\NewDocumentEnvironment{tikzfig}{O{\linewidth} O{\linewidth}}{%
+    \begin{minipage}[t][#1][t]{#2}%
+    \begin{tikzpicture}%
+}{%
+    \end{tikzpicture}%
+    \end{minipage}%
 }
-%END_FOLD
 
-%BEGIN_FOLD
 \usepgfplotslibrary{colorbrewer}
 \NewDocumentEnvironment{heatmap}{m O{} O{}}{
 	\begin{axis}[
 		colormap/viridis,
-		colorbar horizontal,
+		colorbar,
 		colorbar style={
 			colormap/viridis,
-			width=0.75\linewidth,
-			height=12pt,
-			%			xlabel = Beampattern,
-			xtick = {0.5*(\zmin+\zmax)},
-			xticklabel style={
+			width=12pt,
+			height=0.8\linewidth,
+			ytick = {0.5*(\zmin+\zmax)},
+			yticklabel style={
 				/pgf/number format/.cd,
 				fixed,
-				%title=,
 				precision=0,
 				fixed zerofill,
-				%				opacity=1
 			},
 			tick label style={opacity=1},
 			major tick length=4pt,
-			xtick style={black},
-			xtick pos=top,
-			extra x ticks = {\zmin,\zmax},
-			extra x tick style = {major x tick style={draw=none}},
+			ytick style={black},
+			ytick pos=right,
+			extra y ticks = {\zmin,\zmax},
+            extra y tick labels={
+              \pgfmathparse{\zmin/1000}\pgfmathprintnumber[precision=2]{\pgfmathresult},
+              \pgfmathparse{\zmax/1000}\pgfmathprintnumber[precision=2]{\pgfmathresult}
+            },
+            yticklabels = {\pgfmathparse{(\zmin+\zmax)/2/1000}\pgfmathprintnumber[precision=3]{\pgfmathresult},},
+			extra y tick style = {major y tick style={draw=none}},
 			point meta min=\zmin,
 			point meta max=\zmax,
+            xlabel={Speed ($\si{\kilo\meter/\second}$)},
+            xlabel style={yshift=1em,xshift=1em},
+            font=\footnotesize,
 			#3
 		},
-		width=0.9\linewidth,
-		height=0.9\linewidth,
+		width=0.8\linewidth,
+		height=0.8\linewidth,
 		point meta min=\zmin,
 		point meta max=\zmax,
 		mesh/cols=#1,
-		xlabel style = {anchor=north, yshift=0.9\linewidth-2.5em},
 		view={0}{90},
 		grid style = {draw=none},
-		ylabel style={anchor=center, yshift=-0.9\linewidth+2.5em},
 		major tick length=2pt,
 		ytick style = {black},
 		ytick pos = left,
 		mesh/ordering=x varies,
 		y dir=reverse,
+        scale only axis,
 		#2
 		]
 		\centering\footnotesize
-	}{
+}{
 	\end{axis}
 }
 %END_FOLD
 
 \newlength{\wdtwenty}
 \setlength{\wdtwenty}{\widthof{$-20$}}
-%\setlength{\wdtwenty}{\widthof{-20}}
 \pgfplotsset{
 	every colorbar global/.append style={
 		zmin=,zmax=,
@@ -142,37 +93,18 @@
 		xlabel = #2,
 		ylabel = #3,
 		ylabel near ticks,
-		%		yticklabel style={text width=\wdtwenty, align=right},
-		ylabel style={yshift=-3pt},
-		% xlabel style={yshift=0.5em},
-		%
-		%
-		%		legend pos={outer south},
-		%
 		legend cell align={left},
 		legend style={
 			fill=white,
-			%			fill opacity=0.5.6,
 			draw opacity=1,
-			text opacity=1,
-			%			at={(1.05, 0.5)},
-			%			anchor=west,
 			legend columns=2,
 			/tikz/every even column/.append style={column sep=1em},
 			font=\footnotesize
 		},
-		%		yticklabel pos=right,
-		%		yticklabel style={
-			%			text width=2em,
-			%			anchor=west,
-			%			align=left,
-			%			% xshift=-0.2em,
-			%		},
 		scale only axis,
 		#4,
 		]
 		\centering\footnotesize
-		%		\draw[thin, dash pattern = {on 4pt off 1pt}] (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
 	}{
 	\end{#1}
 }

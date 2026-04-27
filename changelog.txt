@@ -31,3 +31,4 @@ v1.1.260427
     Text improvements to whole paper.
 v1.1.260427b
 	Testing locally with tikzexternalize. Now to test in Overleaf.
+    Gave up on tikzexternalize, no need for it.

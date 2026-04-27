@@ -1,8 +1,8 @@
 \begin{figure}[!t]
 	\centering
-	\begin{subfigure}{0.9\linewidth}
+	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
-		\begin{tikzpicture}
+		\begin{tikzfig}[0.78\linewidth]
 			\begin{lineplot}{}{}[profilestyle]
 				\def\sympath{\sympathsurround}
 				\foreach \x in {1, 2, ..., 9} {	
@@ -17,13 +17,13 @@
 					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_classic.csv};
 				}
 			\end{lineplot}
-		\end{tikzpicture}
+        \end{tikzfig}
 		\caption{Surround scenario, both methods.}
 		\label{fig:sec4:estimated_ssfs:subfig1}
 	\end{subfigure}\\[0.5cm]
-	\begin{subfigure}{0.9\linewidth}
+	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
-		\begin{tikzpicture}
+		\begin{tikzfig}[0.78\linewidth]
 			\begin{lineplot}{}{}[profilestyle]%[colorbar to name = {dump1},hmstyle]
 				\def\sympath{\sympathlayer}
 				\foreach \x in {1, 2, ..., 9} {	
@@ -38,11 +38,11 @@
 					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_classic.csv};
 				}
 			\end{lineplot}
-		\end{tikzpicture}
+        \end{tikzfig}
 		\caption{Layered scenario, both methods.}
 		\label{fig:sec4:estimated_ssfs:subfig2}
 	\end{subfigure}
-	\\[0.5em]
+	\\[1em]
 	
 	\colorbar{lineplots}
 	\caption{Estimated SSPs for each presented method, separate for each scenario, along with true SSPs from \cref{fig:sec4:discretized_ssf_with_profiles:subfig2}.}
