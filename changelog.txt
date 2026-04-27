@@ -29,3 +29,5 @@ v1.1.260423
 v1.1.260427
     New/modified results (same discussion).
     Text improvements to whole paper.
+v1.1.260427b
+	Testing locally with tikzexternalize. Now to test in Overleaf.
