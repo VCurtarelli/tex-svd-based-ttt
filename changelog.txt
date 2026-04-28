@@ -32,3 +32,6 @@ v1.1.260427
 v1.1.260427b
 	Testing locally with tikzexternalize. Now to test in Overleaf.
     Gave up on tikzexternalize, no need for it.
+v1.1.260428
+    Some changes to introduction.
+    Prepping to change results from Del Grosso profiles to ones obtained from WOA (v1.2).
