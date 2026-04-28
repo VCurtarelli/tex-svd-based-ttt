@@ -1,7 +1,7 @@
 \section{Simulations and results}
 \label{sec:simulation_and_results}
-\def\sympathlayer{optimal-bas-vs-svd-layer-260423-14h07m25s}
-\def\sympathsurround{optimal-bas-vs-svd-surround-260423-14h07m33s}
+\def\sympathlayer{optimal-import-bas-vs-svd-layer-260428-14h25m03s}
+\def\sympathsurround{optimal-import-bas-vs-svd-surround-260428-14h24m49s}
 \def\sympath{\sympathlayer}
 \input{figures/data/\sympath/params.tex}
 
@@ -12,7 +12,7 @@ To compare in practice the two presented techniques, a simulated environment was
 
 \input{figures/4.discretized_ssf_with_profiles.tex}
 
-The sound speed field was obtained from the World Ocean Atlas (WOA) \cite{woa}. A total of $N_{\x} = 16$ profiles in a location near $-34.5\deg$S, $-51.1\deg$W (in the south of Brazil) were extracted. Given the limitations of the WOA database, the environment was discretized vertically into $N_{\z} = 29$ cells (downsampled by 2 from WOA data), totaling $N = 261$ cells. A 2D environment is assumed, for simplicity. The considered SSF is presented in \cref{fig:sec4:discretized_ssf_with_profiles:subfig1}, with its profiles --- each 1D slice for a fixed $\x$-axis offset --- in \cref{fig:sec4:discretized_ssf_with_profiles:subfig2}. By convention, the $\z$-axis always points downwards.
+The sound speed field was obtained from the World Ocean Atlas (WOA) \cite{woa}. A total of $N_{\x} = 16$ profiles in a location near $-34.5\dg$S, $-51.1\dg$W (in the south of Brazil) were extracted. This location was selected from the WOA database as to bring some variability in the data profiles, while still having consistency between them. Given the limitations of the WOA database, the environment was discretized vertically into $N_{\z} = 29$ cells (downsampled by 2 from WOA data), totaling $N = 261$ cells. A 2D environment is assumed, for simplicity. The considered SSF is presented in \cref{fig:sec4:discretized_ssf_with_profiles:subfig1}, with its profiles --- each 1D slice for a fixed $\x$-axis offset --- in \cref{fig:sec4:discretized_ssf_with_profiles:subfig2}. By convention, the $\z$-axis always points downwards.
 
 We also consider two devices distributions (both with $9$ sources and $9$ receivers), presented in \cref{fig:sec4:discretized_ssf_with_profiles:subfig3,fig:sec4:discretized_ssf_with_profiles:subfig4}: in the first case, the sources are along the bottom and right-side, with receivers along the surface and left-side (which will be called the ``surround'' scenario); and in the second case, the sources are strictly along the bottom, and receivers only on the surface (called the ``layered'' scenario). In both cases and figures, the sources are represented by blue circles, and receivers by red exes. We assume that all devices are at the centered of their respective cells, for simplicity.
 
@@ -33,15 +33,6 @@ with $\bvs{\est}$ being the estimated slowness field. We will also use the RMSE 
 where $\bvc{\est} = \nfrac{1}{\bvs{\est}}$ (element-wise reciprocal).
 
 $\rmse_t(\bvs{\est})$ reflects the explicit objective of travel-time error minimization, while $\rmse_{\ssf}(\bvs)$ represents the underlying (implicit) objective of estimating the original SSF from \cref{fig:sec4:discretized_ssf_with_profiles:subfig1}.
-%One last metric of interest is the RMS of the Laplacian squared, this being a measure of the roughness \cite{phillips_traveltime_1991} of the estimated field. The roughness is denoted by $\rho$, and given by the sum of the squared horizontal and vertical second differences of the SSF; algebraically given by
-%\begin{equation}
-%	\begin{split}
-%		\rho
-%		& = \left[\frac{1}{\delta_{\z}^2} \sum_{k=0}^{N_{\x}-1} \sum_{j=2}^{N_{\z}-2} \pts{\el{\bvC}[j-1,k] - 2 \el{\bvC}[j,k] + \el{\bvC}[j+1,k]}^2\right. \\
-%		& + \left.\frac{1}{\delta_{\x}^2} \sum_{j=0}^{N_{\z}-1} \sum_{k=2}^{N_{\x}-2} \pts{\el{\bvC}[j,k-1] - 2 \el{\bvC}[j,k] + \el{\bvC}[j,k+1]}^2\right]^{\frac{1}{2}}
-%	\end{split}
-%\end{equation}
-%where $\bvC \in \re^{\sz{N_{\z}}{N_{\x}}}$ is the matrix-form of the SSF $\bvc{\est}$; $\delta_{\x}$ and $\delta_{\z}$ are the $\x$-axis and $\z$-axis distances between cells; and $\el{\bvC}[j,k]$ is the $(j,k)$-th element of $\bvC$.
 
 \subsection{Regularization matrix}
 
@@ -81,11 +72,11 @@ Regarding the iterative minimization (alternating forward and inverse maps), we 
 
 The $\rmse_{t}$ and $\rmse_{\ssf}$ metrics over 10 iterations, for both techniques (TTT and SVD) and scenarios (surround and layered), are shown in \cref{fig:sec4:tt_ssf_rms_errors}.
 
-In the surround scenario, both methods exhibit nearly identical performance. The $\rmse_{t}$ difference remains negligible throughout the iterations, and both approaches converge to an $\rmse_{\ssf}$ of approximately $1\si{\meter/\second}$.
+In the surround scenario, both methods exhibit nearly identical performance. The $\rmse_{t}$ difference between the two remains negligible throughout the iterations, and both approaches converge to an $\rmse_{\ssf}$ of approximately $1.2\si{\meter/\second}$.
 
-In contrast, the layered scenario reveals clear differences. The TTT method shows a deterioration in $\rmse_{\ssf}$ (dashed blue curve with star markers in \cref{fig:sec4:tt_ssf_rms_errors:subfig2}), despite initially reducing $\rmse_{t}$, which reaches a minimum around the third iteration before slightly increasing. The SVD approach presents a marginally higher $\rmse_{t}$ but achieves a more stable and lower $\rmse_{\ssf}$, suggesting reduced overfitting. Nevertheless, both methods perform significantly worse than their surround scenario counterparts, with SSF errors more than one order of magnitude larger.
+In contrast, the layered scenario reveals clear differences. Both methods present a constant $\rmse_{t}$ behavior over the iterations, with the SVD being marginally (negligeably) worse overall. The SVD approach also achieved a stable and lower $\rmse_{\ssf}$, while the TTT's capability of estimating the SSF worsens over the iterations. This, allied with the stable $\rmse_{t}$, suggests overfitting. Nevertheless, in the layered scenario both methods perform significantly worse than their surround scenario counterparts, with SSF errors more than one order of magnitude larger (at the final iteration).
 
-Overall, the layered configuration leads to low travel-time errors but poor SSF reconstruction, indicating overfitting to the observed data --- particularly for TTT. While the SVD method mitigates this effect, its performance remains inadequate.
+Overall, the layered configuration leads to fast convergence in the travel-time errors, but is presents poor SSF reconstruction, indicating overfitting to the observed data --- particularly for TTT. While the SVD method mitigates this effect, its performance remains inadequate.
 
 This behavior can be attributed to the limited spatial diversity of ray paths in the layered scenario. The rays propagate predominantly vertically, with limited angular variation, resulting in weak coupling between measurements. Consequently, the inversion becomes underconstrained, leading to solutions that fit the travel-time data but poorly represent the true SSF. In contrast, the surround configuration provides rays with a wider range of directions, increasing interdependence among measurements, and improving reconstruction fidelity.
 
@@ -97,7 +88,7 @@ Since the layered scenario reflects the intended practical application (see \cre
 
 \Cref{fig:sec4:estimated_ssfs} shows the estimated SSPs (one profile for each $\x$-axis offset) for both methods and scenarios, with each marker corresponding to a cell. The ground-truth profiles are included in black for reference (replicated from \cref{fig:sec4:discretized_ssf_with_profiles:subfig2}).
 
-In the surround scenario (\cref{fig:sec4:estimated_ssfs:subfig1}), both methods closely match the true profiles, with the largest discrepancies occurring near the surface. This region is known to exhibit stronger variability due to temperature and salinity gradients, and are also less constrained by the regularization, which likely explains the reduced accuracy.
+In the surround scenario (\cref{fig:sec4:estimated_ssfs:subfig1}), both methods closely match the true profiles, with the largest discrepancies occurring near the surface ($z=0$) and the ground ($z=1500\si{\meter}$). The surface region is known to exhibit stronger variability due to temperature and salinity gradients \cite{janecki_new_2022}; and both regions are less constrained by the regularization, which also affects the reduced accuracy.
 
 In the layered scenario (\cref{fig:sec4:estimated_ssfs:subfig2}), both methods fail to recover the correct profiles. The SVD solution tends toward an almost constant field, while the TTT result exhibits an inverted trend relative to the ground truth. These outcomes are consistent with the metric results, and confirm that insufficient spatial information leads to poor SSF reconstruction. This also suggests that modified acquisition frameworks or additional constraints are necessary for practical deployment in this scenario.
 

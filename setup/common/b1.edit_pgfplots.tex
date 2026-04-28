@@ -9,6 +9,7 @@
 
 \NewDocumentEnvironment{tikzfig}{O{\linewidth} O{\linewidth}}{%
     \begin{minipage}[t][#1][t]{#2}%
+%    	\raggedleft
     \begin{tikzpicture}%
 }{%
     \end{tikzpicture}%
@@ -170,29 +171,28 @@ mark=+, mark size=2, mark options={
 
 \pgfplotsset{
 	hmstyle/.style={
-		ytick={0, 500, ..., 2000},
+		ytick={0, 500, ..., 1500},
 		yticklabels={0, 0.5, ..., 2},
-		xtick={0, 1000, 2000},
-		xticklabels={0, 1, 2},
-		xmin=0, xmax=2000,
-		ymin=0, ymax=2000,
-		xlabel={Offset ($\si{\kilo\meter}$)},
+		xtick={\empty},
+%		xtick={0, 1000, 2000},
+%		xticklabels={0, 1, 2},
+%		xmin=0, xmax=2000,
+		ymin=0, ymax=1500,
+%		xlabel={Offset ($\si{\kilo\meter}$)},
 		ylabel={Depth ($\si{\kilo\meter}$)},
 	}
 }
 \pgfplotsset{
 	profilestyle/.style={
 		y dir=reverse,
-		ytick={0, 500, ..., 2000},
+		ytick={0, 500, ..., 1500},
 		yticklabels={0, 0.5, ..., 2},
-		xtick={1490, 1500, ..., 1550},
-		xticklabels={$1.49$, $1.5$, $1.51$, $1.52$, $1.53$, $1.54$, $1.55$},
-		xmin=1489, xmax=1547,
-		ymin=0, ymax=2000,
+		xtick={1480, 1500, ..., 1540},
+		xticklabels={$1.48$, $1.5$, $1.52$, $1.54$},
+		xmin=\zmin, xmax=\zmax,
+		ymin=0, ymax=1500,
 		xlabel={Sound speed ($\si{\kilo\meter/\second}$)},
 		ylabel={Depth ($\si{\kilo\meter}$)},
-		yticklabel style={anchor=north east}
-		%		scale only axis
 	}
 }
 

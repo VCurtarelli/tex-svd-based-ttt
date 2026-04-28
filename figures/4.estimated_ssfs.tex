@@ -2,29 +2,32 @@
 	\centering
 	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
-		\begin{tikzfig}[0.78\linewidth]
+		{\begin{tikzfig}[0.8\linewidth]
 			\begin{lineplot}{}{}[profilestyle]
 				\def\sympath{\sympathsurround}
 				\foreach \x in {1, 2, ..., 9} {	
 					\addplot[draw, black, very thin] table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/0_profiles_observed.csv};
 				}
 				\foreach \x in {1, 2, ..., 9} { % number of columns (excluding y)
-					\addplot[draw=none, resA]
-					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_svd.csv};
-				}
-				\foreach \x in {1, 2, ..., 9} { % number of columns (excluding y)
 					\addplot[draw=none, resD]
 					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_classic.csv};
 				}
+				\foreach \x in {1, 2, ..., 9} { % number of columns (excluding y)
+					\addplot[draw=none, resA]
+					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_svd.csv};
+				}
 			\end{lineplot}
-        \end{tikzfig}
+        \end{tikzfig}}
 		\caption{Surround scenario, both methods.}
 		\label{fig:sec4:estimated_ssfs:subfig1}
 	\end{subfigure}\\[0.5cm]
 	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
-		\begin{tikzfig}[0.78\linewidth]
-			\begin{lineplot}{}{}[profilestyle]%[colorbar to name = {dump1},hmstyle]
+		{\begin{tikzfig}[0.8\linewidth]
+			\begin{lineplot}{}{}[profilestyle,
+				xtick={1450, 1500, 1550},
+				xticklabels={$1.45$, $1.5$, $1.55$},
+				xmin=1450, xmax=1560,]%[colorbar to name = {dump1},hmstyle]
 				\def\sympath{\sympathlayer}
 				\foreach \x in {1, 2, ..., 9} {	
 					\addplot[draw, black, very thin] table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/0_profiles_observed.csv};
@@ -38,7 +41,7 @@
 					table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/fin_profiles_classic.csv};
 				}
 			\end{lineplot}
-        \end{tikzfig}
+        \end{tikzfig}}
 		\caption{Layered scenario, both methods.}
 		\label{fig:sec4:estimated_ssfs:subfig2}
 	\end{subfigure}
