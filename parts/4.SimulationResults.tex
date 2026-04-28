@@ -12,9 +12,7 @@ To compare in practice the two presented techniques, a simulated environment was
 
 \input{figures/4.discretized_ssf_with_profiles.tex}
 
-Following the previous assumptions, we discretize the environment into 2D cells along the width ($\x$-axis) and depth ($\z$-axis), with $N = N_{\x} \cdot N_{\z}$. This enables an easier visualization and faster computational complexity, without oversimplifying the presented conditions. For the simulations, we take $N_{\x} = 9$, $N_{\z} = 25$, and $N = 225$.
-
-We also consider the sound speed field to follow the formula derived by \citeauthor{delgrosso_new_1974} \cite{delgrosso_new_1974}, with empirical functions for the temperature and salinity following the thermocline and halocline \cite{janecki_new_2022}. The considered SSF is presented in \cref{fig:sec4:discretized_ssf_with_profiles:subfig1}, with its profiles --- each 1D slice for a fixed $\x$-axis offset --- in \cref{fig:sec4:discretized_ssf_with_profiles:subfig2}. By convention, the $\z$-axis always points downwards.
+The sound speed field was obtained from the World Ocean Atlas (WOA) \cite{woa}. A total of $N_{\x} = 16$ profiles in a location near $-34.5\deg$S, $-51.1\deg$W (in the south of Brazil) were extracted. Given the limitations of the WOA database, the environment was discretized vertically into $N_{\z} = 29$ cells (downsampled by 2 from WOA data), totaling $N = 261$ cells. A 2D environment is assumed, for simplicity. The considered SSF is presented in \cref{fig:sec4:discretized_ssf_with_profiles:subfig1}, with its profiles --- each 1D slice for a fixed $\x$-axis offset --- in \cref{fig:sec4:discretized_ssf_with_profiles:subfig2}. By convention, the $\z$-axis always points downwards.
 
 We also consider two devices distributions (both with $9$ sources and $9$ receivers), presented in \cref{fig:sec4:discretized_ssf_with_profiles:subfig3,fig:sec4:discretized_ssf_with_profiles:subfig4}: in the first case, the sources are along the bottom and right-side, with receivers along the surface and left-side (which will be called the ``surround'' scenario); and in the second case, the sources are strictly along the bottom, and receivers only on the surface (called the ``layered'' scenario). In both cases and figures, the sources are represented by blue circles, and receivers by red exes. We assume that all devices are at the centered of their respective cells, for simplicity.
 
@@ -75,12 +73,11 @@ with blocks $\bvQ,\bvQ' \in \re^{\sz{N_{\x}}{N_{\x}}}$,
 
 \subsection{Estimation parameters}
 
-Although in the definition of the truncated SVD the presented parameter was $\tilde{R}$, we will use a parameter $\beta$, truncating any singular value $\lambda_n$ such that $\lambda_n < \beta \lambda_1$ (with $\lambda_1$ being the largest singular value). For the surround scenario, the TTT technique will use $\alpha = 2.6077$, and the SVD will use $\beta = 0.2888$. For the layered scenario, the TTT will use $\alpha = 7.0179$, and the SVD will use $\beta = 0.6337$. These were chosen through a hyperparameter search, choosing the ones that minimize the SSF error.
+Although in the definition of the truncated SVD the presented parameter was $\tilde{R}$, we will use a parameter $\beta$, truncating any singular value $\lambda_n$ such that $\lambda_n < \beta \lambda_1$ (with $\lambda_1$ being the largest singular value). For the surround scenario, the TTT technique will use $\alpha = 3.5133$, and the SVD will use $\beta = 0.2490$. For the layered scenario, the TTT will use $\alpha = 7.0179$, and the SVD will use $\beta = 0.6735$. These were chosen through a hyperparameter search, choosing the ones that minimize the SSF error.
 
 Regarding the iterative minimization (alternating forward and inverse maps), we will limit it to $10$ iterations, as we empirically noticed no further improvements above this value.
 
 \subsection{Metric results}
-
 
 The $\rmse_{t}$ and $\rmse_{\ssf}$ metrics over 10 iterations, for both techniques (TTT and SVD) and scenarios (surround and layered), are shown in \cref{fig:sec4:tt_ssf_rms_errors}.
 
