@@ -49,3 +49,5 @@ v1.2.260511
     Added small block regarding PCA.
 v1.2.260513
     Small textual modifications by Stephan and Vitor.
+>>>>>>>>>>>
+    Submetido ao congresso IEEE START-BR.
