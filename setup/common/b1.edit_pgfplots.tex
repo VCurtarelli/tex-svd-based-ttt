@@ -4,6 +4,7 @@
 %BEGIN_FOLD
 \usepgfplotslibrary{external}
 \usepgfplotslibrary{polar}
+\pgfplotsset{compat=1.18}
 \newlength{\Yaxisshift}
 \setlength{\Yaxisshift}{3.8cm}
 
@@ -46,7 +47,7 @@
 			point meta min=\zmin,
 			point meta max=\zmax,
             xlabel={Speed ($\si{\kilo\meter/\second}$)},
-            xlabel style={yshift=1em,xshift=1em},
+            xlabel style={xshift=1em},
             font=\footnotesize,
 			#3
 		},
@@ -116,52 +117,52 @@
 black
 ]
 \tikzstyle{resA} = [
-thick, ColA, dash pattern = {on 1pt off 0pt},
-mark=square*, mark size=1, mark options={
+very thick, ColA, dash pattern = {on 1pt off 0pt},
+mark=square*, mark size=1.5, mark options={
 	rotate=0,
 	solid,
 }
 ]
 \tikzstyle{resB} = [
-thick, ColB, dash pattern = {on 2pt off 1pt},
-mark=triangle*, mark size=1.5, mark options={
+very thick, ColB, dash pattern = {on 2pt off 1pt},
+mark=triangle*, mark size=2.2, mark options={
 	rotate=0,
 	solid,
 }
 ]
 \tikzstyle{resC} = [
-thick, ColC, dash pattern = {on 2pt off 2pt},
-mark=triangle*, mark size=1.5, mark options={
+very thick, ColC, dash pattern = {on 2pt off 2pt},
+mark=triangle*, mark size=2.2, mark options={
 	rotate=180,
 	solid,
 }
 ]
 \tikzstyle{resD} = [
-thick, ColD, dash pattern = {on 2pt off 3pt},
-mark=square*, mark size=1.2, mark options={
+very thick, ColD, dash pattern = {on 2pt off 3pt},
+mark=square*, mark size=1.8, mark options={
 	rotate=45,
 	solid,
 }
 ]
 \tikzstyle{resE} = [
-thick, ColE, dash pattern = {on 3pt off 1pt},
-mark=star, mark size=2, mark options={
+very thick, ColE, dash pattern = {on 3pt off 1pt},
+mark=star, mark size=3, mark options={
 	rotate=0,
 	solid,
 	very thick
 }
 ]
 \tikzstyle{resF} = [
-thick, ColF, dash pattern = {on 3pt off 2pt},
-mark=x, mark size=2, mark options={
+very thick, ColF, dash pattern = {on 3pt off 2pt},
+mark=x, mark size=3, mark options={
 	rotate=0,
 	solid,
 	very thick
 }
 ]
 \tikzstyle{resG} = [
-thick, ColG, dash pattern = {on 3pt off 4pt},
-mark=+, mark size=2, mark options={
+very thick, ColG, dash pattern = {on 3pt off 4pt},
+mark=+, mark size=3, mark options={
 	rotate=0,
 	solid,
 	very thick
@@ -187,9 +188,11 @@ mark=+, mark size=2, mark options={
 		y dir=reverse,
 		ytick={0, 500, ..., 1500},
 		yticklabels={0, 0.5, ..., 2},
-		xtick={1480, 1500, ..., 1540},
-		xticklabels={$1.48$, $1.5$, $1.52$, $1.54$},
-		xmin=\zmin, xmax=\zmax,
+        xmin=-80, xmax=80,
+        xtick={-80, -40, ..., 80},
+		% xtick={1480, 1500, ..., 1540},
+		% xticklabels={$1.48$, $1.5$, $1.52$, $1.54$},
+		% xmin=\zmin, xmax=\zmax,
 		ymin=0, ymax=1500,
 		xlabel={Sound speed ($\si{\kilo\meter/\second}$)},
 		ylabel={Depth ($\si{\kilo\meter}$)},

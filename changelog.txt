@@ -38,3 +38,14 @@ v1.1.260428
 v1.2.260428
     Using WOA data and profiles.
 	New results, small changes to discussion.
+    Added Guerreiro as co-author.
+v1.2.260429
+    Small textual modifications by Stephan and Vitor.
+    Results changes by Vitor (comparative to differential in Figs 3a and 3b).
+v1.2.260504
+    Small textual modifications in results by Vitor.
+    Minimal results changes (changed WOA input data; results and conclusions are the same).
+v1.2.260511
+    Added small block regarding PCA.
+v1.2.260513
+    Small textual modifications by Stephan and Vitor.

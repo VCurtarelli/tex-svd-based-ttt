@@ -13,7 +13,7 @@
 			\end{tikzpicture}
 			% \vspace*{0.5em}
 			% \colorbar{velocityHeatmap}
-			\caption{Discretized sound speed field.}
+			\caption{Discretized sound speed field, composed of nine sound speed profiles. Vertical discretization into 29 cells.}
 			\label{fig:sec4:discretized_ssf_with_profiles:subfig1}
 		\end{subfigure}
 	\end{minipage}
@@ -23,8 +23,8 @@
 		\begin{subfigure}{\linewidth}
 			\begin{tikzpicture}
 				\begin{lineplot}{}{}[profilestyle, height=0.8\linewidth,
-            		% xlabel style = {anchor=center, yshift=0.9\linewidth-0em},
-            		% ylabel style = {anchor=north, yshift=-0.9\linewidth+0em},
+                    xmin=\zmin, xmax=\zmax,
+                    xtick={1480, 1490, ..., 1540},
                 ]
 					\foreach \x in {1, 2, ..., 9} {	
 						\addplot[draw, black, very thin] table[y=y,x index=\x, col sep=comma] {figures/data/\sympath/0_profiles_observed.csv};

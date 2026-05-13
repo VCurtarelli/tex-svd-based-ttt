@@ -27,7 +27,7 @@
 	\begin{subfigure}[t]{0.9\linewidth}
 		\centering
 		{\begin{tikzfig}[0.8\linewidth]
-			\begin{lineplot}{Iterations}{$\rmse_{\ssf}$ ($\si{\meter/\second}$)}[ytick={1, 2, 4, 10, 20, 40, 60}, yticklabels={$1$, $2$, $4$, $10$, $20$, $40$, $60$}, ymode=log, minor ytick={1, 2, ..., 10, 30, 50}, ymin=1, ymax=60]
+			\begin{lineplot}{Iterations}{$\rmse_{\ssf}$ ($\si{\meter/\second}$)}[ytick={1, 2, 4, 10, 20, 40, 60}, yticklabels={$1$, $2$, $4$, $10$, $20$, $40$, $60$}, ymode=log, minor ytick={1, 2, ..., 10, 30, 50}, ymin=1, ymax=60, xmin=0.5, xmax=10.5]
 				{
 					\def\sympath{\sympathsurround}
 					\addplot[draw, resA] table[x=x,y=y, col sep=comma] {figures/data/\sympath/metric_ssf_svd.csv}; 

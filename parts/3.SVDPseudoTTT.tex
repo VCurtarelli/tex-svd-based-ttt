@@ -1,49 +1,45 @@
 \section{SVD-based SSF estimation}
 \label{sec:svd_pseudo_ttt}
 
-As stated, the core of the inverse problem in the TTT is to iterate $\bvs{i}$ and $\bvR{i}$, searching alternatingly for the optimal slowness field and the ray paths, using the travel-time information. While the standard method relies on the regularization being appended to the cost function $E(\bvs)$ as an additive term (\cref{eq:sec2:bvs_i+1_regularized-form}), other approaches are possible and available for study.
+As stated, the core of the inverse problem in TTT is to iterate $\bvs{i}$ and $\bvR{i}$, searching alternately for the optimal slowness field and the ray paths, using the travel-time information. While the standard method relies on the regularization being appended to the cost function $E(\bvs)$ as an additive term (\cref{eq:sec2:bvs_i+1_regularized-form}), other approaches are possible and available for study.
 
-Here, we will present the singular-value decomposition (SVD) technique \cite{golub_calculating_1965,chen_treatment_2006}, its applicability for a pseudo-inverse (p-inverse), and how this enables an alternative approach, where the regularization step is disjoint of the primary minimization.
+Here, we will present the singular-value decomposition (SVD) technique \cite{golub_calculating_1965,chen_treatment_2006}, its applicability to a pseudo-inverse (p-inverse) problem, and how this enables an alternative approach, wherein the regularization step is disjoint from the primary minimization.
 
 \subsection{Singular value decomposition and the p-inverse}
 
-Given the matrix $\bvR{i}$, we can decompose it through the SVD as
+Given the matrix $\bvR{i}$, it can be decomposed through SVD as
 \begin{equation}
 	\bvR{i} = \bvU \bvSi \bvV[T],
 \end{equation}
-in which $\bvU \in \re^{\sz{M}{M}}$ and $\bvV \in \re^{\sz{N}{N}}$ are the left- and right-singular matrices of $\bvR{i}$, forming left and right orthonormal bases; and $\bvSi \in \re^{\sz{M}{N}}$ is a diagonal matrix, with diagonal entries $\lambda_j$ and $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_R = \lambda_{R+1} = \cdots = \lambda_M = 0$ being the singular values of $\bvR{i}$, in decreasing order; where $R = \rank{\bvR{i}}$. Given the assumption $N > M$, the last $N-R$ columns of $\bvSi$ are 0. Although by definition all $\bvU$, $\bvSi$ and $\bvV$ are dependent on the iterator $i$, this relation will be omitted for clarity.
+wherein $\bvU \in \re^{\sz{M}{M}}$ and $\bvV \in \re^{\sz{N}{N}}$ are the left- and right-singular matrices of $\bvR{i}$, forming left and right orthonormal bases; and $\bvSi \in \re^{\sz{M}{N}}$ is a diagonal matrix, with diagonal entries $\lambda_j$ and $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_R = \lambda_{R+1} = \cdots = \lambda_M = 0$ being the singular values of $\bvR{i}$, in decreasing order; where $R = \rank{\bvR{i}}$. Given the assumption $N > M$, the last $N-R$ columns of $\bvSi$ are 0. Although by definition all $\bvU$, $\bvSi$ and $\bvV$ are dependent on the iterator $i$, this relation will be omitted for clarity.
 
-Given $R = \rank{\bvR{i}}$, then $\rank{\bvR[T]{i} \bvR{i}} = R < N$, and this matrix isn't invertible in the strict sense. We denote the Moore-Penrose p-inverse \cite{barata_moore_2012} of $\bvR{i}$ as $\pinv{\bvR{i}}$, given by
+Given that $R = \rank{\bvR{i}}$, it follows that $\rank{\bvR[T]{i} \bvR{i}} = R < N$, and that the matrix $\bvR{i}$ isn't invertible in the strict sense. We denote the Moore-Penrose \cite{barata_moore_2012} (p-inverse for short) of $\bvR{i}$ as $\pinv{\bvR{i}}$, given by
 \begin{equation}
 	\begin{split}
-		\pinv{\bvR{i}}
-		& = \pinv*{\bvU \bvSi \bvV[T]} \\
-		& = \bvV \pinv{\bvSi} \bvU[T]
+		\pinv{\bvR{i}} = \pinv*{\bvU \bvSi \bvV[T]}  = \bvV \pinv{\bvSi} \bvU[T]
 	\end{split},
 \end{equation}
 where, for the diagonal matrix $\bvSi$, its p-inverse $\pinv{\bvSi}\in\re^{\sz{N}{M}}$ is its transpose, with all non-zero diagonal entries being reciprocated; and for any full-rank matrix $\bvA$, $\pinv{\bvA} = \inv{\bvA}$. With this p-inverse, the solution to the (non-regularized) problem in \cref{eq:sec2:def_optimization_and_cost-function} is
 \begin{equation}
 	\begin{split}
-		\bvG{i}
-		& = \pinv*{\bvR[T]{i} \bvR{i}} \bvR[T]{i} \\
-		& = \bvV \pinv{\bvSi} \bvU[T] \\
-		& = \pinv{\bvR}
-	\end{split}.
+		\bvG{i} = \pinv*{\bvR[T]{i} \bvR{i}} \bvR[T]{i} = \bvV \pinv{\bvSi} \bvU[T] = \pinv{\bvR}.
+	\end{split}
 	\label{eq:sec3:Gi_proposed}
 \end{equation}
 
-It is easy to prove that $\nabla E(\bvs{i+1}) = \bv0$ when using the p-inverse, showing that the obtained slowness field fulfills the requirement for being a minimum (considering the quadratic formulation). We let $\bvU{2}$ as the last $M-R$ columns of $\bvU$, linked to the left null-space of $\bvR{i}$. With this solution, the residual travel-time error is
-\begin{equation}
-	E(\bvs{i+1}) = \bvt[T]{\obs} \bvU{2} \bvU[T]{2} \bvt{\obs}.
-	\label{eq:sec3:primary-cost_with_svd}
-\end{equation}
+Considering the unregularized cost function $E(\bvs{i+1}) = \norm{\bvR{i} \bvs{i+1} - \bvt{\obs}}^2$, it is easy to prove that $\nabla E(\bvs{i+1}) = \bv0$ when using the p-inverse, showing that the obtained slowness field fulfills the requirement for being a minimum (considering the quadratic formulation) of $E(\bvs{i+1})$. 
+% We let $\bvU{2} \in \re^{\sz{M}{(M-R)}}$ be the last $M-R$ columns of $\bvU$, these forming a basis for the left null-space of $\bvR{i}$ (from the SVD). With this solution, the residual travel-time error is
+% \begin{equation}
+% 	E(\bvs{i+1}) = \bvt[T]{\obs} \bvU{2} \bvU[T]{2} \bvt{\obs}.
+% 	\label{eq:sec3:primary-cost_with_svd}
+% \end{equation}
 
 \subsection{SVD truncation}
 \label{subsec:sec3:svd_truncation}
 
 In general, smaller singular values have a reduced impact on the reconstruction of $\bvR{i}$, as well as in the minimization problem. However, their impact on the estimation of $\bvs{i+1}$ will be amplified by the p-inverse, over-representing the corresponding basis vectors, and possibly leading to overfitting \cite{vallet_solving_1989,nittscher_svddip_2023}.
 
-This effect can be attenuated by setting some of the smallest diagonal entries of $\bvSi$ to $0$ \cite{song_singular_1999}. This reduces the effective condition number (largest to smallest-non-zero singular values ratio), improving stability in the estimation problem. This also increases the practical null-space, which will be followingly exploited. In contrast, using this truncation introduces some residual gradient error.
+This effect can be attenuated by setting some of the smallest diagonal entries of $\bvSi$ to $0$ \cite{song_singular_1999}. This reduces the effective condition number (largest to smallest-non-zero singular values ratio), improving stability in the estimation problem. It also increases the practical null-space, which will be subsequently exploited. Nevertheless, this truncation introduces some residual gradient error. This process is very similar to Principal Component Analysis \cite{greenacre_principal_2022}, where only the most dominant components (here, the vectors related to the largest singular values) are considered in the reconstruction/estimation process.
 
 We denote $\bvSi[t]$ as a truncated $\bvSi$, with only its first $\tilde{R}$ diagonal entries being non-zero. Trivially, $\tilde{R} \leq R$ for this to be meaningful. Given this approximation, we define $\bvR[t]{i} = \bvU \bvSi[t] \bvV[T]$, and the inverse map function can be approximated as
 \begin{equation}
@@ -60,7 +56,7 @@ For this solution, $\nabla E(\bvs{i+1}) \neq \bv0$, but instead
 \begin{equation}
 	\nabla E(\bvs{i+1}) = 2 \pts{ \sum_{j=\tilde{R}+1}^{R} \lambda_j \bvv{j} \bvu[T]{j}} \bvt{\obs},
 \end{equation}
-where the summation happens over the truncated singular values; and $\bvv{j}$ and $\bvu{j}$ are the $j$-th column of $\bvV$ and $\bvU$, respectively. Therefore, the smaller the zeroed singular values are, the smaller the gradient will be, and the closer the obtained solution would be to the space of optimal solutions ($\nabla E = \bv0$). 
+wherein the summation happens over the truncated singular values; and $\bvv{j}$ and $\bvu{j}$ are the $j$-th column of $\bvV$ and $\bvU$, respectively. Therefore, the smaller the zeroed singular values are, the smaller the gradient will be, and the closer the obtained solution will be to the space of optimal solutions ($\nabla E = \bv0$). 
 
 %The cost function with the truncated SVD can be computed as
 %\begin{equation}
@@ -79,7 +75,7 @@ where the summation happens over the truncated singular values; and $\bvv{j}$ an
 
 We define $\bvV{2}$ as the last $N-R$ columns of $\bvV$, corresponding to the zero diagonal entries of $\bvSi$; that is, the columns of $\bvV{2}$ form an orthonormal basis for the (right) null-space of $\bvR{i}$.
 
-Given a coordinate vector $\bvmu \in \re^{\sz{(N-R)}{1}}$, then $\bvs[b] = \bvV{2} \bvmu$ will lie on the null-space of $\bvR{i}$, and therefore we obtain
+Given a coordinate vector $\bvmu \in \re^{\sz{(N-R)}{1}}$, then $\bvs[b] = \bvV{2} \bvmu$ will lie in the null-space of $\bvR{i}$, and therefore, we obtain
 \begin{equation}
 	\begin{split}
 		\bvR{i} \bvs[b] 
@@ -87,7 +83,7 @@ Given a coordinate vector $\bvmu \in \re^{\sz{(N-R)}{1}}$, then $\bvs[b] = \bvV{
 		& = \bv0
 	\end{split},
 \end{equation}
-where orthonormality of $\bvV$ and the null diagonal-entries of $\bvSi$ were used. This means that, for any $\bvs{i+1} = \pinv{\bvR{i}} \bvt{\obs} + \bvV{2} \bvmu$, we have
+wherein orthonormality of $\bvV$ and the null diagonal-entries of $\bvSi$ were used. This means that, for any $\bvs{i+1} = \pinv{\bvR{i}} \bvt{\obs} + \bvV{2} \bvmu$, we have
 \begin{subequations}
 	\label{eqs:sec3:cost-gradient_null-space}
 	\begin{gather}
@@ -95,6 +91,7 @@ where orthonormality of $\bvV$ and the null diagonal-entries of $\bvSi$ were use
 		\nabla E(\pinv{\bvR{i}} \bvt{\obs} + \bvV{2} \bvmu) = \nabla E(\pinv{\bvR{i}} \bvt{\obs}).
 	\end{gather}
 \end{subequations}
+%%%%% Parei aqui. Vou continuar hj, 12/5/26, à tarde
 
 With this, both the cost function and its gradient are unaffected by $\bvmu$, for any $\bvmu$. This generalizes the singular solution obtained in \cref{eq:sec3:Gi_proposed} to a solution-space that spans the forward map's null-space, within which the primary cost function $E(\bvs)$ is invariant.
 
@@ -135,8 +132,8 @@ With this solution, the primary cost function $E(\bvs)$ is minimized globally (a
 
 \subsection{Theoretical comparison}
 
-While the literature method aims to minimize both the primary (travel-time estimation error) and secondary (regularization) metrics simultaneously through a single cost function (as established in \cref{eq:sec2:bvs_i+1_regularized-form}), the proposed technique focuses on minimizing one, and within its solution-space, optimize the second one. Although the obtained formulation from \cref{eq:sec3:minim_solution_proposed} jointly encapsulates both minimizations, they are inherently still sequentially solved in the algebraic developments. Given that the main objective is to correctly estimate the SSF, in the SVD formulation this naturally translates to first optimizing this step, and only once this is achieved, improving the secondary objective.
+While the literature method aims to minimize both the primary (travel-time estimation error) and secondary (regularization) metrics simultaneously through a single cost function (as established in \cref{eq:sec2:bvs_i+1_regularized-form}), the proposed technique focuses on minimizing one and, within its solution-space, optimizing the second one. Although the formulation obtained from \cref{eq:sec3:minim_solution_proposed} jointly encapsulates both minimizations, they are inherently still solved sequentially in the algebraic developments. Given that the main objective is to correctly estimate the SSF, in the SVD formulation this naturally translates to first optimizing this step, and only once this is achieved, improving the secondary objective.
 
-This comes at a cost of a greater mathematical and computational complexity. Through analysis on the achieved formulations in \cref{eq:sec2:minim_solution_literature,eq:sec3:minim_solution_proposed} for the literature and proposed methods, we can find that the Big O notation \cite{mala_bigo_2022} for both techniques is $\mathcal{O}(n^3)$; that is, asymptotically, both will have the same time complexity growth rate. However, it is known that the SVD of a matrix is a very costly process \cite{li_tutorial_2019}, and it may be less computationally efficient for larger matrices.
+This comes at a cost of greater mathematical and computational complexity. Through analysis of the achieved formulations in \cref{eq:sec2:minim_solution_literature,eq:sec3:minim_solution_proposed} for methods proposed in the literature and the method proposed in the current paper, we can find that the Big O notation \cite{mala_bigo_2022} for both techniques is $\mathcal{O}(n^3)$; that is, asymptotically, both will have the same time complexity growth rate. However, it is known that the SVD of a matrix is a very costly process \cite{li_tutorial_2019}, and it may be less computationally efficient for larger matrices.
 
-To improve this, the information of sparsity of $\bvR{i}$ can be used. Given that each ray will travel only a few cells --- at most $N_{\x} + N_{\z} - 1$ cells will be traversed by any ray in a 2D environment, assuming a well-behaved environment --- then most entries on each row of $\bvR{i}$ will be $0$, and so for $\bvR{i}$ as a whole. This enables using SVD algorithms optimized for this scenario, such as in \cite{sairabanu_parallel_2015}. Another scenario is when $M \ll N$, with a heavily over-modeled environment. In this case, the algorithm in \cite{vasudevan_hierarchical_2019} can be usefully implemented.
+To improve computational efficiency, the information about the sparsity of $\bvR{i}$ can be used. Given that each ray will travel through only a few cells --- at most $N_{\x} + N_{\z} - 1$ cells will be traversed by any ray in a 2D environment, assuming a well-behaved environment — then most entries in each row of $\bvR{i}$ will be $0$, and so for $\bvR{i}$ as a whole. This enables the use of SVD algorithms optimized for this scenario, such as in \cite{sairabanu_parallel_2015}. Another scenario is when $M \ll N$ exists, with a heavily over-modeled environment. In this case, the algorithm in \cite{vasudevan_hierarchical_2019} can be implemented usefully.
